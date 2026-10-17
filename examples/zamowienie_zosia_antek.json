@@ -1,0 +1,28 @@
+{
+  "id": "2026-003-zosia-antek",
+  "dzieci": [
+    {
+      "imie": "Zosia",
+      "zwrot": "Zosiu",
+      "plec": "dziewczynka",
+      "wiek": "3 lata",
+      "osiagniecie": "pierwszy raz poszła do przedszkola",
+      "zainteresowania": "taniec",
+      "do_poprawy": "",
+      "prezent": "",
+      "prezent_kupiony": true
+    },
+    {
+      "imie": "Antek",
+      "zwrot": "Antku",
+      "plec": "chłopiec",
+      "wiek": "6 lat",
+      "osiagniecie": "pomagał opiekować się młodszą siostrą",
+      "zainteresowania": "klocki",
+      "do_poprawy": "",
+      "prezent": "",
+      "prezent_kupiony": true
+    }
+  ],
+  "wymowa": {}
+}

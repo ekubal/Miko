@@ -1,0 +1,17 @@
+{
+  "id": "2026-001-kasia",
+  "dzieci": [
+    {
+      "imie": "Kasia",
+      "zwrot": "Kasiu",
+      "plec": "dziewczynka",
+      "wiek": "5 lat",
+      "osiagniecie": "nauczyła się jeździć na rowerze bez bocznych kółek",
+      "zainteresowania": "dinozaury, rysowanie",
+      "do_poprawy": "",
+      "prezent": "zestaw do rysowania z dinozaurami",
+      "prezent_kupiony": true
+    }
+  ],
+  "wymowa": {}
+}
