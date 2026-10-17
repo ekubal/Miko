@@ -117,7 +117,7 @@ Plan darmowy nie daje praw komercyjnych, minimum to Starter. Generowanie muzyki 
 | `MIKOLAJ_IMAGE_MODEL` | nie | `gemini-3-pro-image-preview` | model obrazu (Nano Banana Pro) |
 | `MIKOLAJ_VIDEO_MODEL_FAST` | nie | `veo-3.1-fast-generate-preview` | Veo w trybie Fast |
 | `MIKOLAJ_VIDEO_MODEL_QUALITY` | nie | `veo-3.1-generate-preview` | Veo w trybie Quality |
-| `MIKOLAJ_TEXT_MODEL` | nie | `gemini-2.5-flash` | model piszący tekst Mikołaja |
+| `MIKOLAJ_TEXT_MODEL` | nie | `gemini-3.8-flash` | model piszący tekst Mikołaja |
 | `ELEVENLABS_TTS_MODEL` | nie | `eleven_multilingual_v2` | model zamiany tekstu na mowę |
 | `ELEVENLABS_VOICE_DESIGN_MODEL` | nie | `eleven_multilingual_ttv_v2` | model projektowania głosu |
 | `ELEVENLABS_OUTPUT_FORMAT` | nie | `mp3_44100_128` | format plików audio |

@@ -1,5 +1,6 @@
 """Wspólne pomocniki: klient Google, ponawianie wywołań, nazwy plików wariantów."""
 
+import re
 import time
 from pathlib import Path
 from typing import Callable, TypeVar
@@ -33,14 +34,12 @@ def variant_paths(directory: Path, stem: str, suffix: str, count: int) -> list[P
     """Zwraca `count` kolejnych wolnych nazw: stem_01.png, stem_02.png, ...
 
     Numeracja jest kontynuowana, więc ponowne uruchomienie dokłada nowe warianty
-    zamiast nadpisywać te, które już obejrzałeś.
+    zamiast nadpisywać te, które już obejrzałeś. Liczą się pliki z dowolnym
+    rozszerzeniem, bo model może zwrócić np. JPEG zamiast zamówionego PNG.
     """
     directory.mkdir(parents=True, exist_ok=True)
-    existing = [
-        int(p.stem.rsplit("_", 1)[1])
-        for p in directory.glob(f"{stem}_*{suffix}")
-        if p.stem.rsplit("_", 1)[1].isdigit()
-    ]
+    pattern = re.compile(rf"{re.escape(stem)}_(\d+)\.[^.]+")
+    existing = [int(m.group(1)) for p in directory.iterdir() if (m := pattern.fullmatch(p.name))]
     start = max(existing, default=0) + 1
     return [directory / f"{stem}_{n:02d}{suffix}" for n in range(start, start + count)]
 
