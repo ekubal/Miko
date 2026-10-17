@@ -1,11 +1,13 @@
 """Generowanie klipów scen ogólnych w Veo 3.1 (Gemini API), z kadru jako pierwszej klatki.
 
 Przykłady:
-    python -m generator.videos -n 2                 # wszystkie 4 sceny, tryb Fast
-    python -m generator.videos --only ksiega --quality
+    python -m generator.videos generate -n 2                 # wszystkie 4 sceny, tryb Fast
+    python -m generator.videos generate --only ksiega --quality
+    python -m generator.videos select dom fast 2             # -> output/selected/dom.mp4
 """
 
 import argparse
+import shutil
 import sys
 import time
 from pathlib import Path
@@ -45,14 +47,7 @@ def generate_clip(client, prompt: str, first_frame: Path, model: str, resolution
     videos[0].video.save(str(out))
 
 
-def main(argv=None):
-    parser = argparse.ArgumentParser(description="Klipy scen ogólnych (Veo 3.1)")
-    parser.add_argument("-n", "--count", type=int, default=1, help="liczba wariantów na scenę")
-    parser.add_argument("--only", nargs="+", choices=list(prompts.SCENES))
-    parser.add_argument("--quality", action="store_true", help="model Quality zamiast Fast")
-    parser.add_argument("--resolution", default="1080p", choices=["720p", "1080p"])
-    args = parser.parse_args(argv)
-
+def cmd_generate(args):
     keys = args.only or list(prompts.SCENES)
     missing = [k for k in keys if not selected_path(k).exists()]
     if missing:
@@ -73,6 +68,37 @@ def main(argv=None):
                 print(f"  + {out}")
             except Exception as exc:
                 print(f"  x {out.name}: {exc}")
+
+
+def cmd_select(args):
+    source = config.VIDEOS_DIR / f"{args.scene}_{args.mode}_{args.number:02d}.mp4"
+    if not source.exists():
+        sys.exit(f"Nie znaleziono klipu {source}")
+    target = selected_path(args.scene, ".mp4")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(source, target)
+    print(f"Wybrano {source.name} -> {target}")
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Klipy scen ogólnych (Veo 3.1)")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    p = sub.add_parser("generate", help="wygeneruj klipy z zatwierdzonych kadrów (krok 4)")
+    p.add_argument("-n", "--count", type=int, default=1, help="liczba wariantów na scenę")
+    p.add_argument("--only", nargs="+", choices=list(prompts.SCENES))
+    p.add_argument("--quality", action="store_true", help="model Quality zamiast Fast")
+    p.add_argument("--resolution", default="1080p", choices=["720p", "1080p"])
+    p.set_defaults(func=cmd_generate)
+
+    p = sub.add_parser("select", help="zatwierdź klip, np. select dom fast 2")
+    p.add_argument("scene", choices=list(prompts.SCENES))
+    p.add_argument("mode", choices=["fast", "quality"])
+    p.add_argument("number", type=int)
+    p.set_defaults(func=cmd_select)
+
+    args = parser.parse_args(argv)
+    args.func(args)
 
 
 if __name__ == "__main__":

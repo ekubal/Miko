@@ -45,5 +45,5 @@ def variant_paths(directory: Path, stem: str, suffix: str, count: int) -> list[P
     return [directory / f"{stem}_{n:02d}{suffix}" for n in range(start, start + count)]
 
 
-def selected_path(name: str) -> Path:
-    return config.SELECTED_DIR / f"{name}.png"
+def selected_path(name: str, suffix: str = ".png") -> Path:
+    return config.SELECTED_DIR / f"{name}{suffix}"

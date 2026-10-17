@@ -6,15 +6,18 @@ Przykłady:
     python -m generator.audio lines                     # kwestie ogólne: pojedyncze i dla rodzeństwa
     python -m generator.audio tts --text "Ho, ho, ho!" -o test.mp3
     python -m generator.audio music --seconds 150
+    python -m generator.audio select-music 1            # -> output/selected/podklad.mp3
 """
 
 import argparse
 import base64
 import json
+import shutil
+import sys
 from pathlib import Path
 
 from . import config, elevenlabs, prompts
-from .common import variant_paths, with_retry
+from .common import selected_path, variant_paths, with_retry
 
 # Spokojne, ciepłe tempo; speed < 1 zwalnia mowę.
 VOICE_SETTINGS = {
@@ -85,6 +88,16 @@ def cmd_music(args):
         print(f"  + {out}")
 
 
+def cmd_select_music(args):
+    source = config.AUDIO_DIR / "music" / f"podklad_{args.number:02d}.mp3"
+    if not source.exists():
+        sys.exit(f"Nie znaleziono {source}")
+    target = selected_path("podklad", ".mp3")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(source, target)
+    print(f"Wybrano {source.name} -> {target}")
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Głos i muzyka (ElevenLabs)")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -117,6 +130,10 @@ def main(argv=None):
     p.add_argument("--prompt", default=prompts.MUSIC_PROMPT)
     p.add_argument("-n", "--count", type=int, default=1)
     p.set_defaults(func=cmd_music)
+
+    p = sub.add_parser("select-music", help="zatwierdź podkład do montażu, np. select-music 2")
+    p.add_argument("number", type=int)
+    p.set_defaults(func=cmd_select_music)
 
     args = parser.parse_args(argv)
     args.func(args)

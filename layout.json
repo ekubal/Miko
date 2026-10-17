@@ -1,0 +1,8 @@
+{
+  "_opis": "Położenie elementów na szablonach jako ułamki szerokości i wysokości obrazu: [lewo, góra, prawo, dół]. Dopasuj po obejrzeniu podglądu z: python -m generator.montage calibrate",
+  "ksiega_ramka": [0.56, 0.22, 0.84, 0.78],
+  "lista_imiona": [0.30, 0.34, 0.70, 0.60],
+  "font": "fonts/handwriting.ttf",
+  "kolor_imienia": "#3b2412",
+  "kolor_poswiaty": "#ffd27a"
+}
