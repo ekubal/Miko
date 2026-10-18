@@ -88,6 +88,14 @@ def test_variant_paths_continue_numbering(tmp_path):
     assert [p.name for p in paths] == ["dom_03.png", "dom_04.png"]
 
 
+def test_variant_paths_count_other_extensions(tmp_path):
+    # Nano Banana Pro potrafi zwrócić JPEG; kolejny wariant nie może go nadpisać.
+    (tmp_path / "dom_01.jpg").write_bytes(b"x")
+    (tmp_path / "dom_fast_05.mp4").write_bytes(b"x")
+    paths = common.variant_paths(tmp_path, "dom", ".png", 1)
+    assert [p.name for p in paths] == ["dom_02.png"]
+
+
 def test_portrait_and_select(tmp_output, monkeypatch):
     monkeypatch.setattr(images, "google_client", lambda: object())
     monkeypatch.setattr(images, "generate_image", lambda *a, **k: (b"PNGDATA", "image/png"))

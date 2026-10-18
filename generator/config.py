@@ -34,7 +34,7 @@ VOICE_FILE = OUTPUT_DIR / "voice.json"
 IMAGE_MODEL = os.environ.get("MIKOLAJ_IMAGE_MODEL", "gemini-3-pro-image-preview")
 VIDEO_MODEL_FAST = os.environ.get("MIKOLAJ_VIDEO_MODEL_FAST", "veo-3.1-fast-generate-preview")
 VIDEO_MODEL_QUALITY = os.environ.get("MIKOLAJ_VIDEO_MODEL_QUALITY", "veo-3.1-generate-preview")
-TEXT_MODEL = os.environ.get("MIKOLAJ_TEXT_MODEL", "gemini-2.5-flash")
+TEXT_MODEL = os.environ.get("MIKOLAJ_TEXT_MODEL", "gemini-3.8-flash")
 
 # ElevenLabs.
 ELEVEN_API_URL = os.environ.get("ELEVENLABS_API_URL", "https://api.elevenlabs.io")
