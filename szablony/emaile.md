@@ -2,7 +2,17 @@
 
 Trzy wiadomości z MVP.md: potwierdzenie zamówienia, prośba o brakujące dane i dostawa filmu. Każdy szablon ma pola w nawiasach klamrowych, a pod nim przykład wypełniony dla jednego z zamówień z `examples/`.
 
-Projekt graficzny maili jest na kanwie z projektem strony, obok formularza zamówienia.
+## Pliki
+
+| Mail | Szablon HTML | Podgląd |
+|---|---|---|
+| 1. Potwierdzenie zamówienia | [`email_1_potwierdzenie.html`](email_1_potwierdzenie.html) | [komputer](podglad/email_1_potwierdzenie.png) · [telefon](podglad/email_1_potwierdzenie_telefon.png) |
+| 2. Prośba o brakujące dane | [`email_2_brakujace_dane.html`](email_2_brakujace_dane.html) | [komputer](podglad/email_2_brakujace_dane.png) · [telefon](podglad/email_2_brakujace_dane_telefon.png) |
+| 3. Dostawa filmu | [`email_3_dostawa.html`](email_3_dostawa.html) | [komputer](podglad/email_3_dostawa.png) · [telefon](podglad/email_3_dostawa_telefon.png) |
+
+Szablony HTML są przygotowane pod programy pocztowe: układ na tabelach, style wpisane w elementy, szerokość 600 px, bez SVG i bez skryptów. Na telefonie zwężają się do szerokości ekranu. Wklejasz je do narzędzia do wysyłki (np. jako własny szablon HTML) albo wysyłasz z Gmaila przez rozszerzenie obsługujące HTML. Podglądy pokazują maile wypełnione danymi z przykładów poniżej.
+
+Przed pierwszą wysyłką wyślij każdy szablon do siebie i obejrzyj w Gmailu, Outlooku i na telefonie. Outlook na Windows nie obsługuje zaokrągleń, więc przyciski i ramki będą tam kanciaste, ale czytelne.
 
 ## Pola do podmiany
 
@@ -18,8 +28,11 @@ Projekt graficzny maili jest na kanwie z projektem strony, obok formularza zamó
 | `{DATA_WYGASNIECIA}` | 31 stycznia 2027 | do kiedy działa link |
 | `{LINK_DO_ANKIETY}` | link do ankiety | |
 | `{PODPIS}` | Zespół Wiadomości od Mikołaja | |
-
-Stopka każdego maila: linki do regulaminu i polityki prywatności oraz adres kontaktowy.
+| `{TEMAT}` | Potrzebujemy jeszcze jednego zdjęcia Jasia | tylko mail 2, tytuł strony HTML |
+| `{MINIATURA_FILMU}` | link do obrazka 920×518 px | tylko mail 3; kadr z filmu, np. z Google Drive (link publiczny) |
+| `{INFO_O_DANYCH}` | Zdjęcie i dane dziecka usuniemy… | tylko mail 3, w liczbie pojedynczej lub mnogiej (zob. przykład) |
+| `{LINK_REGULAMIN}`, `{LINK_PRYWATNOSC}` | adresy stron | stopka |
+| `{EMAIL_KONTAKT}` | kontakt@… | stopka |
 
 Dla rodzeństwa pisz w liczbie mnogiej, np. „czeka na Was”, „Zdjęcia i dane dzieci”.
 
