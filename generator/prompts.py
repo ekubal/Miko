@@ -18,27 +18,34 @@ nothing covering the mouth or beard.
 Cinematic 16:9, high detail, natural skin texture.
 Original character design, no brand logos, no text."""
 
-# Wariant z bardzo pełną brodą, okularami i klasycznym, zadbanym strojem: bez dzierganej
-# czapki i zniszczonego wyglądu, które dawał pierwszy prompt. Wąsy podkręcone, żeby usta
-# zostały widoczne dla lip-sync, a szkła bez odblasków, żeby było widać oczy.
+# Wariant z bardzo długą brodą, okularami i klasycznym, zadbanym strojem: bez dzierganej
+# czapki i zniszczonego wyglądu, które dawał pierwszy prompt. Gęste wąsy zakrywają usta,
+# więc przy mówieniu widać tylko ruch wąsów i brody, a drobne niedokładności
+# synchronizacji z dźwiękiem są mniej widoczne. Szkła bez odblasków, żeby było widać oczy.
+# Kadr pokazuje większą część sylwetki, do kolan.
 PORTRAIT_PROMPT_FULL_BEARD = """\
 Photorealistic portrait of the classic, magical Santa Claus from a storybook,
 about 70 years old, a jolly, kind and well-cared-for grandfather with a healthy glow.
-An extremely full, thick, abundant snow-white beard, wide and cloud-like,
-flowing in soft waves down over his chest to his belly, fluffy, luxurious and
-neatly groomed. A full white mustache curling gently upward at the ends,
-so his lips stay clearly visible.
+An extremely long, full, thick and abundant snow-white beard, wide and cloud-like,
+flowing in soft waves all the way down past his belly to his lap, fluffy, luxurious
+and neatly groomed.
+A very thick, full white mustache that hangs over his mouth and completely covers
+his lips, blending softly into the beard, so the mouth itself is not visible.
 Small round gold wire-rimmed spectacles resting on his nose, clear lenses without
 glare, so his bright twinkling eyes are fully visible through them.
-Rosy cheeks, clean smooth skin with gentle smile lines, neatly combed snow-white hair.
+Rosy cheeks, clean smooth skin with gentle smile lines around the eyes,
+neatly combed snow-white hair.
 A classic Santa hat in rich red velvet with a thick white fur trim and a white pompom.
-A luxurious deep red velvet coat with pristine, thick white fur trim.
+A luxurious deep red velvet coat with pristine, thick white fur trim,
+a wide black leather belt with a polished gold buckle, white fur cuffs.
 Everything he wears is clean, rich and immaculate.
-He sits in a grand carved wooden armchair with red upholstery in his cozy workshop,
+He sits comfortably in a grand carved wooden armchair with red upholstery in his
+cozy workshop, hands resting calmly on the armrests,
 warm golden fireplace light, soft bokeh Christmas tree lights in the background.
-Front-facing, looking straight into the camera, framed from the head down to the
-chest so the whole beard is visible.
-Mouth closed in a warm gentle smile, face evenly lit and fully visible.
+Front-facing, looking straight into the camera, medium shot framed from the top
+of the hat down to his knees, so most of his figure and the whole beard are visible,
+with the face still large and clear in the upper part of the frame.
+Kind, smiling eyes, face evenly lit.
 Cinematic 16:9, high detail, warm storybook atmosphere.
 Original character design, no brand logos, no text."""
 
