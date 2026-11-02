@@ -26,17 +26,15 @@ Original character design, no brand logos, no text."""
 PORTRAIT_PROMPT_FULL_BEARD = """\
 Photorealistic portrait of the classic, magical Santa Claus from a storybook,
 about 70 years old, a kind, gentle and well-cared-for grandfather with a healthy glow.
-MOST IMPORTANT: his mouth is completely hidden. A full, bushy, natural white mustache
-hangs straight down over his mouth and merges seamlessly into the beard.
-The mustache is NOT curled, twisted, waxed or styled: no curled tips, no handlebar
-shape, just soft, natural hair falling downward with realistic, slightly uneven strands.
-No lips, no teeth and no mouth opening are visible at all;
-below the nose there is only a continuous mass of natural white hair.
-An enormous, very voluminous snow-white beard, wide and full, with natural loose waves
-(no tight curls), spreading over his whole chest and flowing all the way down
-to his belly and lap. Long, softly wavy snow-white hair falling over his shoulders.
-The beard and hair look real and natural, full, clean and well cared for, not scruffy
-and not like a costume.
+MOST IMPORTANT: the whole area between his nose and his beard is covered by a long,
+heavy white mustache. It falls straight down from under his nose over the mouth area
+and flows directly into the beard, like one continuous white waterfall of hair.
+The ends of the mustache hang downward and disappear into the beard.
+The mouth area is covered entirely by soft, natural white hair.
+An enormous, very voluminous snow-white beard, wide and full, softly flowing and only
+slightly wavy, spreading over his whole chest and reaching down to his belly and lap.
+Long, softly flowing snow-white hair falling over his shoulders.
+The beard and hair look real and natural, full, clean and well cared for.
 Small round gold wire-rimmed spectacles resting on his nose, clear lenses without
 glare, so his bright, kind, twinkling eyes are fully visible through them.
 Rosy cheeks, clean skin with gentle laugh lines around the eyes.
