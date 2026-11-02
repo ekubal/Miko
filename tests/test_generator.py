@@ -209,4 +209,4 @@ def test_portrait_variant_full_beard_uses_its_prompt(tmp_output, monkeypatch):
     monkeypatch.setattr(images, "generate_image", lambda c, prompt, *a: seen.append(prompt) or (b"IMG", "image/png"))
     images.main(["portrait", "-n", "1", "--wariant", "pelna-broda"])
     assert seen == [prompts.PORTRAIT_PROMPT_FULL_BEARD]
-    assert "Santa hat" in seen[0] and "{" not in seen[0]
+    assert "mustache" in seen[0] and "{" not in seen[0]

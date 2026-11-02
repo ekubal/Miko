@@ -24,13 +24,11 @@ Original character design, no brand logos, no text."""
 # synchronizacji z dźwiękiem są mniej widoczne. Szkła bez odblasków, żeby było widać oczy.
 # Kadr pokazuje większą część sylwetki, do kolan.
 PORTRAIT_PROMPT_FULL_BEARD = """\
-Photorealistic portrait of the classic, magical Santa Claus from a storybook,
-about 70 years old, a kind, gentle and well-cared-for grandfather with a healthy glow.
-MOST IMPORTANT: the whole area between his nose and his beard is covered by a long,
-heavy white mustache. It falls straight down from under his nose over the mouth area
-and flows directly into the beard, like one continuous white waterfall of hair.
-The ends of the mustache hang downward and disappear into the beard.
-The mouth area is covered entirely by soft, natural white hair.
+Photorealistic portrait of a kind, gentle, well-cared-for grandfather, about 70 years old,
+with a healthy glow, dressed as Father Christmas.
+His mustache is long and heavy and hangs straight down from under his nose, covering
+his mouth completely, and flows directly into his beard as one continuous mass of
+white hair. Below his nose there is only white hair, no visible mouth.
 An enormous, very voluminous snow-white beard, wide and full, softly flowing and only
 slightly wavy, spreading over his whole chest and reaching down to his belly and lap.
 Long, softly flowing snow-white hair falling over his shoulders.
@@ -38,8 +36,8 @@ The beard and hair look real and natural, full, clean and well cared for.
 Small round gold wire-rimmed spectacles resting on his nose, clear lenses without
 glare, so his bright, kind, twinkling eyes are fully visible through them.
 Rosy cheeks, clean skin with gentle laugh lines around the eyes.
-His kindness shows in his eyes and cheeks, not in a visible smile.
-A classic Santa hat in rich red velvet with a thick white fur trim and a white pompom.
+His kindness shows in his eyes and cheeks.
+A soft red velvet stocking cap with a thick white fur band and a white pompom.
 A luxurious deep red velvet coat with pristine, thick white fur trim,
 a wide black leather belt with a polished gold buckle, white fur cuffs.
 Everything he wears is clean, rich and immaculate.
@@ -47,9 +45,11 @@ He sits comfortably in a grand carved wooden armchair with red upholstery in his
 cozy workshop, hands resting calmly on the armrests,
 warm golden fireplace light, soft bokeh Christmas tree lights in the background.
 Front-facing, looking straight into the camera, medium shot framed from the top
-of the hat down to his knees, so most of his figure and the whole beard are visible,
+of the cap down to his knees, so most of his figure and the whole beard are visible,
 with the face still large and clear in the upper part of the frame.
 Face evenly lit.
+Again, the most important detail: the heavy mustache hangs straight down over the
+mouth into the beard, so the mouth is fully covered by hair.
 Cinematic 16:9, high detail, warm storybook atmosphere.
 Original character design, no brand logos, no text."""
 
