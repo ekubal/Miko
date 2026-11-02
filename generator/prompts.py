@@ -19,22 +19,25 @@ Cinematic 16:9, high detail, natural skin texture.
 Original character design, no brand logos, no text."""
 
 # Wariant z bardzo długą brodą, okularami i klasycznym, zadbanym strojem: bez dzierganej
-# czapki i zniszczonego wyglądu, które dawał pierwszy prompt. Gęste wąsy zakrywają usta,
+# czapki i zniszczonego wyglądu, które dawał pierwszy prompt. Krzaczaste wąsy całkowicie zakrywają usta,
 # więc przy mówieniu widać tylko ruch wąsów i brody, a drobne niedokładności
 # synchronizacji z dźwiękiem są mniej widoczne. Szkła bez odblasków, żeby było widać oczy.
 # Kadr pokazuje większą część sylwetki, do kolan.
 PORTRAIT_PROMPT_FULL_BEARD = """\
 Photorealistic portrait of the classic, magical Santa Claus from a storybook,
-about 70 years old, a jolly, kind and well-cared-for grandfather with a healthy glow.
-An extremely long, full, thick and abundant snow-white beard, wide and cloud-like,
-flowing in soft waves all the way down past his belly to his lap, fluffy, luxurious
-and neatly groomed.
-A very thick, full white mustache that hangs over his mouth and completely covers
-his lips, blending softly into the beard, so the mouth itself is not visible.
+about 70 years old, a kind, gentle and well-cared-for grandfather with a healthy glow.
+MOST IMPORTANT: his mouth is completely hidden. A huge, bushy, drooping walrus-style
+white mustache hangs down over his mouth like a soft curtain and merges seamlessly
+into the beard. No lips, no teeth and no mouth opening are visible at all;
+below the nose there is only a continuous mass of white hair.
+An enormous, extremely voluminous snow-white beard, very wide and wavy, with soft
+curls and loose waves, spreading over his whole chest and flowing all the way down
+to his belly and lap. Long, wavy snow-white hair falling over his shoulders.
+The beard and hair are full, clean and well cared for, not scruffy.
 Small round gold wire-rimmed spectacles resting on his nose, clear lenses without
-glare, so his bright twinkling eyes are fully visible through them.
-Rosy cheeks, clean smooth skin with gentle smile lines around the eyes,
-neatly combed snow-white hair.
+glare, so his bright, kind, twinkling eyes are fully visible through them.
+Rosy cheeks, clean skin with gentle laugh lines around the eyes.
+His kindness shows in his eyes and cheeks, not in a visible smile.
 A classic Santa hat in rich red velvet with a thick white fur trim and a white pompom.
 A luxurious deep red velvet coat with pristine, thick white fur trim,
 a wide black leather belt with a polished gold buckle, white fur cuffs.
@@ -45,7 +48,7 @@ warm golden fireplace light, soft bokeh Christmas tree lights in the background.
 Front-facing, looking straight into the camera, medium shot framed from the top
 of the hat down to his knees, so most of his figure and the whole beard are visible,
 with the face still large and clear in the upper part of the frame.
-Kind, smiling eyes, face evenly lit.
+Face evenly lit.
 Cinematic 16:9, high detail, warm storybook atmosphere.
 Original character design, no brand logos, no text."""
 
@@ -63,6 +66,11 @@ No brand logos, no text, no letters anywhere in the image."""
 
 # Klucz sceny -> opis [SCENE] dla kadru i [MOTION] dla klipu wideo.
 SCENES = {
+    "zorza": {
+        "scene": "Wide view of a snowy North Pole village at night under a bright green and violet "
+        "aurora borealis, small wooden houses with warm glowing windows, Santa not visible.",
+        "motion": "The aurora ripples slowly across the sky, smoke rises from the chimneys, snow sparkles",
+    },
     "dom": {
         "scene": "Exterior of Santa's cozy wooden house at night, snow falling, "
         "warm light in the windows, Santa not visible yet.",
@@ -73,10 +81,27 @@ SCENES = {
         "and toys, elves working in the background.",
         "motion": "Santa walks slowly between shelves with presents, elves busy in the background",
     },
+    "renifery": {
+        "scene": "Santa in a cozy wooden reindeer stable at night, gently stroking a reindeer's neck, "
+        "several reindeer with warm red blankets, hay, glowing lanterns.",
+        "motion": "Santa gently strokes a reindeer, the reindeer nod and breathe out small warm clouds",
+    },
+    "listy": {
+        "scene": "Santa's letter room: piles of colorful envelopes from children, elves sorting them "
+        "into wooden pigeonholes, Santa sitting at a desk reading one letter with a warm smile. "
+        "All envelopes and letters are blank, without any writing.",
+        "motion": "Elves sort envelopes into the pigeonholes, Santa slowly reads a letter and smiles",
+    },
     "ksiega": {
         "scene": "Santa sitting in his armchair, opening a huge old leather-bound book "
         "on his lap, golden magical glow coming from the pages.",
         "motion": "Santa slowly opens the book, golden light rises from the pages",
+    },
+    "mapa": {
+        "scene": "Santa standing in front of a huge old illuminated world map on a wooden wall, "
+        "tiny golden lights glowing across it, a large globe nearby, warm lamp light. "
+        "The map has no labels and no text.",
+        "motion": "Tiny lights on the map twinkle one by one, Santa points at the map and nods happily",
     },
     "sanie": {
         "scene": "Santa next to his sleigh with reindeer in the snow at night, "
@@ -128,33 +153,57 @@ MUSIC_PROMPT = (
 )
 
 # Kwestie ogólne: wersja dla jednego dziecka i dla rodzeństwa (liczba mnoga).
-# Klucz = nazwa pliku MP3, zgodna z numeracją scen w MVP.md.
+# Klucz = nazwa sceny i pliku MP3 (audio/lines/<klucz>.mp3), kolejność w montage.TIMELINE.
 GENERAL_LINES = {
-    "scena1_dom": {
-        "single": "Ho, ho, ho! Witaj w moim domu na dalekiej Północy.",
-        "plural": "Ho, ho, ho! Witajcie w moim domu na dalekiej Północy.",
+    "zorza": {
+        "single": "Ho, ho, ho! Spójrz w niebo. Tak tańczy zorza polarna nad moją wioską "
+        "na dalekiej Północy.",
+        "plural": "Ho, ho, ho! Spójrzcie w niebo. Tak tańczy zorza polarna nad moją wioską "
+        "na dalekiej Północy.",
     },
-    "scena2_pracownia": {
+    "dom": {
+        "single": "Witaj w moim domu. Mieszkam tu razem z elfami i reniferami.",
+        "plural": "Witajcie w moim domu. Mieszkam tu razem z elfami i reniferami.",
+    },
+    "pracownia": {
         "single": "Tu, w mojej pracowni, elfy pracują dzień i noc. Pakują prezenty i pilnują, "
-        "żeby wszystko było gotowe na Święta. Ale dziś odkładam pracę na chwilę, bo mam "
-        "bardzo ważną wiadomość. Wiadomość tylko dla ciebie.",
+        "żeby wszystko było gotowe na Święta.",
         "plural": "Tu, w mojej pracowni, elfy pracują dzień i noc. Pakują prezenty i pilnują, "
-        "żeby wszystko było gotowe na Święta. Ale dziś odkładam pracę na chwilę, bo mam "
-        "bardzo ważną wiadomość. Wiadomość tylko dla was.",
+        "żeby wszystko było gotowe na Święta.",
     },
-    "scena4_ksiega": {
+    "renifery": {
+        "single": "A to moje renifery. Codziennie ćwiczą latanie, żeby w Wigilię być "
+        "najszybsze na świecie. Lubią, kiedy drapię je za uszami.",
+        "plural": "A to moje renifery. Codziennie ćwiczą latanie, żeby w Wigilię być "
+        "najszybsze na świecie. Lubią, kiedy drapię je za uszami.",
+    },
+    "listy": {
+        "single": "Tutaj trafiają listy od dzieci z całego świata. Elfy czytają każdy z nich "
+        "bardzo uważnie. Ale dziś odkładam pracę na chwilę, bo mam bardzo ważną wiadomość. "
+        "Wiadomość tylko dla ciebie.",
+        "plural": "Tutaj trafiają listy od dzieci z całego świata. Elfy czytają każdy z nich "
+        "bardzo uważnie. Ale dziś odkładam pracę na chwilę, bo mam bardzo ważną wiadomość. "
+        "Wiadomość tylko dla was.",
+    },
+    "ksiega": {
         "single": "To moja magiczna księga. Zapisuję w niej wszystkie dzieci, które w tym roku "
         "starały się być dobre. Spójrz, kto jest na tej stronie! Księga nigdy się nie myli.",
         "plural": "To moja magiczna księga. Zapisuję w niej wszystkie dzieci, które w tym roku "
         "starały się być dobre. Spójrzcie, kto jest na tej stronie! Księga nigdy się nie myli.",
     },
-    "scena5_lista": {
+    "lista": {
         "single": "A tu jest moja lista grzecznych dzieci. Twoje imię jest już na niej zapisane. "
         "Przybijam pieczęć… gotowe!",
         "plural": "A tu jest moja lista grzecznych dzieci. Wasze imiona są już na niej zapisane. "
         "Przybijam pieczęć… gotowe!",
     },
-    "scena6_pozegnanie": {
+    "mapa": {
+        "single": "A to moja wielka mapa. Świecą na niej domy wszystkich grzecznych dzieci. "
+        "Popatrz, jak pięknie świeci. Elfy sprawdzają ją każdego wieczoru.",
+        "plural": "A to moja wielka mapa. Świecą na niej domy wszystkich grzecznych dzieci. "
+        "Popatrzcie, jak pięknie świeci. Elfy sprawdzają ją każdego wieczoru.",
+    },
+    "sanie": {
         "single": "Muszę już wracać do pracy, bo reniferów nie można zostawiać samych na długo. "
         "Słuchaj rodziców i uśmiechaj się często. Do zobaczenia w Wigilię! Ho, ho, ho! "
         "Wesołych Świąt!",
