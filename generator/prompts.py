@@ -68,15 +68,20 @@ His mustache hangs down over his mouth into the beard exactly as in the referenc
 so his mouth stays covered by hair.
 Scene: {scene}
 Warm cinematic lighting, photorealistic, 16:9.
+No children appear in the image; every person in it is an adult.
 No brand logos, no text, no letters anywhere in the image."""
 
 # Wygląd elfów, dopisywany do każdej sceny z "elves": True, żeby we wszystkich scenach
-# wyglądały tak samo (portret pilnuje tylko wyglądu Mikołaja).
+# wyglądały tak samo (portret pilnuje tylko wyglądu Mikołaja). Elfy są wyraźnie dorosłe:
+# model wideo odrzuca kadry z dziećmi, a "nastolatkowie" wychodzili jak dzieci.
 ELVES_DESCRIPTION = """\
-The elves all look alike in style: slim teenagers with slightly pointed ears and rosy
-cheeks, dressed in green and red wool outfits and pointed felt caps. They are always busy
-working, focused on their tasks, never posing. Fairy-tale but realistic, in the same
-photorealistic, warm cinematic style as the rest of the image."""
+Santa's elves are all adults: slim young adult men and women in their mid twenties,
+clearly grown-up, with adult faces, adult height and adult body proportions,
+about as tall as Santa. They have slightly pointed ears and rosy cheeks and wear
+green and red wool outfits and pointed felt caps. They are always busy working,
+focused on their tasks, never posing. Fairy-tale but realistic, in the same
+photorealistic, warm cinematic style as the rest of the image.
+There are no children anywhere in the image."""
 
 
 def scene_prompt(key: str) -> str:
@@ -112,7 +117,7 @@ SCENES = {
         "motion": "Santa gently strokes a reindeer, the reindeer nod and breathe out small warm clouds",
     },
     "listy": {
-        "scene": "Santa's letter room: piles of colorful envelopes from children, elves sorting them "
+        "scene": "Santa's letter room: piles of colorful envelopes with letters sent to Santa, elves sorting them "
         "into wooden pigeonholes, Santa sitting at a desk reading one letter, his eyes smiling warmly. "
         "All envelopes and letters are blank, without any writing.",
         "motion": "Elves sort envelopes into the pigeonholes, Santa slowly reads a letter, his eyes smiling",
