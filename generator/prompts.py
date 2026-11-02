@@ -18,24 +18,26 @@ nothing covering the mouth or beard.
 Cinematic 16:9, high detail, natural skin texture.
 Original character design, no brand logos, no text."""
 
-# Wariant z pełną, długą brodą i klasycznym, zadbanym strojem: bez dzierganej czapki
-# i zniszczonego wyglądu, które dawał pierwszy prompt. Wąsy podkręcone, żeby usta
-# zostały widoczne dla lip-sync.
+# Wariant z bardzo pełną brodą, okularami i klasycznym, zadbanym strojem: bez dzierganej
+# czapki i zniszczonego wyglądu, które dawał pierwszy prompt. Wąsy podkręcone, żeby usta
+# zostały widoczne dla lip-sync, a szkła bez odblasków, żeby było widać oczy.
 PORTRAIT_PROMPT_FULL_BEARD = """\
 Photorealistic portrait of the classic, magical Santa Claus from a storybook,
 about 70 years old, a jolly, kind and well-cared-for grandfather with a healthy glow.
-A very long, full, voluminous snow-white beard flowing down to the middle of his chest,
-soft, fluffy and neatly groomed. A well-trimmed white mustache curling gently
-upward at the ends, so his lips stay clearly visible.
-Bright twinkling eyes, rosy cheeks, clean smooth skin with gentle smile lines,
-neatly combed snow-white hair.
+An extremely full, thick, abundant snow-white beard, wide and cloud-like,
+flowing in soft waves down over his chest to his belly, fluffy, luxurious and
+neatly groomed. A full white mustache curling gently upward at the ends,
+so his lips stay clearly visible.
+Small round gold wire-rimmed spectacles resting on his nose, clear lenses without
+glare, so his bright twinkling eyes are fully visible through them.
+Rosy cheeks, clean smooth skin with gentle smile lines, neatly combed snow-white hair.
 A classic Santa hat in rich red velvet with a thick white fur trim and a white pompom.
 A luxurious deep red velvet coat with pristine, thick white fur trim.
 Everything he wears is clean, rich and immaculate.
 He sits in a grand carved wooden armchair with red upholstery in his cozy workshop,
 warm golden fireplace light, soft bokeh Christmas tree lights in the background.
 Front-facing, looking straight into the camera, framed from the head down to the
-upper chest so the whole beard is visible.
+chest so the whole beard is visible.
 Mouth closed in a warm gentle smile, face evenly lit and fully visible.
 Cinematic 16:9, high detail, warm storybook atmosphere.
 Original character design, no brand logos, no text."""

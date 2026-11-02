@@ -125,7 +125,7 @@ def main(argv=None):
         "--wariant",
         choices=list(prompts.PORTRAIT_VARIANTS),
         default="klasyczny",
-        help="klasyczny albo pelna-broda (długa, pełna broda i klasyczny strój)",
+        help="klasyczny albo pelna-broda (bardzo pełna broda, okulary, klasyczny strój)",
     )
     p.set_defaults(func=cmd_portrait)
 

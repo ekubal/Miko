@@ -219,7 +219,7 @@ Opcje `portrait`, `scenes`, `templates`:
 | `--size` | `2K` | `1K` (tańszy test), `2K`, `4K` |
 | `--aspect-ratio` | `16:9` | proporcje obrazu |
 | `--only` | wszystkie | tylko wybrane sceny (`dom pracownia ksiega sanie`) lub szablony (`szablon_ksiega szablon_lista`) |
-| `--wariant` | `klasyczny` | tylko `portrait`: `pelna-broda` daje długą, pełną brodę, klasyczną czapkę z pomponem i zadbany strój |
+| `--wariant` | `klasyczny` | tylko `portrait`: `pelna-broda` daje bardzo pełną brodę, okulary, klasyczną czapkę z pomponem i zadbany strój |
 | `--reference` | `output/selected/portrait.png` | tylko `scenes`: inny portret referencyjny |
 
 Nazwy dla `select`: `portrait`, `dom`, `pracownia`, `ksiega`, `sanie`, `szablon_ksiega`, `szablon_lista`.
