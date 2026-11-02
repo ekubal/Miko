@@ -35,14 +35,24 @@ BOOK_CLIP_SECONDS = 7.0  # ile klipu z otwieraniem księgi pokazać przed zbliż
 MUSIC_VOLUME = 0.35
 AMBIENT_VOLUME = 0.35
 
-# Minimalne długości scen i moment wejścia głosu, według harmonogramu z MVP.md.
-SCENE_TIMING = {
-    "dom": {"min": 15.0, "voice_at": 3.0},
-    "pracownia": {"min": 20.0, "voice_at": 1.0},
-    "ksiega": {"min": 20.0, "voice_at": 1.5},
-    "lista": {"min": 15.0, "voice_at": 1.0},
-    "sanie": {"min": 20.0, "voice_at": 1.0},
-}
+# Kolejność scen w filmie, ich minimalna długość i moment wejścia głosu.
+# Rodzaje: "clip" (klip Veo z kwestią), "heygen" (Mikołaj mówi do dziecka),
+# "book" (klip z księgą, potem zdjęcie dziecka), "names" (lista z imieniem).
+# Klucz "scene" to nazwa klipu w output/selected/ i kwestii w audio/lines/.
+# Żeby skrócić film, usuń scenę z tej listy (bez generowania jej klipu i kwestii).
+TIMELINE = [
+    {"kind": "clip", "scene": "zorza", "min": 12.0, "voice_at": 2.0},
+    {"kind": "clip", "scene": "dom", "min": 12.0, "voice_at": 1.0},
+    {"kind": "clip", "scene": "pracownia", "min": 15.0, "voice_at": 1.0},
+    {"kind": "clip", "scene": "renifery", "min": 15.0, "voice_at": 1.0},
+    {"kind": "clip", "scene": "listy", "min": 15.0, "voice_at": 1.0},
+    {"kind": "heygen"},
+    {"kind": "book", "scene": "ksiega", "min": 20.0, "voice_at": 1.5},
+    {"kind": "names", "scene": "lista", "min": 15.0, "voice_at": 1.0},
+    {"kind": "clip", "scene": "mapa", "min": 15.0, "voice_at": 1.0},
+    {"kind": "clip", "scene": "sanie", "min": 20.0, "voice_at": 1.0},
+]
+SCENE_TIMING = {step["scene"]: step for step in TIMELINE if "scene" in step}
 
 
 @dataclass
@@ -58,8 +68,8 @@ class Format:
 class Assets:
     """Materiały wspólne dla wszystkich filmów (z przygotowania jednorazowego)."""
 
-    clips: dict[str, Path]  # dom, pracownia, ksiega, sanie
-    lines: dict[str, Path]  # scena1_dom, scena2_pracownia, scena4_ksiega, scena5_lista, scena6_pozegnanie
+    clips: dict[str, Path]  # klipy Veo scen "clip" i "book" z TIMELINE
+    lines: dict[str, Path]  # kwestie wszystkich scen poza "heygen"
     book_template: Path
     list_template: Path
     music: Path | None
@@ -89,11 +99,8 @@ def default_assets(siblings: bool, music: Path | None) -> Assets:
     lines_dir = config.AUDIO_DIR / "lines"
     layout = load_layout()
     return Assets(
-        clips={key: selected_path(key, ".mp4") for key in ("dom", "pracownia", "ksiega", "sanie")},
-        lines={
-            key: lines_dir / f"{key}{suffix}.mp3"
-            for key in ("scena1_dom", "scena2_pracownia", "scena4_ksiega", "scena5_lista", "scena6_pozegnanie")
-        },
+        clips={s["scene"]: selected_path(s["scene"], ".mp4") for s in TIMELINE if s["kind"] in ("clip", "book")},
+        lines={s["scene"]: lines_dir / f"{s['scene']}{suffix}.mp3" for s in TIMELINE if "scene" in s},
         book_template=selected_path("szablon_ksiega"),
         list_template=selected_path("szablon_lista"),
         music=music,
@@ -231,9 +238,9 @@ def segment_heygen(clip: Path, out: Path, fmt: Format) -> None:
     render_segment(out, [["-i", str(clip)]], f"[0:v]{normalize(fmt)}[v]", [AudioPart(0)], duration, fmt)
 
 
-def segment_book(clip: Path, page: Path, voice: Path, out: Path, fmt: Format) -> None:
+def segment_book(clip: Path, page: Path, voice: Path, out: Path, fmt: Format, scene: str = "ksiega") -> None:
     """Mikołaj otwiera księgę (klip), potem przenikanie do zbliżenia na zdjęcie w ramce."""
-    duration = scene_duration("ksiega", voice)
+    duration = scene_duration(scene, voice)
     clip_part = min(probe_duration(clip), BOOK_CLIP_SECONDS)
     still_part = duration - clip_part + 1.0  # 1 s nakładki przenikania
     video = (
@@ -246,14 +253,14 @@ def segment_book(clip: Path, page: Path, voice: Path, out: Path, fmt: Format) ->
         ["-loop", "1", "-framerate", str(fmt.fps), "-t", f"{still_part:.3f}", "-i", str(page)],
         ["-i", str(voice)],
     ]
-    audio = clip_ambient(clip, 0, clip_part) + [AudioPart(2, delay=SCENE_TIMING["ksiega"]["voice_at"])]
+    audio = clip_ambient(clip, 0, clip_part) + [AudioPart(2, delay=SCENE_TIMING[scene]["voice_at"])]
     render_segment(out, inputs, video, audio, duration, fmt)
 
 
-def segment_list(scroll: Path, names: Path, voice: Path, out: Path, fmt: Format) -> None:
+def segment_list(scroll: Path, names: Path, voice: Path, out: Path, fmt: Format, scene: str = "lista") -> None:
     """Pergamin; imię pojawia się, gdy Mikołaj mówi, że jest zapisane."""
-    duration = scene_duration("lista", voice)
-    voice_at = SCENE_TIMING["lista"]["voice_at"]
+    duration = scene_duration(scene, voice)
+    voice_at = SCENE_TIMING[scene]["voice_at"]
     reveal = voice_at + 0.35 * probe_duration(voice)
     video = (
         f"[1:v]format=rgba,fade=t=in:st={reveal:.3f}:d=1.5:alpha=1[n];"
@@ -355,22 +362,22 @@ def assemble(order: dict, photos: list[Path], heygen: Path, assets: Assets, out:
             work / "imiona.png"
         )
 
-        segments = [work / f"{i}.mp4" for i in range(1, 7)]
-        steps = [
-            ("dom", lambda: segment_clip("dom", assets.clips["dom"], assets.lines["scena1_dom"], segments[0], fmt)),
-            ("pracownia", lambda: segment_clip(
-                "pracownia", assets.clips["pracownia"], assets.lines["scena2_pracownia"], segments[1], fmt)),
-            ("heygen", lambda: segment_heygen(heygen, segments[2], fmt)),
-            ("księga", lambda: segment_book(
-                assets.clips["ksiega"], page, assets.lines["scena4_ksiega"], segments[3], fmt)),
-            ("lista", lambda: segment_list(
-                work / "lista.png", work / "imiona.png", assets.lines["scena5_lista"], segments[4], fmt)),
-            ("sanie", lambda: segment_clip(
-                "sanie", assets.clips["sanie"], assets.lines["scena6_pozegnanie"], segments[5], fmt)),
-        ]
-        for i, (name, step) in enumerate(steps, 1):
-            print(f"  [{i}/6] {name}")
-            step()
+        segments = []
+        for i, step in enumerate(TIMELINE, 1):
+            out_segment = work / f"{i:02d}.mp4"
+            scene = step.get("scene", "mikolaj")
+            print(f"  [{i}/{len(TIMELINE)}] {scene}")
+            if step["kind"] == "clip":
+                segment_clip(scene, assets.clips[scene], assets.lines[scene], out_segment, fmt)
+            elif step["kind"] == "heygen":
+                segment_heygen(heygen, out_segment, fmt)
+            elif step["kind"] == "book":
+                segment_book(assets.clips[scene], page, assets.lines[scene], out_segment, fmt, scene)
+            elif step["kind"] == "names":
+                segment_list(work / "lista.png", work / "imiona.png", assets.lines[scene], out_segment, fmt, scene)
+            else:
+                raise ValueError(f"Nieznany rodzaj sceny: {step['kind']}")
+            segments.append(out_segment)
 
         concat_list = work / "sceny.txt"
         concat_list.write_text("".join(f"file '{s.resolve()}'\n" for s in segments), encoding="utf-8")

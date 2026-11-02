@@ -42,7 +42,10 @@ def test_voice_sample_text_fits_voice_design_limits():
 
 def test_general_lines_have_both_variants():
     for lines in prompts.GENERAL_LINES.values():
-        assert lines["single"] and lines["plural"] and lines["single"] != lines["plural"]
+        assert lines["single"] and lines["plural"]
+        # Kwestia zwracająca się do jednego dziecka musi mieć inną wersję dla rodzeństwa.
+        if any(word in lines["single"] for word in ("ciebie", "Twoje", "Spójrz", "Witaj ", "Słuchaj", "Popatrz")):
+            assert lines["single"] != lines["plural"]
 
 
 def test_build_prompt_single_child():
@@ -142,9 +145,9 @@ def test_lines_records_single_and_plural(tmp_output, monkeypatch):
     monkeypatch.setattr(
         audio.elevenlabs, "text_to_speech", lambda text, vid, s: calls.append((text, vid)) or b"MP3"
     )
-    audio.main(["lines", "--only", "scena5_lista"])
+    audio.main(["lines", "--only", "lista"])
     files = sorted(p.name for p in (tmp_output / "audio" / "lines").iterdir())
-    assert files == ["scena5_lista.mp3", "scena5_lista_rodzenstwo.mp3"]
+    assert files == ["lista.mp3", "lista_rodzenstwo.mp3"]
     assert {vid for _, vid in calls} == {"voice123"}
     assert any("Wasze imiona" in text for text, _ in calls)
 

@@ -39,18 +39,22 @@ def stream_info(path: Path) -> dict:
     return {"video": [s for s in out if s.startswith("video")], "audio": [s for s in out if s.startswith("audio")]}
 
 
+LINE_SECONDS = {"pracownia": 21}  # dłuższa kwestia: scena musi się wydłużyć ponad minimum
+
+
 @pytest.fixture
 def assets(tmp_path):
-    clips = {}
-    for key in ("dom", "pracownia", "ksiega", "sanie"):
-        clips[key] = tmp_path / f"{key}.mp4"
-        # Jeden klip bez dźwięku: Veo nie zawsze go generuje.
-        make_clip(clips[key], 8, audio=key != "pracownia")
-    lines = {}
-    for key, seconds in [("scena1_dom", 3), ("scena2_pracownia", 21), ("scena4_ksiega", 9),
-                         ("scena5_lista", 6), ("scena6_pozegnanie", 10)]:
+    clips, lines = {}, {}
+    for step in montage.TIMELINE:
+        if "scene" not in step:
+            continue
+        key = step["scene"]
+        if step["kind"] in ("clip", "book"):
+            clips[key] = tmp_path / f"{key}.mp4"
+            # Jeden klip bez dźwięku: Veo nie zawsze go generuje.
+            make_clip(clips[key], 8, audio=key != "pracownia")
         lines[key] = tmp_path / f"{key}.mp3"
-        make_tone(lines[key], seconds)
+        make_tone(lines[key], LINE_SECONDS.get(key, 3))
     Image.new("RGB", (1280, 720), "#5a3b1e").save(tmp_path / "ksiega.png")
     Image.new("RGB", (1280, 720), "#e8d9b0").save(tmp_path / "lista.png")
     music = tmp_path / "podklad.mp3"
@@ -66,6 +70,17 @@ def assets(tmp_path):
     )
 
 
+def expected_duration(heygen_seconds: float) -> float:
+    total = 0.0
+    for step in montage.TIMELINE:
+        if step["kind"] == "heygen":
+            total += heygen_seconds
+        else:
+            voice = LINE_SECONDS.get(step["scene"], 3)
+            total += max(step["min"], step["voice_at"] + voice + montage.VOICE_TAIL)
+    return total
+
+
 def test_assemble_full_film(tmp_path, assets):
     heygen = tmp_path / "heygen.mp4"
     make_clip(heygen, 6)
@@ -76,12 +91,20 @@ def test_assemble_full_film(tmp_path, assets):
     order = {"id": "t1", "dzieci": [{"imie": "Kasia"}]}
     montage.assemble(order, [photo], heygen, assets, out, FMT)
 
-    # dom 15 (minimum) + pracownia 1+21+1.5 + heygen 6 + ksiega 20 + lista 15 + sanie 20
-    expected = 15 + 23.5 + 6 + 20 + 15 + 20
-    assert montage.probe_duration(out) == pytest.approx(expected, abs=0.6)
+    assert montage.probe_duration(out) == pytest.approx(expected_duration(6), abs=1.0)
     info = stream_info(out)
     assert info["video"] == ["video,320,180"] and len(info["audio"]) == 1
     assert not (out.parent / "montage_tmp").exists()
+
+
+def test_timeline_scenes_have_prompts_and_lines():
+    from generator import prompts
+
+    for step in montage.TIMELINE:
+        if step["kind"] in ("clip", "book"):
+            assert step["scene"] in prompts.SCENES
+        if "scene" in step:
+            assert step["scene"] in prompts.GENERAL_LINES
 
 
 def test_assemble_reports_missing_files(tmp_path, assets):

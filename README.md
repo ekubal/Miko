@@ -25,8 +25,8 @@ Skrypty, które wykonują kroki z [MVP.md](MVP.md) przez API zamiast ręcznie w 
 
 | Moduł | Co robi | Usługa | Koszt |
 |---|---|---|---|
-| `generator.images` | portret Mikołaja, 4 kadry scen, puste szablony księgi i listy | Gemini API: Nano Banana Pro | za obraz |
-| `generator.videos` | 4 klipy scen ogólnych (8 s) z kadrów jako pierwszej klatki | Gemini API: Veo 3.1 | za sekundę wideo |
+| `generator.images` | portret Mikołaja, 8 kadrów scen, puste szablony księgi i listy | Gemini API: Nano Banana Pro | za obraz |
+| `generator.videos` | 8 klipów scen ogólnych (8 s) z kadrów jako pierwszej klatki | Gemini API: Veo 3.1 | za sekundę wideo |
 | `generator.audio` | głos Mikołaja, kwestie ogólne, podkład muzyczny | ElevenLabs | znaki / minuty z planu |
 | `generator.order` | tekst Mikołaja dla dziecka i jego nagranie | Gemini API + ElevenLabs | grosze za zamówienie |
 | `generator.montage` | gotowy film MP4 1080p | ffmpeg + Pillow, lokalnie | 0 zł |
@@ -136,7 +136,7 @@ Wszystkie treści są w jednym pliku. Zmieniasz je tam, nie w kodzie skryptów.
 | Stała | Co zawiera |
 |---|---|
 | `PORTRAIT_PROMPT` | prompt portretu Mikołaja (krok 1 przygotowania) |
-| `SCENE_PROMPT`, `SCENES[...]["scene"]` | prompt bazowy kadrów i opisy 4 scen |
+| `SCENE_PROMPT`, `SCENES[...]["scene"]` | prompt bazowy kadrów i opisy 8 scen |
 | `TEMPLATES` | prompty pustej księgi i listy |
 | `MOTION_PROMPT`, `SCENES[...]["motion"]` | prompt ruchu dla Veo |
 | `VOICE_DESCRIPTION`, `VOICE_SAMPLE_TEXT` | opis głosu i tekst próbny do Voice Design (100–1000 znaków) |
@@ -207,7 +207,7 @@ Generuje obrazy w Nano Banana Pro. Odpowiada krokom 1–3 przygotowania z MVP.md
 | Polecenie | Co robi | Wynik |
 |---|---|---|
 | `portrait` | portret Mikołaja do awatara | `output/images/portrait/portrait_NN.png` |
-| `scenes` | 4 kadry z tą samą postacią; jako referencję wysyła zatwierdzony portret | `output/images/scenes/<scena>_NN.png` |
+| `scenes` | 8 kadrów z tą samą postacią; jako referencję wysyła zatwierdzony portret | `output/images/scenes/<scena>_NN.png` |
 | `templates` | pusta księga z ramką i pusta lista | `output/images/templates/<szablon>_NN.png` |
 | `select <nazwa> <N>` | zatwierdza wariant N | `output/selected/<nazwa>.png` |
 
@@ -218,7 +218,7 @@ Opcje `portrait`, `scenes`, `templates`:
 | `-n`, `--count` | 10 / 3 / 3 | liczba wariantów |
 | `--size` | `2K` | `1K` (tańszy test), `2K`, `4K` |
 | `--aspect-ratio` | `16:9` | proporcje obrazu |
-| `--only` | wszystkie | tylko wybrane sceny (`dom pracownia ksiega sanie`) lub szablony (`szablon_ksiega szablon_lista`) |
+| `--only` | wszystkie | tylko wybrane sceny (`zorza dom pracownia renifery listy ksiega mapa sanie`) lub szablony (`szablon_ksiega szablon_lista`) |
 | `--wariant` | `klasyczny` | tylko `portrait`: `pelna-broda` daje bardzo długą brodę, wąsy zakrywające usta, okulary, klasyczny strój i kadr do kolan |
 | `--reference` | `output/selected/portrait.png` | tylko `scenes`: inny portret referencyjny |
 
@@ -276,7 +276,7 @@ python -m generator.videos select ksiega quality 1
 | `design` | `--text` | z `prompts.py` | tekst próbny (100–1000 znaków) |
 | `save-voice` | `--name` | `Mikolaj` | nazwa głosu w bibliotece |
 | `lines` | `--variant` | `all` | `single`, `plural` albo `all` |
-| `lines` | `--only` | wszystkie | wybrane sceny, np. `scena2_pracownia` |
+| `lines` | `--only` | wszystkie | wybrane sceny, np. `pracownia` |
 | `lines` | `--force` | wyłączone | nadpisz istniejące nagrania |
 | `tts` | `--text` / `--file`, `-o` | — | tekst lub plik z tekstem, plik wynikowy |
 | `music` | `--seconds`, `--prompt`, `-n` | 150, z `prompts.py`, 1 | długość, opis, liczba wariantów |
@@ -382,12 +382,18 @@ Co trafia do filmu:
 
 | Scena | Obraz | Dźwięk | Min. długość |
 |---|---|---|---|
-| 1. Dom | `selected/dom.mp4` | `scena1_dom.mp3` | 15 s |
-| 2. Pracownia | `selected/pracownia.mp4` | `scena2_pracownia.mp3` | 20 s |
-| 3. Mikołaj mówi | `orders/<id>/heygen.mp4` | dźwięk z HeyGen | długość klipu |
-| 4. Księga | `selected/ksiega.mp4`, potem zbliżenie na zdjęcie w ramce | `scena4_ksiega.mp3` | 20 s |
-| 5. Lista | `selected/szablon_lista.png` z imieniem pojawiającym się w trakcie kwestii | `scena5_lista.mp3` | 15 s |
-| 6. Pożegnanie | `selected/sanie.mp4` | `scena6_pozegnanie.mp3` | 20 s |
+| 1. Zorza polarna | `selected/zorza.mp4` | `zorza.mp3` | 12 s |
+| 2. Dom | `selected/dom.mp4` | `dom.mp3` | 12 s |
+| 3. Pracownia | `selected/pracownia.mp4` | `pracownia.mp3` | 15 s |
+| 4. Renifery | `selected/renifery.mp4` | `renifery.mp3` | 15 s |
+| 5. Listy od dzieci | `selected/listy.mp4` | `listy.mp3` | 15 s |
+| 6. Mikołaj mówi | `orders/<id>/heygen.mp4` | dźwięk z HeyGen | długość klipu |
+| 7. Księga | `selected/ksiega.mp4`, potem zbliżenie na zdjęcie w ramce | `ksiega.mp3` | 20 s |
+| 8. Lista | `selected/szablon_lista.png` z imieniem pojawiającym się w trakcie kwestii | `lista.mp3` | 15 s |
+| 9. Mapa | `selected/mapa.mp4` | `mapa.mp3` | 15 s |
+| 10. Pożegnanie | `selected/sanie.mp4` | `sanie.mp3` | 20 s |
+
+Kwestie leżą w `output/audio/lines/`. Kolejność i długości scen są w liście `TIMELINE` na górze `generator/montage.py`. Żeby skrócić film, usuń z niej scenę: wtedy nie trzeba generować jej klipu ani kwestii.
 
 - **Długość scen:** gdy kwestia jest dłuższa niż minimum, scena się wydłuża. Klip jest wtedy zwalniany (najwyżej 1,8 raza), a dalej zatrzymuje się na ostatniej klatce.
 - **Muzyka** gra pod całym filmem i sama się ścisza, gdy Mikołaj mówi.
@@ -416,12 +422,12 @@ Przy każdym zamówieniu:
 python -m generator.images portrait -n 10              # 1. portret
 python -m generator.images select portrait N
 python -m generator.images scenes -n 3                 # 2. kadry
-python -m generator.images select dom N                #    (i pracownia, ksiega, sanie)
+python -m generator.images select dom N                #    (i zorza, pracownia, renifery, listy, ksiega, mapa, sanie)
 python -m generator.images templates -n 3              # 3. szablony
 python -m generator.images select szablon_ksiega N
 python -m generator.images select szablon_lista N
 python -m generator.videos generate -n 2               # 4. klipy
-python -m generator.videos select dom fast N           #    (i pracownia, ksiega, sanie)
+python -m generator.videos select dom fast N           #    (i pozostałe sceny)
 python -m generator.audio design --rounds 2            # 5. głos
 python -m generator.audio save-voice <id>
 python -m generator.audio lines                        #    kwestie ogólne
@@ -460,7 +466,7 @@ output/
   selected/                  <- zatwierdzone warianty, z nich korzysta montaż
     portrait.png, dom.png, pracownia.png, ksiega.png, sanie.png
     szablon_ksiega.png, szablon_lista.png
-    dom.mp4, pracownia.mp4, ksiega.mp4, sanie.mp4, podklad.mp3
+    zorza.mp4, dom.mp4, pracownia.mp4, renifery.mp4, listy.mp4, ksiega.mp4, mapa.mp4, sanie.mp4, podklad.mp3
   voice.json                 <- voice_id głosu Mikołaja
   montage_preview/           <- podgląd kalibracji
   orders/<id>/
