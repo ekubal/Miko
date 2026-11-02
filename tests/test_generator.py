@@ -198,3 +198,12 @@ def test_with_retry_retries_transient_errors(monkeypatch):
 
     assert common.with_retry(flaky) == "ok"
     assert len(calls) == 3
+
+
+def test_portrait_variant_full_beard_uses_its_prompt(tmp_output, monkeypatch):
+    seen = []
+    monkeypatch.setattr(images, "google_client", lambda: object())
+    monkeypatch.setattr(images, "generate_image", lambda c, prompt, *a: seen.append(prompt) or (b"IMG", "image/png"))
+    images.main(["portrait", "-n", "1", "--wariant", "pelna-broda"])
+    assert seen == [prompts.PORTRAIT_PROMPT_FULL_BEARD]
+    assert "Santa hat" in seen[0] and "{" not in seen[0]

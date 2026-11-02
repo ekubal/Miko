@@ -2,6 +2,7 @@
 
 Przykłady:
     python -m generator.images portrait -n 10
+    python -m generator.images portrait -n 4 --wariant pelna-broda
     python -m generator.images select portrait 4
     python -m generator.images scenes -n 3
     python -m generator.images select dom 2      # i tak dla pracownia, ksiega, sanie
@@ -74,7 +75,9 @@ def require_reference(args) -> Path:
 
 
 def cmd_portrait(args):
-    generate_variants("portrait", prompts.PORTRAIT_PROMPT, config.IMAGES_DIR / "portrait", args.count, None, args)
+    print(f"Wariant portretu: {args.wariant}")
+    prompt = prompts.PORTRAIT_VARIANTS[args.wariant]
+    generate_variants("portrait", prompt, config.IMAGES_DIR / "portrait", args.count, None, args)
 
 
 def cmd_scenes(args):
@@ -118,6 +121,12 @@ def main(argv=None):
 
     p = sub.add_parser("portrait", help="portret Mikołaja do awatara (krok 1)")
     add_common(p, 10)
+    p.add_argument(
+        "--wariant",
+        choices=list(prompts.PORTRAIT_VARIANTS),
+        default="klasyczny",
+        help="klasyczny albo pelna-broda (długa, pełna broda i klasyczny strój)",
+    )
     p.set_defaults(func=cmd_portrait)
 
     p = sub.add_parser("scenes", help="kadry scen z tą samą postacią (krok 2)")
