@@ -62,8 +62,10 @@ PORTRAIT_VARIANTS = {
 }
 
 SCENE_PROMPT = """\
-Use the attached image as the reference character. Keep Santa's face,
-beard, hair, coat and proportions exactly the same.
+Use the attached image as the reference character. Keep Santa's face, age,
+glasses, beard, mustache, hair, hat, coat and proportions exactly the same.
+His mustache hangs down over his mouth into the beard exactly as in the reference,
+so his mouth stays covered by hair.
 Scene: {scene}
 Warm cinematic lighting, photorealistic, 16:9.
 No brand logos, no text, no letters anywhere in the image."""
