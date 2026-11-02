@@ -168,3 +168,33 @@ def test_order_voice_applies_pronunciation(tmp_output, tmp_path, monkeypatch):
     order.main(["voice", str(order_file), "--approved"])
     assert "Kasju" in spoken[0][0] and "Kasiu" not in spoken[0][0]
     assert spoken[0][1] == directory / "glos.mp3"
+
+
+def test_with_retry_stops_at_once_on_free_tier_quota(monkeypatch):
+    monkeypatch.setattr(common.time, "sleep", lambda s: None)
+    calls = []
+
+    def fail():
+        calls.append(1)
+        raise RuntimeError(
+            "429 RESOURCE_EXHAUSTED. Quota exceeded for metric: "
+            "generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0"
+        )
+
+    with pytest.raises(SystemExit, match="Free Tier"):
+        common.with_retry(fail)
+    assert len(calls) == 1
+
+
+def test_with_retry_retries_transient_errors(monkeypatch):
+    monkeypatch.setattr(common.time, "sleep", lambda s: None)
+    calls = []
+
+    def flaky():
+        calls.append(1)
+        if len(calls) < 3:
+            raise RuntimeError("503 UNAVAILABLE")
+        return "ok"
+
+    assert common.with_retry(flaky) == "ok"
+    assert len(calls) == 3

@@ -16,12 +16,33 @@ def google_client():
     return genai.Client(api_key=config.require_env("GEMINI_API_KEY", "GOOGLE_API_KEY"))
 
 
+def permanent_error_hint(exc: Exception) -> str | None:
+    """Podpowiedź dla błędów, których ponawianie nie naprawi, albo None dla przejściowych."""
+    text = str(exc)
+    if "RESOURCE_EXHAUSTED" in text and ("free_tier" in text or "limit: 0" in text):
+        return (
+            "Projekt Google jest na darmowym planie (Free Tier), na którym ten model ma limit 0.\n"
+            "Włącz płatności dla projektu klucza w Google AI Studio (https://aistudio.google.com/apikey)\n"
+            "i uruchom polecenie ponownie. Ten sam klucz zacznie działać po włączeniu płatności."
+        )
+    if "API_KEY_INVALID" in text or "API key not valid" in text:
+        return "Klucz API jest nieprawidłowy. Sprawdź GEMINI_API_KEY w pliku .env."
+    return None
+
+
 def with_retry(fn: Callable[[], T], attempts: int = 3, delay: float = 5.0) -> T:
-    """Ponawia wywołanie API przy błędach przejściowych (limit, sieć), z rosnącym odstępem."""
+    """Ponawia wywołanie API przy błędach przejściowych (limit, sieć), z rosnącym odstępem.
+
+    Błędy, których ponawianie nie naprawi (brak płatności, zły klucz), kończą program
+    od razu z podpowiedzią, zamiast powtarzać się przy każdym wariancie.
+    """
     for attempt in range(1, attempts + 1):
         try:
             return fn()
         except Exception as exc:  # SDK-i rzucają różne typy wyjątków
+            hint = permanent_error_hint(exc)
+            if hint:
+                raise SystemExit(f"\nBłąd API, którego nie da się ponowić:\n{hint}") from exc
             if attempt == attempts:
                 raise
             wait = delay * 2 ** (attempt - 1)
