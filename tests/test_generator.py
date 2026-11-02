@@ -33,7 +33,7 @@ def tmp_output(tmp_path, monkeypatch):
 def test_scene_and_motion_prompts_have_no_placeholders_left():
     for scene in prompts.SCENES.values():
         assert "{" not in prompts.SCENE_PROMPT.format(scene=scene["scene"])
-        assert "{" not in prompts.MOTION_PROMPT.format(motion=scene["motion"])
+        assert "{" not in prompts.MOTION_PROMPT.format(motion=scene["motion"], seconds=8)
 
 
 def test_voice_sample_text_fits_voice_design_limits():
@@ -219,3 +219,52 @@ def test_elves_description_added_only_to_scenes_with_elves():
     for key, scene in prompts.SCENES.items():
         mentions_elves = "elves" in scene["scene"].lower()
         assert mentions_elves == bool(scene.get("elves")), key
+
+
+def test_videos_generate_uses_first_frame_and_saves_clip(tmp_output, monkeypatch):
+    from generator import videos
+
+    monkeypatch.setattr(config, "VIDEOS_DIR", tmp_output / "videos")
+    (tmp_output / "selected").mkdir()
+    (tmp_output / "selected" / "zorza.png").write_bytes(b"FRAME")
+    calls = {}
+
+    class Files:
+        def upload(self, file):
+            calls["uploaded"] = Path(file).read_bytes()
+            return SimpleNamespace(name="files/abc", uri="https://x/files/abc", mime_type="image/png",
+                                   state=SimpleNamespace(name="ACTIVE"))
+
+        def download(self, file):
+            calls["downloaded"] = file
+            return b"MP4"
+
+    class Interactions:
+        def create(self, **kw):
+            calls["create"] = kw
+            return SimpleNamespace(output_video=SimpleNamespace(uri="https://x/files/out"))
+
+    client = SimpleNamespace(files=Files(), interactions=Interactions())
+    monkeypatch.setattr(videos, "google_client", lambda: client)
+    videos.main(["generate", "--only", "zorza", "--resolution", "360p"])
+
+    assert calls["uploaded"] == b"FRAME"
+    kw = calls["create"]
+    assert kw["model"] == config.VIDEO_MODEL
+    assert kw["input"][0]["uri"] == "https://x/files/abc"
+    assert kw["input"][1]["text"].startswith("<FIRST_FRAME> In a single continuous shot")
+    assert kw["response_format"]["resolution"] == "360p" and kw["response_format"]["duration"] == "8s"
+    assert (tmp_output / "videos" / "zorza_01.mp4").read_bytes() == b"MP4"
+
+    videos.main(["select", "zorza", "1"])
+    assert (tmp_output / "selected" / "zorza.mp4").read_bytes() == b"MP4"
+
+
+def test_with_retry_stops_at_once_on_missing_model(monkeypatch):
+    monkeypatch.setattr(common.time, "sleep", lambda s: None)
+
+    def fail():
+        raise RuntimeError("404 NOT_FOUND. This model models/veo-3.1-fast-generate-preview is no longer available.")
+
+    with pytest.raises(SystemExit, match="MIKOLAJ_VIDEO_MODEL"):
+        common.with_retry(fail)

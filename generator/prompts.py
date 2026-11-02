@@ -151,12 +151,13 @@ quill pen next to it, warm candle light. 16:9, photorealistic.
 No text, no letters, no writing on the scroll.""",
 }
 
-# --- Wideo (Veo 3.1) ----------------------------------------------------------
+# --- Wideo (Gemini Omni Flash) ----------------------------------------------------------
 
 MOTION_PROMPT = """\
-Gentle slow camera push-in. {motion}. Calm, magical Christmas atmosphere,
-soft ambient sounds only (crackling fire, sleigh bells far away).
-Nobody speaks, no lip movement, no text, no logos. 8 seconds."""
+In a single continuous shot, no scene cuts. Gentle slow camera push-in. {motion}.
+Calm, magical Christmas atmosphere, soft ambient sounds only (crackling fire,
+sleigh bells far away). No dialogue, nobody speaks, no lip movement, no music,
+no text, no logos. {seconds} seconds."""
 
 # --- Głos i muzyka (ElevenLabs) -----------------------------------------------
 

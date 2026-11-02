@@ -26,7 +26,7 @@ Skrypty, które wykonują kroki z [MVP.md](MVP.md) przez API zamiast ręcznie w 
 | Moduł | Co robi | Usługa | Koszt |
 |---|---|---|---|
 | `generator.images` | portret Mikołaja, 8 kadrów scen, puste szablony księgi i listy | Gemini API: Nano Banana Pro | za obraz |
-| `generator.videos` | 8 klipów scen ogólnych (8 s) z kadrów jako pierwszej klatki | Gemini API: Veo 3.1 | za sekundę wideo |
+| `generator.videos` | 8 klipów scen ogólnych (8 s) z kadrów jako pierwszej klatki | Gemini API: Gemini Omni Flash | za sekundę wideo |
 | `generator.audio` | głos Mikołaja, kwestie ogólne, podkład muzyczny | ElevenLabs | znaki / minuty z planu |
 | `generator.order` | tekst Mikołaja dla dziecka i jego nagranie | Gemini API + ElevenLabs | grosze za zamówienie |
 | `generator.montage` | gotowy film MP4 1080p | ffmpeg + Pillow, lokalnie | 0 zł |
@@ -94,10 +94,10 @@ Pamiętaj, żeby w każdym nowym terminalu aktywować środowisko (`source .venv
 **Gemini API** (obrazy, wideo, tekst):
 
 1. Wejdź na [aistudio.google.com/apikey](https://aistudio.google.com/apikey) i utwórz klucz.
-2. W projekcie Google Cloud powiązanym z kluczem włącz płatności. Bez tego Veo i Nano Banana Pro zwykle nie są dostępne albo mają bardzo niski limit.
+2. W projekcie Google Cloud powiązanym z kluczem włącz płatności. Bez tego modele wideo i Nano Banana Pro zwykle nie są dostępne albo mają bardzo niski limit.
 3. Wpisz klucz w `.env` jako `GEMINI_API_KEY`.
 
-Uwaga: wywołania przez API są rozliczane z konta Google Cloud według cennika Gemini API, a **nie** z kredytów subskrypcji Google AI Pro i Flow opisanych w MVP.md. Wideo jest najdroższe: testuj z `-n 1` i w 720p.
+Uwaga: wywołania przez API są rozliczane z konta Google Cloud według cennika Gemini API, a **nie** z kredytów subskrypcji Google AI Pro i Flow opisanych w MVP.md. Wideo jest najdroższe: testuj z `-n 1` i w 360p.
 
 **ElevenLabs** (głos, muzyka):
 
@@ -115,8 +115,7 @@ Plan darmowy nie daje praw komercyjnych, minimum to Starter. Generowanie muzyki 
 | `ELEVENLABS_API_KEY` | tak | — | klucz ElevenLabs |
 | `ELEVENLABS_VOICE_ID` | nie | z `output/voice.json` | gotowy głos Mikołaja, np. zapisany wcześniej w panelu ElevenLabs |
 | `MIKOLAJ_IMAGE_MODEL` | nie | `gemini-3-pro-image-preview` | model obrazu (Nano Banana Pro) |
-| `MIKOLAJ_VIDEO_MODEL_FAST` | nie | `veo-3.1-fast-generate-preview` | Veo w trybie Fast |
-| `MIKOLAJ_VIDEO_MODEL_QUALITY` | nie | `veo-3.1-generate-preview` | Veo w trybie Quality |
+| `MIKOLAJ_VIDEO_MODEL` | nie | `gemini-omni-1.1-flash` | model wideo (Gemini Omni Flash) |
 | `MIKOLAJ_TEXT_MODEL` | nie | `gemini-3.8-flash` | model piszący tekst Mikołaja |
 | `ELEVENLABS_TTS_MODEL` | nie | `eleven_multilingual_v2` | model zamiany tekstu na mowę |
 | `ELEVENLABS_VOICE_DESIGN_MODEL` | nie | `eleven_multilingual_ttv_v2` | model projektowania głosu |
@@ -138,7 +137,7 @@ Wszystkie treści są w jednym pliku. Zmieniasz je tam, nie w kodzie skryptów.
 | `PORTRAIT_PROMPT` | prompt portretu Mikołaja (krok 1 przygotowania) |
 | `SCENE_PROMPT`, `SCENES[...]["scene"]` | prompt bazowy kadrów i opisy 8 scen |
 | `TEMPLATES` | prompty pustej księgi i listy |
-| `MOTION_PROMPT`, `SCENES[...]["motion"]` | prompt ruchu dla Veo |
+| `MOTION_PROMPT`, `SCENES[...]["motion"]` | prompt ruchu dla modelu wideo |
 | `VOICE_DESCRIPTION`, `VOICE_SAMPLE_TEXT` | opis głosu i tekst próbny do Voice Design (100–1000 znaków) |
 | `MUSIC_PROMPT` | opis podkładu muzycznego |
 | `GENERAL_LINES` | kwestie ogólne scen 1, 2, 4, 5, 6: `single` dla jednego dziecka, `plural` dla rodzeństwa |
@@ -165,7 +164,7 @@ Nie trzeba ich zmieniać, ale warto wiedzieć, gdzie są:
 - **Brzmienie głosu:** `VOICE_SETTINGS` w `generator/audio.py`: stabilność, podobieństwo, styl i tempo (`speed`, domyślnie 0,92, czyli trochę wolniej niż normalnie).
 - **Montaż:** stałe na górze `generator/montage.py`:
   - `MUSIC_VOLUME`: głośność podkładu (domyślnie 0,35);
-  - `AMBIENT_VOLUME`: dźwięk otoczenia z klipów Veo;
+  - `AMBIENT_VOLUME`: dźwięk otoczenia z klipów wideo;
   - `SCENE_TIMING`: minimalna długość każdej sceny i moment wejścia głosu;
   - `MAX_SLOWDOWN`: ile razy można zwolnić klip;
   - `BOOK_CLIP_SECONDS`: ile klipu z księgą pokazać przed zbliżeniem na zdjęcie;
@@ -184,8 +183,8 @@ python -m generator.images select portrait 1
 python -m generator.images scenes -n 1 --only dom --size 1K
 python -m generator.images select dom 1
 
-# Veo: jeden klip w 720p
-python -m generator.videos generate --only dom --resolution 720p
+# Gemini Omni Flash: jeden klip w 360p
+python -m generator.videos generate --only dom --resolution 360p
 
 # ElevenLabs: projekt głosu, zapis, krótkie nagranie
 python -m generator.audio design
@@ -238,25 +237,24 @@ Na co patrzeć przy wyborze portretu: twarz na wprost, usta zamknięte i niezas�
 
 ### 6.2 Klipy wideo (`generator.videos`)
 
-Robi z zatwierdzonych kadrów 8-sekundowe klipy w Veo 3.1. Kadr jest pierwszą klatką, a Veo dodaje ruch i dźwięk otoczenia. Wymaga zatwierdzonych kadrów `dom`, `pracownia`, `ksiega`, `sanie`. Generowanie jednego klipu trwa zwykle 1–3 minuty, skrypt czeka i pokazuje upływający czas.
+Robi z zatwierdzonych kadrów klipy w Gemini Omni Flash (`gemini-omni-1.1-flash`), następcy Veo 3.1, które Google wyłączyło w Gemini API 22 października 2026. Kadr jest pierwszą klatką, a model dodaje ruch i dźwięk otoczenia, w jednym ujęciu, bez cięć. Wymaga zatwierdzonych kadrów scen. Generowanie jednego klipu trwa zwykle kilka minut, a skrypt czeka na wynik.
 
 | Polecenie | Co robi | Wynik |
 |---|---|---|
-| `generate` | klipy dla scen | `output/videos/<scena>_<fast\|quality>_NN.mp4` |
-| `select <scena> <fast\|quality> <N>` | zatwierdza klip | `output/selected/<scena>.mp4` |
+| `generate` | klipy dla scen | `output/videos/<scena>_NN.mp4` |
+| `select <scena> <N>` | zatwierdza klip | `output/selected/<scena>.mp4` |
 
 | Opcja `generate` | Domyślnie | Opis |
 |---|---|---|
 | `-n`, `--count` | 1 | wariantów na scenę |
 | `--only` | wszystkie | wybrane sceny |
-| `--quality` | wyłączone | model Quality zamiast Fast: lepszy, droższy |
-| `--resolution` | `1080p` | `720p` na testy |
+| `--resolution` | `1080p` | `360p` (tani test), `720p`, `1080p`, `4k` |
+| `--duration` | 8 | długość klipu w sekundach, 3–10 |
 
 ```bash
-python -m generator.videos generate -n 2
-python -m generator.videos generate --only ksiega --quality
-python -m generator.videos select dom fast 2
-python -m generator.videos select ksiega quality 1
+python -m generator.videos generate --only zorza --resolution 360p   # tani test ruchu
+python -m generator.videos generate --only zorza                     # wersja docelowa 1080p
+python -m generator.videos select zorza 2
 ```
 
 ### 6.3 Głos i muzyka (`generator.audio`)
@@ -427,7 +425,7 @@ python -m generator.images templates -n 3              # 3. szablony
 python -m generator.images select szablon_ksiega N
 python -m generator.images select szablon_lista N
 python -m generator.videos generate -n 2               # 4. klipy
-python -m generator.videos select dom fast N           #    (i pozostałe sceny)
+python -m generator.videos select dom N                #    (i pozostałe sceny)
 python -m generator.audio design --rounds 2            # 5. głos
 python -m generator.audio save-voice <id>
 python -m generator.audio lines                        #    kwestie ogólne
@@ -459,7 +457,7 @@ output/
   images/portrait/portrait_NN.png
   images/scenes/<scena>_NN.png
   images/templates/<szablon>_NN.png
-  videos/<scena>_<fast|quality>_NN.mp4
+  videos/<scena>_NN.mp4
   audio/voice_design/preview_NN.mp3, previews.json
   audio/lines/<scena>.mp3, <scena>_rodzenstwo.mp3
   audio/music/podklad_NN.mp3
@@ -484,7 +482,7 @@ Katalog `output/` jest w `.gitignore`. Zawiera dane dzieci, więc nie wysyłaj g
 | `ModuleNotFoundError: google` / `requests` / `PIL` | nieaktywne środowisko: `source .venv/bin/activate`, potem `pip install -r requirements.txt` |
 | Błąd 404 / `model not found` | zmieniła się nazwa modelu: wpisz aktualną w `.env` (`MIKOLAJ_*_MODEL`) |
 | Błąd 429 / `quota` / `billing` | brak płatności w projekcie Google albo przekroczony limit; skrypty ponawiają wywołanie 3 razy, potem odczekaj |
-| `Model nie zwrócił obrazu` / `Veo nie zwróciło klipu` | blokada filtrów bezpieczeństwa; uruchom ponownie albo złagodź opis w `prompts.py` |
+| `Model nie zwrócił obrazu` / `Model nie zwrócił klipu` | blokada filtrów bezpieczeństwa; uruchom ponownie albo złagodź opis w `prompts.py` |
 | ElevenLabs HTTP 401 | zły klucz albo brak uprawnień klucza (zob. [4.1](#41-klucze-api)) |
 | ElevenLabs HTTP 402 / 403 przy `music` lub `design` | funkcja niedostępna w Twoim planie; zmień plan albo użyj własnej muzyki / gotowego głosu |
 | ElevenLabs: tekst za krótki przy `design` | tekst próbny musi mieć 100–1000 znaków |

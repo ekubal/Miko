@@ -25,6 +25,12 @@ def permanent_error_hint(exc: Exception) -> str | None:
             "Włącz płatności dla projektu klucza w Google AI Studio (https://aistudio.google.com/apikey)\n"
             "i uruchom polecenie ponownie. Ten sam klucz zacznie działać po włączeniu płatności."
         )
+    if "NOT_FOUND" in text and "model" in text.lower():
+        return (
+            "Model nie istnieje albo został wyłączony. Komunikat Google:\n"
+            f"{text[:400]}\n"
+            "Wpisz aktualną nazwę modelu w .env (MIKOLAJ_IMAGE_MODEL, MIKOLAJ_VIDEO_MODEL albo MIKOLAJ_TEXT_MODEL)."
+        )
     if "API_KEY_INVALID" in text or "API key not valid" in text:
         return "Klucz API jest nieprawidłowy. Sprawdź GEMINI_API_KEY w pliku .env."
     return None

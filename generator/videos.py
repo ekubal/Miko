@@ -1,9 +1,12 @@
-"""Generowanie klipów scen ogólnych w Veo 3.1 (Gemini API), z kadru jako pierwszej klatki.
+"""Generowanie klipów scen ogólnych w Gemini Omni Flash (Gemini API), z kadru jako pierwszej klatki.
+
+Veo 3.1 w Gemini API zostało wyłączone 22.10.2026; jego następcą jest Gemini Omni Flash
+(`gemini-omni-1.1-flash`), wywoływany przez Interactions API.
 
 Przykłady:
-    python -m generator.videos generate -n 2                 # wszystkie 4 sceny, tryb Fast
-    python -m generator.videos generate --only ksiega --quality
-    python -m generator.videos select dom fast 2             # -> output/selected/dom.mp4
+    python -m generator.videos generate --only zorza --resolution 360p   # tani test
+    python -m generator.videos generate -n 2                             # wszystkie sceny, 1080p
+    python -m generator.videos select zorza 2                            # -> output/selected/zorza.mp4
 """
 
 import argparse
@@ -15,36 +18,50 @@ from pathlib import Path
 from . import config, prompts
 from .common import google_client, selected_path, variant_paths, with_retry
 
-POLL_SECONDS = 10
+RESOLUTIONS = ["360p", "720p", "1080p", "4k"]
+# Czas jednego wywołania: generowanie klipu trwa zwykle kilka minut, 4k dłużej.
+REQUEST_TIMEOUT_S = 900
 
 
-def generate_clip(client, prompt: str, first_frame: Path, model: str, resolution: str, out: Path) -> None:
-    from google.genai import types
+def upload_frame(client, frame: Path):
+    """Wgrywa kadr do Files API i czeka, aż będzie gotowy do użycia."""
+    uploaded = with_retry(lambda: client.files.upload(file=str(frame)))
+    deadline = time.time() + 300
+    while getattr(uploaded.state, "name", str(uploaded.state)) == "PROCESSING":
+        if time.time() > deadline:
+            raise RuntimeError(f"Kadr {frame.name} nie został przetworzony w 5 minut.")
+        time.sleep(3)
+        uploaded = client.files.get(name=uploaded.name)
+    if getattr(uploaded.state, "name", str(uploaded.state)) == "FAILED":
+        raise RuntimeError(f"Files API odrzuciło kadr {frame.name}.")
+    return uploaded
 
-    operation = with_retry(
-        lambda: client.models.generate_videos(
-            model=model,
-            prompt=prompt,
-            image=types.Image(image_bytes=first_frame.read_bytes(), mime_type="image/png"),
-            config=types.GenerateVideosConfig(
-                aspect_ratio="16:9",
-                resolution=resolution,
-                duration_seconds=8,
-            ),
+
+def generate_clip(client, prompt: str, frame_file, resolution: str, duration: int, out: Path) -> None:
+    """Jedno wywołanie Interactions API: kadr jako pierwsza klatka + prompt ruchu -> plik MP4."""
+    started = time.time()
+    interaction = with_retry(
+        lambda: client.interactions.create(
+            model=config.VIDEO_MODEL,
+            input=[
+                {"type": "image", "uri": frame_file.uri, "mime_type": frame_file.mime_type},
+                {"type": "text", "text": f"<FIRST_FRAME> {prompt}"},
+            ],
+            response_format={
+                "type": "video",
+                "delivery": "uri",
+                "aspect_ratio": "16:9",
+                "duration": f"{duration}s",
+                "resolution": resolution,
+            },
+            timeout=REQUEST_TIMEOUT_S,
         )
     )
-    started = time.time()
-    while not operation.done:
-        time.sleep(POLL_SECONDS)
-        operation = client.operations.get(operation)
-        print(f"    ... {time.time() - started:.0f} s", end="\r")
-    if operation.error:
-        raise RuntimeError(operation.error)
-    videos = operation.response.generated_videos if operation.response else None
-    if not videos:
-        raise RuntimeError("Veo nie zwróciło klipu (możliwa blokada filtrów bezpieczeństwa).")
-    client.files.download(file=videos[0].video)
-    videos[0].video.save(str(out))
+    video = interaction.output_video
+    if not video or not video.uri:
+        raise RuntimeError("Model nie zwrócił klipu (możliwa blokada filtrów bezpieczeństwa).")
+    out.write_bytes(client.files.download(file=video.uri))
+    print(f"    ({time.time() - started:.0f} s)")
 
 
 def cmd_generate(args):
@@ -56,22 +73,21 @@ def cmd_generate(args):
             "Wygeneruj je (python -m generator.images scenes) i wybierz (python -m generator.images select <scena> N)."
         )
 
-    model = config.VIDEO_MODEL_QUALITY if args.quality else config.VIDEO_MODEL_FAST
-    mode = "quality" if args.quality else "fast"
     client = google_client()
     for key in keys:
-        prompt = prompts.MOTION_PROMPT.format(motion=prompts.SCENES[key]["motion"])
-        print(f"[{key}] {args.count} klip(ów), model {model}")
-        for out in variant_paths(config.VIDEOS_DIR, f"{key}_{mode}", ".mp4", args.count):
+        prompt = prompts.MOTION_PROMPT.format(motion=prompts.SCENES[key]["motion"], seconds=args.duration)
+        print(f"[{key}] {args.count} klip(ów), {config.VIDEO_MODEL}, {args.resolution}, {args.duration} s")
+        frame_file = upload_frame(client, selected_path(key))
+        for out in variant_paths(config.VIDEOS_DIR, key, ".mp4", args.count):
             try:
-                generate_clip(client, prompt, selected_path(key), model, args.resolution, out)
+                generate_clip(client, prompt, frame_file, args.resolution, args.duration, out)
                 print(f"  + {out}")
             except Exception as exc:
                 print(f"  x {out.name}: {exc}")
 
 
 def cmd_select(args):
-    source = config.VIDEOS_DIR / f"{args.scene}_{args.mode}_{args.number:02d}.mp4"
+    source = config.VIDEOS_DIR / f"{args.scene}_{args.number:02d}.mp4"
     if not source.exists():
         sys.exit(f"Nie znaleziono klipu {source}")
     target = selected_path(args.scene, ".mp4")
@@ -81,19 +97,18 @@ def cmd_select(args):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Klipy scen ogólnych (Veo 3.1)")
+    parser = argparse.ArgumentParser(description="Klipy scen ogólnych (Gemini Omni Flash)")
     sub = parser.add_subparsers(dest="command", required=True)
 
-    p = sub.add_parser("generate", help="wygeneruj klipy z zatwierdzonych kadrów (krok 4)")
+    p = sub.add_parser("generate", help="wygeneruj klipy z zatwierdzonych kadrów")
     p.add_argument("-n", "--count", type=int, default=1, help="liczba wariantów na scenę")
     p.add_argument("--only", nargs="+", choices=list(prompts.SCENES))
-    p.add_argument("--quality", action="store_true", help="model Quality zamiast Fast")
-    p.add_argument("--resolution", default="1080p", choices=["720p", "1080p"])
+    p.add_argument("--resolution", default="1080p", choices=RESOLUTIONS, help="360p na tani test")
+    p.add_argument("--duration", type=int, default=8, choices=range(3, 11), metavar="3-10", help="sekundy klipu")
     p.set_defaults(func=cmd_generate)
 
-    p = sub.add_parser("select", help="zatwierdź klip, np. select dom fast 2")
+    p = sub.add_parser("select", help="zatwierdź klip, np. select zorza 2")
     p.add_argument("scene", choices=list(prompts.SCENES))
-    p.add_argument("mode", choices=["fast", "quality"])
     p.add_argument("number", type=int)
     p.set_defaults(func=cmd_select)
 

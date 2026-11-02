@@ -30,10 +30,10 @@ ORDERS_DIR = OUTPUT_DIR / "orders"
 SELECTED_DIR = OUTPUT_DIR / "selected"
 VOICE_FILE = OUTPUT_DIR / "voice.json"
 
-# Google (Gemini API): Nano Banana Pro, Veo 3.1, model tekstowy.
+# Google (Gemini API): Nano Banana Pro, Gemini Omni Flash (wideo), model tekstowy.
 IMAGE_MODEL = os.environ.get("MIKOLAJ_IMAGE_MODEL", "gemini-3-pro-image-preview")
-VIDEO_MODEL_FAST = os.environ.get("MIKOLAJ_VIDEO_MODEL_FAST", "veo-3.1-fast-generate-preview")
-VIDEO_MODEL_QUALITY = os.environ.get("MIKOLAJ_VIDEO_MODEL_QUALITY", "veo-3.1-generate-preview")
+# Veo 3.1 w Gemini API wyłączono 22.10.2026; następca to Gemini Omni Flash.
+VIDEO_MODEL = os.environ.get("MIKOLAJ_VIDEO_MODEL", "gemini-omni-1.1-flash")
 TEXT_MODEL = os.environ.get("MIKOLAJ_TEXT_MODEL", "gemini-3.8-flash")
 
 # ElevenLabs.
