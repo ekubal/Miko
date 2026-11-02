@@ -77,8 +77,8 @@ No brand logos, no text, no letters anywhere in the image."""
 ELVES_DESCRIPTION = """\
 Santa's elves are all adults: slim young adult men and women in their mid twenties,
 clearly grown-up, with adult faces, adult height and adult body proportions,
-about as tall as Santa. They have slightly pointed ears and rosy cheeks and wear
-green and red wool outfits and pointed felt caps. They are always busy working,
+about as tall as Santa. They have slightly pointed ears and natural, healthy skin
+without any makeup, and wear green and red wool outfits and pointed felt caps. They are always busy working,
 focused on their tasks, never posing. Fairy-tale but realistic, in the same
 photorealistic, warm cinematic style as the rest of the image.
 There are no children anywhere in the image."""
