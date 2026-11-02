@@ -84,7 +84,7 @@ def cmd_scenes(args):
     reference = require_reference(args)
     keys = args.only or list(prompts.SCENES)
     for key in keys:
-        prompt = prompts.SCENE_PROMPT.format(scene=prompts.SCENES[key]["scene"])
+        prompt = prompts.scene_prompt(key)
         generate_variants(key, prompt, config.IMAGES_DIR / "scenes", args.count, reference, args)
 
 

@@ -210,3 +210,12 @@ def test_portrait_variant_full_beard_uses_its_prompt(tmp_output, monkeypatch):
     images.main(["portrait", "-n", "1", "--wariant", "pelna-broda"])
     assert seen == [prompts.PORTRAIT_PROMPT_FULL_BEARD]
     assert "Santa hat" in seen[0] and "mustache" in seen[0] and "{" not in seen[0]
+
+
+def test_elves_description_added_only_to_scenes_with_elves():
+    assert prompts.ELVES_DESCRIPTION in prompts.scene_prompt("pracownia")
+    assert prompts.ELVES_DESCRIPTION in prompts.scene_prompt("listy")
+    assert prompts.ELVES_DESCRIPTION not in prompts.scene_prompt("renifery")
+    for key, scene in prompts.SCENES.items():
+        mentions_elves = "elves" in scene["scene"].lower()
+        assert mentions_elves == bool(scene.get("elves")), key

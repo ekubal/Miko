@@ -70,6 +70,24 @@ Scene: {scene}
 Warm cinematic lighting, photorealistic, 16:9.
 No brand logos, no text, no letters anywhere in the image."""
 
+# Wygląd elfów, dopisywany do każdej sceny z "elves": True, żeby we wszystkich scenach
+# wyglądały tak samo (portret pilnuje tylko wyglądu Mikołaja).
+ELVES_DESCRIPTION = """\
+The elves all look alike in style: slim teenagers with slightly pointed ears and rosy
+cheeks, dressed in green and red wool outfits and pointed felt caps. They are always busy
+working, focused on their tasks, never posing. Fairy-tale but realistic, in the same
+photorealistic, warm cinematic style as the rest of the image."""
+
+
+def scene_prompt(key: str) -> str:
+    """Pełny prompt kadru sceny: opis sceny i, jeśli w scenie są elfy, ich stały wygląd."""
+    scene = SCENES[key]
+    prompt = SCENE_PROMPT.format(scene=scene["scene"])
+    if scene.get("elves"):
+        prompt += "\n" + ELVES_DESCRIPTION
+    return prompt
+
+
 # Klucz sceny -> opis [SCENE] dla kadru i [MOTION] dla klipu wideo.
 SCENES = {
     "zorza": {
@@ -86,6 +104,7 @@ SCENES = {
         "scene": "Santa walking through his busy workshop full of wrapped presents "
         "and toys, elves working in the background.",
         "motion": "Santa walks slowly between shelves with presents, elves busy in the background",
+        "elves": True,
     },
     "renifery": {
         "scene": "Santa in a cozy wooden reindeer stable at night, gently stroking a reindeer's neck, "
@@ -94,9 +113,10 @@ SCENES = {
     },
     "listy": {
         "scene": "Santa's letter room: piles of colorful envelopes from children, elves sorting them "
-        "into wooden pigeonholes, Santa sitting at a desk reading one letter with a warm smile. "
+        "into wooden pigeonholes, Santa sitting at a desk reading one letter, his eyes smiling warmly. "
         "All envelopes and letters are blank, without any writing.",
-        "motion": "Elves sort envelopes into the pigeonholes, Santa slowly reads a letter and smiles",
+        "motion": "Elves sort envelopes into the pigeonholes, Santa slowly reads a letter, his eyes smiling",
+        "elves": True,
     },
     "ksiega": {
         "scene": "Santa sitting in his armchair, opening a huge old leather-bound book "
