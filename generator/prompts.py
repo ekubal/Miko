@@ -24,8 +24,9 @@ Original character design, no brand logos, no text."""
 # synchronizacji z dźwiękiem są mniej widoczne. Szkła bez odblasków, żeby było widać oczy.
 # Kadr pokazuje większą część sylwetki, do kolan.
 PORTRAIT_PROMPT_FULL_BEARD = """\
-Photorealistic portrait of a kind, gentle, well-cared-for grandfather, about 70 years old,
-with a healthy glow, dressed as Father Christmas.
+Photorealistic portrait of the classic, magical Santa Claus from a storybook:
+a kind, gentle, well-cared-for elderly grandfather, about 80 years old,
+with a warm, healthy glow and the wise, kindly face of a very old man.
 His mustache is long and heavy and hangs straight down from under his nose, covering
 his mouth completely, and flows directly into his beard as one continuous mass of
 white hair. Below his nose there is only white hair, no visible mouth.
@@ -35,9 +36,11 @@ Long, softly flowing snow-white hair falling over his shoulders.
 The beard and hair look real and natural, full, clean and well cared for.
 Small round gold wire-rimmed spectacles resting on his nose, clear lenses without
 glare, so his bright, kind, twinkling eyes are fully visible through them.
-Rosy cheeks, clean skin with gentle laugh lines around the eyes.
+Clearly elderly features: soft wrinkles across the forehead, deep laugh lines and
+crow's feet around the eyes, full rosy cheeks, bushy snow-white eyebrows.
+Aged but well cared for, never tired or neglected.
 His kindness shows in his eyes and cheeks.
-A soft red velvet stocking cap with a thick white fur band and a white pompom.
+A classic Santa hat in rich red velvet with a thick white fur trim and a white pompom.
 A luxurious deep red velvet coat with pristine, thick white fur trim,
 a wide black leather belt with a polished gold buckle, white fur cuffs.
 Everything he wears is clean, rich and immaculate.
@@ -45,7 +48,7 @@ He sits comfortably in a grand carved wooden armchair with red upholstery in his
 cozy workshop, hands resting calmly on the armrests,
 warm golden fireplace light, soft bokeh Christmas tree lights in the background.
 Front-facing, looking straight into the camera, medium shot framed from the top
-of the cap down to his knees, so most of his figure and the whole beard are visible,
+of the hat down to his knees, so most of his figure and the whole beard are visible,
 with the face still large and clear in the upper part of the frame.
 Face evenly lit.
 Again, the most important detail: the heavy mustache hangs straight down over the
