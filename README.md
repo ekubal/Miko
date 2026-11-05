@@ -123,6 +123,7 @@ Plan darmowy nie daje praw komercyjnych, minimum to Starter. Generowanie muzyki 
 | `ELEVENLABS_API_URL` | nie | `https://api.elevenlabs.io` | adres API (np. serwer w UE, jeśli masz do niego dostęp) |
 | `MIKOLAJ_OUTPUT_DIR` | nie | `output` | gdzie zapisywać wyniki |
 | `MIKOLAJ_FONT` | nie | `font` z `layout.json` | ścieżka do fontu odręcznego |
+| `FAL_KEY` | nie | — | klucz fal.ai, tylko do testów innych modeli wideo ([6.7](#67-testy-innych-modeli-wideo-testy_fal)) |
 
 Nazwy modeli Google w wersji „preview” zmieniają się co kilka miesięcy. Jeśli skrypt zgłasza, że model nie istnieje, sprawdź aktualną nazwę w dokumentacji Gemini API i wpisz ją w `.env`, bez zmiany kodu.
 
@@ -411,6 +412,17 @@ Przy każdym zamówieniu:
 3. Model Avatar IV, format 16:9, eksport 1080p.
 4. Jeśli jest pole opisu ruchu, wpisz: `gentle nodding, warm smile, calm small hand gestures, looking into the camera`.
 5. Pobrany plik zapisz jako `output/orders/<id>/heygen.mp4`.
+
+### 6.7 Testy innych modeli wideo (`testy_fal`)
+
+Robocze skrypty w katalogu `testy_fal/` porównują Gemini Omni Flash z modelami na fal.ai: MiniMax H3, Kling, Seedance i Wan. Wszystkie modele dostają te same kadry i prompty, a wyniki trafiają do siatki porównawczej z kosztem i czasem generowania. Produkcja (`generator/`) z nich nie korzysta. Szczegóły: [testy_fal/README.md](testy_fal/README.md).
+
+```bash
+python -m testy_fal sprawdz                 # schematy modeli na fal, bez kosztów
+python -m testy_fal generuj --na-sucho      # plan i szacowany koszt
+python -m testy_fal generuj                 # klipy w output/testy_fal/wideo/
+python -m testy_fal porownaj                # siatki w output/testy_fal/porownania/
+```
 
 ## 7. Przebieg pracy
 

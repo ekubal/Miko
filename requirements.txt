@@ -1,4 +1,6 @@
 google-genai>=1.40
 requests>=2.31
 pillow>=10.0
+# Tylko testy_fal/ (wgrywanie kadrów na fal.ai); bez niego kadry idą jako data URI
+fal-client>=0.5
 pytest>=8.0
