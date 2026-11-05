@@ -424,6 +424,14 @@ python -m testy_fal generuj                 # klipy w output/testy_fal/wideo/
 python -m testy_fal porownaj                # siatki w output/testy_fal/porownania/
 ```
 
+### 6.8 Strona sprzedażowa (`strona/`)
+
+Kod HTML strony głównej, formularza zamówienia i potwierdzenia, przeniesiony z projektu graficznego. Strony są statyczne (HTML, CSS, JavaScript bez bibliotek). Bez podłączonego serwera formularz działa w trybie pokazowym. Pola formularza mają te same nazwy co pliki zamówień generatora. Wdrożenie, pola do uzupełnienia i format danych dla serwera: [strona/README.md](strona/README.md).
+
+```bash
+cd strona && python3 -m http.server 8000   # podgląd: http://localhost:8000
+```
+
 ## 7. Przebieg pracy
 
 ### Przygotowanie jednorazowe

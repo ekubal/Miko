@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zamówienie przyjęte – Wiadomość od Mikołaja</title>
+<meta name="theme-color" content="#0e1726">
+<meta name="robots" content="noindex">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/potwierdzenie.js" defer></script>
+</head>
+<!--
+  Dane zamówienia (data-wartosc): numer, imiona dzieci, e-mail, kwota.
+  Produkcja: serwer wpisuje je w HTML albo podaje adres w data-podsumowanie (zob. js/potwierdzenie.js).
+  Tryb pokazowy: formularz zostawia je w sessionStorage tej karty.
+-->
+<body class="page-confirm" data-podsumowanie="">
+<svg xmlns="http://www.w3.org/2000/svg" class="sprite" aria-hidden="true">
+  <symbol id="i-flake" viewBox="0 0 24 24"><path fill="none" stroke-linecap="round" d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M12 2l-2 2M12 2l2 2M12 22l-2-2M12 22l2-2M3.3 7l.7 2.7M3.3 7l2.7-.7M20.7 17l-.7-2.7M20.7 17l-2.7.7M3.3 17l2.7.7M3.3 17l.7-2.7M20.7 7l-2.7-.7M20.7 7l-.7 2.7"/></symbol>
+  <symbol id="i-bow" viewBox="0 0 120 70"><path d="M60 44 C40 12 8 10 10 30 C12 48 44 48 60 44 Z" style="fill: var(--red)"/><path d="M60 44 C80 12 112 10 110 30 C108 48 76 48 60 44 Z" style="fill: var(--red)"/><circle cx="60" cy="44" r="9" style="fill: var(--red-dark)"/></symbol>
+</svg>
+
+<a class="skip-link" href="#tresc">Przejdź do treści</a>
+
+<header class="dark snow" style="--fall: 600px">
+  <span class="flake" style="--x: 5%; --s: 6px; --o: .7; --d: 13s"></span>
+  <span class="flake" style="--x: 15%; --s: 4px; --o: .5; --d: 16s; --delay: -5s"></span>
+  <span class="flake" style="--x: 28%; --s: 5px; --o: .6; --d: 12s; --delay: -2s"></span>
+  <span class="flake" style="--x: 41%; --s: 3px; --o: .6; --d: 15s; --delay: -8s"></span>
+  <span class="flake" style="--x: 58%; --s: 6px; --o: .7; --d: 14s; --delay: -4s"></span>
+  <span class="flake" style="--x: 71%; --s: 4px; --o: .5; --d: 17s; --delay: -10s"></span>
+  <span class="flake" style="--x: 84%; --s: 5px; --o: .7; --d: 13s; --delay: -1s"></span>
+  <span class="flake" style="--x: 95%; --s: 4px; --o: .6; --d: 16s; --delay: -6s"></span>
+  <div class="container page-header__bar">
+    <a class="brand" href="index.html">
+      <svg class="icon icon--30" style="stroke: var(--accent)" stroke-width="1.6" aria-hidden="true"><use href="#i-flake"/></svg>
+      Wiadomość od Mikołaja
+    </a>
+  </div>
+  <div class="confirm-hero__body">
+    <svg class="confirm-hero__art" width="132" height="104" viewBox="0 0 132 104" aria-hidden="true">
+      <rect x="14" y="30" width="104" height="70" rx="8" fill="#f5ecdc"/>
+      <path d="M14 36 L66 72 L118 36" fill="none" stroke="#cdb994" stroke-width="3"/>
+      <circle cx="66" cy="70" r="14" style="fill: var(--red)"/>
+      <path d="M66 61l2.4 6.2 6.6.4-5.1 4.2 1.7 6.4L66 74.6l-5.6 3.6 1.7-6.4-5.1-4.2 6.6-.4z" fill="#f5c9c4"/>
+      <path d="M98 6l2.2 5.8L106 14l-5.8 2.2L98 22l-2.2-5.8L90 14l5.8-2.2z" style="fill: var(--accent)"/>
+      <path d="M28 4l1.5 4L34 9.5l-4.5 1.5L28 15l-1.5-4L22 9.5l4.5-1.5z" style="fill: var(--accent)"/>
+    </svg>
+    <h1 class="confirm-hero__title">Dziękujemy! Zamówienie przyjęte</h1>
+    <p class="confirm-hero__lead">Elfy już zabierają się do pracy. Link do filmu wyślemy na <strong data-wartosc="email">adres e-mail podany w zamówieniu</strong> w ciągu 24 godzin.</p>
+  </div>
+  <svg class="divider" width="100%" height="110" viewBox="0 0 1440 110" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="#16324a">
+      <polygon points="80,110 115,24 150,110"/><polygon points="130,110 160,50 190,110"/>
+      <polygon points="420,110 452,40 484,110"/>
+      <polygon points="940,110 975,30 1010,110"/>
+      <polygon points="1250,110 1290,18 1330,110"/><polygon points="1315,110 1345,56 1375,110"/>
+    </g>
+    <path d="M0 78 C120 58 240 92 380 76 C520 60 640 90 780 74 C920 58 1060 92 1200 76 C1300 66 1380 80 1440 72 L1440 110 L0 110 Z" style="fill: var(--cream)"/>
+  </svg>
+</header>
+
+<main id="tresc" class="container confirm-layout">
+  <div class="confirm-main">
+    <section class="box" aria-labelledby="teraz-h">
+      <h2 id="teraz-h" class="box__title">Co dzieje się teraz</h2>
+      <ol class="timeline">
+        <li>
+          <div class="timeline__rail">
+            <span class="timeline__dot timeline__dot--done"><svg class="icon icon--20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></span>
+            <span class="timeline__line"></span>
+          </div>
+          <div class="timeline__content">
+            <p class="timeline__title">Zamówienie i płatność</p>
+            <p class="timeline__text">Gotowe. Potwierdzenie płatności wysłaliśmy mailem.</p>
+          </div>
+        </li>
+        <li aria-current="step">
+          <div class="timeline__rail">
+            <span class="timeline__dot timeline__dot--current"><svg class="icon icon--20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="12" rx="1"/><path d="M3 13h18M12 9v12M12 9c-2-4-6-4-6-1.5S10 9 12 9c2 0 6 0 6-1.5S14 5 12 9z"/></svg></span>
+            <span class="timeline__line"></span>
+          </div>
+          <div class="timeline__content">
+            <p class="timeline__title">Przygotowujemy film <span class="tag">w toku</span></p>
+            <p class="timeline__text">Sprawdzamy dane i zdjęcie. Jeśli czegoś zabraknie, napiszemy od razu.</p>
+          </div>
+        </li>
+        <li>
+          <div class="timeline__rail">
+            <span class="timeline__dot timeline__dot--next"><svg class="icon icon--20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+          </div>
+          <div class="timeline__content">
+            <p class="timeline__title">Link do filmu w Twojej skrzynce</p>
+            <p class="timeline__text">W ciągu 24 godzin. Film możesz pobrać i zachować na zawsze.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <div class="tiles">
+      <div class="tile">
+        <p class="tile__title">Nie widzisz maila?</p>
+        <p class="tile__text">Zajrzyj do folderu Spam albo Oferty. Wiadomość przyjdzie z adresu [ADRES NADAWCY].</p>
+      </div>
+      <div class="tile">
+        <p class="tile__title">Masz pytanie?</p>
+        <p class="tile__text">Napisz na <a href="mailto:[ADRES E-MAIL]">[ADRES E-MAIL]</a> i podaj numer zamówienia.</p>
+      </div>
+    </div>
+  </div>
+
+  <aside class="summary dark" aria-labelledby="zamowienie-h">
+    <svg class="summary__bow" width="100" height="58" aria-hidden="true"><use href="#i-bow"/></svg>
+    <h2 id="zamowienie-h" class="summary__title summary__title--lg">Twoje zamówienie</h2>
+    <dl class="summary__details">
+      <div><dt>Numer</dt><dd data-wartosc="nr">–</dd></div>
+      <div><dt>Film dla</dt><dd data-wartosc="imiona">–</dd></div>
+      <div><dt>Wysyłka na</dt><dd data-wartosc="email">–</dd></div>
+      <div class="summary__total"><dt>Zapłacono</dt><dd data-wartosc="kwota">–</dd></div>
+    </dl>
+    <div class="summary__actions">
+      <a class="btn btn--accent btn--block" href="zamowienie.html">Zamów film dla kolejnego dziecka</a>
+      <a class="btn btn--outline-dark btn--block" href="index.html">Wróć na stronę główną</a>
+    </div>
+    <p class="summary__privacy">Zdjęcie i dane dziecka usuniemy 7 dni po wysłaniu filmu.</p>
+  </aside>
+</main>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zamów film od Mikołaja</title>
+<meta name="description" content="Zamów spersonalizowany film od Mikołaja: imię, zdjęcie i kilka zdań o dziecku. Link mailem w ciągu 24 godzin.">
+<meta name="theme-color" content="#0e1726">
+<meta name="robots" content="noindex">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/zamowienie.js" defer></script>
+</head>
+<body class="page-form">
+<svg xmlns="http://www.w3.org/2000/svg" class="sprite" aria-hidden="true">
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l2.6 6.9L22 9.3l-5.8 4.6 2 7.1L12 17l-6.2 4 2-7.1L2 9.3l7.4-.4z"/></symbol>
+  <symbol id="i-flake" viewBox="0 0 24 24"><path fill="none" stroke-linecap="round" d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M12 2l-2 2M12 2l2 2M12 22l-2-2M12 22l2-2M3.3 7l.7 2.7M3.3 7l2.7-.7M20.7 17l-.7-2.7M20.7 17l-2.7.7M3.3 17l2.7.7M3.3 17l.7-2.7M20.7 7l-2.7-.7M20.7 7l-.7 2.7"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><g fill="none" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="9" width="18" height="12" rx="1"/><path d="M3 13h18M12 9v12M12 9c-2-4-6-4-6-1.5S10 9 12 9c2 0 6 0 6-1.5S14 5 12 9z"/></g></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><g fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="15" rx="2"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></g></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path fill="none" stroke-width="2.4" stroke-linecap="round" d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-bow" viewBox="0 0 120 70"><path d="M60 44 C40 12 8 10 10 30 C12 48 44 48 60 44 Z" style="fill: var(--red)"/><path d="M60 44 C80 12 112 10 110 30 C108 48 76 48 60 44 Z" style="fill: var(--red)"/><circle cx="60" cy="44" r="9" style="fill: var(--red-dark)"/></symbol>
+</svg>
+
+<a class="skip-link" href="#tresc">Przejdź do formularza</a>
+
+<header class="dark snow" style="--fall: 240px">
+  <span class="flake" style="--x: 7%; --s: 5px; --o: .7; --d: 9s"></span>
+  <span class="flake" style="--x: 24%; --s: 4px; --o: .5; --d: 11s; --delay: -4s"></span>
+  <span class="flake" style="--x: 46%; --s: 6px; --o: .6; --d: 10s; --delay: -2s"></span>
+  <span class="flake" style="--x: 68%; --s: 4px; --o: .6; --d: 12s; --delay: -7s"></span>
+  <span class="flake" style="--x: 89%; --s: 5px; --o: .7; --d: 9s; --delay: -5s"></span>
+  <div class="container page-header__bar">
+    <a class="brand" href="index.html">
+      <svg class="icon icon--30" style="stroke: var(--accent)" stroke-width="1.6" aria-hidden="true"><use href="#i-flake"/></svg>
+      Wiadomość od Mikołaja
+    </a>
+    <a class="page-header__back" href="index.html">Wróć na stronę główną</a>
+  </div>
+  <div class="container page-header__body">
+    <h1 class="page-header__title">Zamów film od Mikołaja</h1>
+    <ol id="postep" class="progress" aria-label="Etapy zamówienia">
+      <li class="is-current" aria-current="step"><span class="progress__dot">1</span>O dziecku</li>
+      <li><span class="progress__dot">2</span>Co powie Mikołaj</li>
+      <li><span class="progress__dot">3</span>Twoje dane i zgody</li>
+      <li><span class="progress__dot">4</span>Płatność</li>
+    </ol>
+  </div>
+  <svg class="divider" width="100%" height="40" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C120 10 240 32 380 20 C520 8 640 30 780 18 C920 6 1060 32 1200 20 C1300 12 1380 24 1440 18 L1440 40 L0 40 Z" style="fill: var(--cream)"/></svg>
+</header>
+
+<main id="tresc">
+<!--
+  data-endpoint: adres API, które przyjmuje zamówienie (POST multipart: pole "zamowienie" z JSON-em
+  i pliki "zdjecie_0", "zdjecie_1"...) i odpowiada JSON-em {"platnosc_url": "..."}.
+  Puste = tryb pokazowy: bez wysyłki, przejście od razu do potwierdzenie.html.
+-->
+<form id="zamowienie" class="container order-layout" method="post" enctype="multipart/form-data" novalidate
+      data-endpoint="" data-cena-bazowa="49" data-cena-rodzenstwo="15" data-maks-dzieci="4" data-maks-mb="20">
+  <div class="order-main">
+    <noscript><p class="form-alert">Formularz zamówienia działa po włączeniu JavaScriptu w przeglądarce.</p></noscript>
+
+    <div id="dzieci"></div>
+
+    <div class="final-step" data-krok="dane" hidden>
+      <fieldset class="panel">
+        <legend class="visually-hidden">Twoje dane</legend>
+        <div class="panel__body">
+          <div>
+            <h2 class="panel__title" tabindex="-1">Gdzie wysłać film?</h2>
+            <p class="panel__lead">Ostatni krok przed płatnością.</p>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label class="field__label" for="email">Twój e-mail</label>
+              <input class="input" id="email" name="email" data-pole="email" type="email" required autocomplete="email" maxlength="120" placeholder="np. anna@example.com" aria-describedby="email-opis email-blad">
+              <span class="field__hint" id="email-opis">Na ten adres wyślemy link do filmu.</span>
+              <span class="field__error" id="email-blad"></span>
+            </div>
+            <div class="field">
+              <label class="field__label" for="termin">Na kiedy potrzebujesz filmu?</label>
+              <input class="input" id="termin" name="termin" data-pole="termin" type="date" required aria-describedby="termin-opis termin-blad">
+              <span class="field__hint" id="termin-opis">Zwykle wysyłamy w ciągu 24 godzin.</span>
+              <span class="field__error" id="termin-blad"></span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="panel consents" aria-describedby="zgody-blad">
+        <legend class="panel-legend">Zgody</legend>
+        <label class="consent"><input type="checkbox" name="zgody[regulamin]" data-pole="zgoda" value="tak" required><span>Akceptuję <a href="regulamin.html" target="_blank" rel="noopener">regulamin</a> i <a href="polityka-prywatnosci.html" target="_blank" rel="noopener">politykę prywatności</a>.</span></label>
+        <label class="consent"><input type="checkbox" name="zgody[dane_dziecka]" data-pole="zgoda" value="tak" required><span>Zgadzam się na przetwarzanie zdjęcia i danych dziecka wyłącznie w celu wykonania filmu. Zostaną usunięte 7 dni po dostawie.</span></label>
+        <label class="consent"><input type="checkbox" name="zgody[ai]" data-pole="zgoda" value="tak" required><span>Wiem, że film powstaje z pomocą narzędzi sztucznej inteligencji.</span></label>
+        <label class="consent"><input type="checkbox" name="zgody[realizacja]" data-pole="zgoda" value="tak" required><span>Proszę o rozpoczęcie realizacji przed upływem terminu na odstąpienie od umowy. Wiem, że po dostarczeniu filmu tracę prawo do odstąpienia.</span></label>
+        <span class="field__error" id="zgody-blad"></span>
+        <!-- [Treść zgód do sprawdzenia przez prawnika przed uruchomieniem sprzedaży.] -->
+      </fieldset>
+
+      <p class="form-alert" id="blad-wysylki" role="alert" hidden></p>
+
+      <div class="actions actions--flush">
+        <button type="button" class="btn btn--outline" data-akcja="wstecz">Wstecz</button>
+        <button type="submit" class="btn btn--red btn--large btn--ring-light actions__next">
+          Zapłać <span data-suma>49 zł</span>
+          <svg class="icon icon--20" stroke="currentColor" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <aside class="summary" aria-labelledby="podsumowanie">
+    <svg class="summary__bow" width="100" height="58" aria-hidden="true"><use href="#i-bow"/></svg>
+    <h2 id="podsumowanie" class="summary__title">Twoje zamówienie</h2>
+    <ul id="lista-dzieci" class="summary__children"></ul>
+    <dl class="summary__prices">
+      <div><dt>Film od Mikołaja</dt><dd>49 zł</dd></div>
+      <div data-rodzenstwo hidden><dt>Rodzeństwo (<span data-rodzenstwo-opis>1 × 15 zł</span>)</dt><dd data-rodzenstwo-cena>15 zł</dd></div>
+      <div class="summary__total"><dt>Razem</dt><dd data-suma>49 zł</dd></div>
+    </dl>
+    <p class="summary__note">Film 2–3 minuty, link mailem w ciągu 24 godzin. Płatność BLIK-iem lub kartą przez [OPERATOR PŁATNOŚCI].</p>
+  </aside>
+</form>
+</main>
+
+<!-- Jedno dziecko: dwa kroki formularza. Skrypt nadaje polom nazwy dzieci[N][pole] i numery. -->
+<template id="szablon-dziecka">
+  <div class="child" data-dziecko>
+    <fieldset class="panel" data-krok="podstawowe" hidden>
+      <legend class="visually-hidden">O dziecku</legend>
+      <div class="panel__body">
+        <div>
+          <p class="panel__kicker" data-tylko-rodzenstwo>Rodzeństwo · dziecko <span data-numer>2</span></p>
+          <h2 class="panel__title" tabindex="-1">Dla kogo jest film?</h2>
+          <p class="panel__lead">Kilka podstawowych informacji i zdjęcie do magicznej księgi.</p>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label class="field__label" data-for="imie">Imię dziecka</label>
+            <input class="input" data-pole="imie" type="text" required maxlength="40" autocomplete="off" placeholder="np. Kasia">
+            <span class="field__hint" data-opis="imie">Tak zapiszemy je na liście grzecznych dzieci.</span>
+            <span class="field__error" data-blad="imie"></span>
+          </div>
+          <div class="field">
+            <label class="field__label" data-for="zwrot">Jak Mikołaj ma się zwracać?</label>
+            <input class="input" data-pole="zwrot" type="text" required maxlength="40" autocomplete="off" placeholder="np. Kasiu, Kasieńko">
+            <span class="field__hint" data-opis="zwrot">Forma, którą dziecko słyszy w domu.</span>
+            <span class="field__error" data-blad="zwrot"></span>
+          </div>
+        </div>
+
+        <div class="row">
+          <fieldset class="choice-group" data-grupa="plec">
+            <legend>Dziecko to</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" data-pole="plec" value="dziewczynka" required>dziewczynka</label>
+              <label class="choice"><input type="radio" data-pole="plec" value="chłopiec">chłopiec</label>
+            </div>
+            <span class="field__hint" data-opis="plec">Żeby Mikołaj powiedział „nauczyłaś” albo „nauczyłeś”.</span>
+            <span class="field__error" data-blad="plec"></span>
+          </fieldset>
+          <div class="field">
+            <label class="field__label" data-for="wiek">Wiek</label>
+            <select class="input" data-pole="wiek" required>
+              <option value="">Wybierz</option>
+              <option>2 lata</option><option>3 lata</option><option>4 lata</option><option>5 lat</option>
+              <option>6 lat</option><option>7 lat</option><option>8 lat</option><option>9 lat</option>
+              <option>10 lat</option><option>11 lat</option><option>12 lat</option>
+            </select>
+            <span class="field__error" data-blad="wiek"></span>
+          </div>
+        </div>
+
+        <div class="field field--full">
+          <span class="field__label" data-etykieta="zdjecie">Zdjęcie dziecka</span>
+          <input class="file-input" data-pole="zdjecie" type="file" accept="image/jpeg,image/png" required>
+          <label class="dropzone" data-for="zdjecie">
+            <span class="dropzone__icon" data-podglad>
+              <svg class="icon icon--28" stroke="#6d5843" aria-hidden="true"><use href="#i-camera"/></svg>
+            </span>
+            <span class="dropzone__text">
+              <strong data-plik>Wybierz zdjęcie</strong> <span data-plik-dopisek>albo przeciągnij je tutaj</span><br>
+              <span class="dropzone__hint" data-opis="zdjecie">JPG lub PNG, ostre, z dobrze widoczną twarzą. Trafi do ramki w magicznej księdze.</span>
+            </span>
+          </label>
+          <span class="field__error" data-blad="zdjecie"></span>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn--outline" data-akcja="wstecz" data-tylko-rodzenstwo>Wstecz</button>
+          <button type="button" class="btn--text" data-akcja="usun" data-tylko-rodzenstwo>Usuń to dziecko</button>
+          <button type="button" class="btn btn--red actions__next" data-akcja="dalej">
+            Dalej
+            <svg class="icon icon--20" stroke="currentColor" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </button>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="panel" data-krok="wiadomosc" hidden>
+      <legend class="visually-hidden">Co powie Mikołaj</legend>
+      <div class="panel__body">
+        <div>
+          <p class="panel__kicker" data-podpis-dziecka></p>
+          <h2 class="panel__title" tabindex="-1">Co Mikołaj ma powiedzieć?</h2>
+          <p class="panel__lead">Z tych odpowiedzi powstanie osobista część filmu. Każdy tekst czyta człowiek przed nagraniem.</p>
+        </div>
+
+        <div class="field field--full">
+          <label class="field__label" data-for="osiagniecie">Co udało się dziecku w tym roku?</label>
+          <textarea class="input" data-pole="osiagniecie" required rows="3" maxlength="300" placeholder="np. nauczyła się jeździć na rowerze bez bocznych kółek"></textarea>
+          <span class="field__hint" data-opis="osiagniecie">Mikołaj pochwali właśnie to. Im konkretniej, tym lepiej.</span>
+          <span class="field__error" data-blad="osiagniecie"></span>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label class="field__label" data-for="zainteresowania">Co lubi?</label>
+            <input class="input" data-pole="zainteresowania" type="text" required maxlength="120" placeholder="np. dinozaury, rysowanie">
+            <span class="field__error" data-blad="zainteresowania"></span>
+          </div>
+          <div class="field">
+            <label class="field__label" data-for="do_poprawy">Nad czym może popracować? <span class="field__optional">(nieobowiązkowe)</span></label>
+            <input class="input" data-pole="do_poprawy" type="text" maxlength="120" placeholder="np. sprzątanie zabawek">
+            <span class="field__hint" data-opis="do_poprawy">Mikołaj wspomni o tym delikatnie, jako zachętę.</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label class="field__label" data-for="prezent">Wymarzony prezent <span class="field__optional">(nieobowiązkowe)</span></label>
+            <input class="input" data-pole="prezent" type="text" maxlength="120" placeholder="np. rower z koszykiem">
+          </div>
+          <fieldset class="choice-group" data-grupa="prezent_kupiony">
+            <legend>Czy prezent jest już kupiony?</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" data-pole="prezent_kupiony" value="tak" required>tak</label>
+              <label class="choice"><input type="radio" data-pole="prezent_kupiony" value="nie">nie</label>
+            </div>
+            <span class="field__hint" data-opis="prezent_kupiony">Tylko przy „tak” Mikołaj powie, że elfy już go szykują.</span>
+            <span class="field__error" data-blad="prezent_kupiony"></span>
+          </fieldset>
+        </div>
+
+        <div class="sibling-offer" data-oferta-rodzenstwa hidden>
+          <svg class="icon icon--36" style="stroke: var(--red)" aria-hidden="true"><use href="#i-gift"/></svg>
+          <p><strong>Rodzeństwo w tym samym filmie?</strong><br><span class="sibling-offer__note">Mikołaj zwróci się do każdego dziecka po imieniu. +15 zł za dziecko.</span></p>
+          <button type="button" class="btn btn--add" data-akcja="dodaj">
+            <svg class="icon icon--18" style="stroke: var(--red)" aria-hidden="true"><use href="#i-plus"/></svg>
+            Dodaj rodzeństwo
+          </button>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn--outline" data-akcja="wstecz">Wstecz</button>
+          <button type="button" class="btn btn--red actions__next" data-akcja="dalej">
+            <span data-etykieta-dalej>Dalej: Twoje dane</span>
+            <svg class="icon icon--20" stroke="currentColor" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </button>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</template>
+</body>
+</html>
