@@ -7,6 +7,9 @@ Kod HTML trzech stron z projektu na kanwie:
 | `index.html` | strona główna |
 | `zamowienie.html` | formularz zamówienia: dziecko, co powie Mikołaj, dane i zgody |
 | `potwierdzenie.html` | potwierdzenie po płatności |
+| `faq.html` | pytania rodziców z wyszukiwarką (`js/faq.js`) |
+| `regulamin.html` | układ regulaminu: spis treści, skrót, 10 paragrafów; treść od prawnika |
+| `404.html` | błędny adres i wygasły link do filmu |
 
 Strony są statyczne: czysty HTML, jeden arkusz `css/style.css` i trochę JavaScriptu bez bibliotek (`js/`). Działają na każdym hostingu plików, np. Netlify, Cloudflare Pages albo zwykłym serwerze.
 
@@ -28,11 +31,15 @@ Potem otwórz http://localhost:8000. Formularz działa w **trybie pokazowym**: n
 | `[ADRES NADAWCY]` | `potwierdzenie.html`: adres, z którego przychodzą maile |
 | `[OPERATOR PŁATNOŚCI]` | `zamowienie.html`, podsumowanie |
 | `[DŁUGOŚĆ]` i film przykładowy | `index.html`; pliki `media/przyklad.mp4` i `media/przyklad.jpg` (kadr) |
-| `regulamin.html`, `polityka-prywatnosci.html` | strony do dodania (treść od prawnika); linkują do nich stopka i zgody |
+| `polityka-prywatnosci.html` | strona do dodania (treść od prawnika); linkują do niej stopka i zgody |
+| Treść regulaminu | `regulamin.html`: miejsca `[Treść paragrafu od prawnika]`, dane sprzedawcy, daty wersji, plik `pliki/regulamin.pdf`; po wstawieniu usuń ramkę „Projekt układu” |
+| Odpowiedzi do potwierdzenia | `faq.html`: `[DŁUGOŚĆ FILMU]`, faktura, czas odpowiedzi na maile, link ważny 60 dni |
 | Treść zgód | `zamowienie.html`: do sprawdzenia przez prawnika |
 | Kadr listy z imieniem | `index.html`, sekcja „Mikołaj zna szczegóły”: zamień makietę na kadr z filmu |
 
 Ceny (49 zł i 15 zł za rodzeństwo) są w tekstach stron i w atrybutach formularza `data-cena-bazowa` i `data-cena-rodzenstwo`. Zmieniaj je w obu miejscach. Cenę, którą płaci klient, i tak musi wyliczyć serwer.
+
+**404:** ustaw w hostingu `404.html` jako stronę błędu (np. Netlify i Cloudflare Pages robią to same, w nginx `error_page 404 /404.html;`). Strona używa ścieżek od korzenia (`/css/style.css`), więc działa pod każdym błędnym adresem, ale wymaga, żeby strona leżała w katalogu głównym domeny.
 
 ## Formularz i serwer
 

@@ -7,9 +7,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "strona"
-PAGES = ["index.html", "zamowienie.html", "potwierdzenie.html"]
+PAGES = ["index.html", "zamowienie.html", "potwierdzenie.html", "404.html", "regulamin.html", "faq.html"]
 # Strony i pliki, które trzeba dopiero dodać (opisane w strona/README.md).
-TODO_TARGETS = {"regulamin.html", "polityka-prywatnosci.html", "media/przyklad.mp4", "media/przyklad.jpg"}
+TODO_TARGETS = {"polityka-prywatnosci.html", "media/przyklad.mp4", "media/przyklad.jpg", "pliki/regulamin.pdf"}
 
 
 class Collector(HTMLParser):
@@ -48,6 +48,8 @@ def test_local_links_exist():
                 target = attrs.get(key)
                 if not target or re.match(r"^(https?:|mailto:|#|data:)", target):
                     continue
+                # 404.html używa ścieżek od korzenia ("/css/style.css", "/#cena").
+                target = target.lstrip("/").split("#")[0] or "index.html"
                 if target in TODO_TARGETS:
                     continue
                 assert (SITE / target).exists(), f"{name}: brak pliku {target}"

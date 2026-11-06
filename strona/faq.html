@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pytania rodziców – Wiadomość od Mikołaja</title>
+<meta name="description" content="Odpowiedzi na pytania rodziców: zamówienie, zdjęcie dziecka, płatność, dostawa filmu i dane.">
+<meta name="theme-color" content="#0e1726">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/faq.js" defer></script>
+</head>
+<body class="page-confirm">
+<a class="skip-link" href="#tresc">Przejdź do pytań</a>
+
+<header class="dark">
+  <div class="container page-header__bar">
+    <a class="brand" href="index.html">
+      <svg class="icon icon--30" viewBox="0 0 24 24" fill="none" style="stroke: var(--accent)" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M12 2l-2 2M12 2l2 2M12 22l-2-2M12 22l2-2"/></svg>
+      Wiadomość od Mikołaja
+    </a>
+    <a class="btn btn--accent btn--small" href="zamowienie.html">Zamów film</a>
+  </div>
+  <div class="subpage-hero__body subpage-hero__body--center">
+    <h1 class="subpage-hero__title">Pytania rodziców</h1>
+    <p class="subpage-hero__lead">Wszystko o zamówieniu, zdjęciu, płatności i tym, co dzieje się z danymi dziecka.</p>
+    <div class="faq-search" role="search">
+      <label for="szukaj">Szukaj odpowiedzi</label>
+      <input id="szukaj" type="search" placeholder="np. zdjęcie, rodzeństwo, BLIK" autocomplete="off" aria-describedby="wynik">
+    </div>
+  </div>
+</header>
+
+<div class="container info-layout">
+  <nav class="info-side" aria-labelledby="tematy-h">
+    <h2 id="tematy-h" class="topics__title">Tematy</h2>
+    <div class="topics">
+      <a href="#zamowienie">Zamówienie<span>4</span></a>
+      <a href="#co-powie">Co powie Mikołaj<span>3</span></a>
+      <a href="#zdjecie">Zdjęcie dziecka<span>3</span></a>
+      <a href="#film">Film i dostawa<span>4</span></a>
+      <a href="#platnosc">Płatność<span>4</span></a>
+      <a href="#dane">Dane i bezpieczeństwo<span>3</span></a>
+    </div>
+  </nav>
+
+  <main id="tresc" class="info-main">
+    <p id="wynik" class="visually-hidden" aria-live="polite"></p>
+    <p class="faq-empty" data-brak hidden>Nie mamy jeszcze odpowiedzi na to pytanie. Napisz do nas, chętnie pomożemy.</p>
+    <section id="zamowienie" class="faq-group" aria-labelledby="zamowienie-h" data-grupa>
+      <h2 id="zamowienie-h" class="faq-group__title">Zamówienie</h2>
+      <div class="faq">
+        <details>
+          <summary>Ile trwa wypełnienie formularza?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Około 5 minut. Podajesz imię, formę, w jakiej Mikołaj ma się zwracać, wiek, zdjęcie i kilka zdań o tym, co udało się dziecku w tym roku i co lubi.</p>
+        </details>
+        <details>
+          <summary>Czy jeden film może być dla rodzeństwa?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Tak, dla maksymalnie czworga dzieci. Mikołaj zwraca się do każdego po imieniu, pokazuje wszystkie zdjęcia i wpisuje wszystkie imiona na listę. Każde kolejne dziecko kosztuje 15 zł.</p>
+        </details>
+        <details>
+          <summary>Do kiedy mogę zamówić film przed Wigilią?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Zamówienia przyjmujemy do [OSTATNI TERMIN ZAMÓWIEŃ]. Film wysyłamy w ciągu 24 godzin od płatności.</p>
+        </details>
+        <details>
+          <summary>Czy mogę poprawić dane po złożeniu zamówienia?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Tak. Odpowiedz na mail z potwierdzeniem najlepiej w ciągu kilku godzin, a poprawimy wszystko przed nagraniem.</p>
+        </details>
+      </div>
+    </section>
+    <section id="co-powie" class="faq-group" aria-labelledby="co-powie-h" data-grupa>
+      <h2 id="co-powie-h" class="faq-group__title">Co powie Mikołaj</h2>
+      <div class="faq">
+        <details>
+          <summary>Skąd Mikołaj wie, co powiedzieć?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Z Twoich odpowiedzi w formularzu. Mikołaj chwali konkretne osiągnięcie, wspomina, co dziecko lubi, i mówi językiem dopasowanym do wieku. Każdy tekst czyta człowiek, zanim Mikołaj go nagra.</p>
+        </details>
+        <details>
+          <summary>Czy Mikołaj obieca prezent?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Tylko jeśli zaznaczysz, że prezent jest już kupiony. W przeciwnym razie Mikołaj mówi, że zapisał marzenie dziecka, bez obietnicy.</p>
+        </details>
+        <details>
+          <summary>Czego lepiej nie wpisywać?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Spraw, które mogłyby zawstydzić dziecko przy rodzinie, na przykład dotyczących zdrowia czy kar. Jeśli coś takiego trafi do formularza, zaproponujemy inne sformułowanie.</p>
+        </details>
+      </div>
+    </section>
+    <section id="zdjecie" class="faq-group" aria-labelledby="zdjecie-h" data-grupa>
+      <h2 id="zdjecie-h" class="faq-group__title">Zdjęcie dziecka</h2>
+      <div class="faq">
+        <details>
+          <summary>Jakie zdjęcie przesłać?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Ostre zdjęcie w formacie JPG lub PNG, najlepiej w świetle dziennym, z twarzą widoczną na wprost. Przy rodzeństwie prześlij zdjęcie każdego dziecka.</p>
+        </details>
+        <details>
+          <summary>Gdzie pojawi się zdjęcie?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>W złotej ramce na stronie magicznej księgi, którą Mikołaj otwiera w filmie.</p>
+        </details>
+        <details>
+          <summary>Co, jeśli zdjęcie będzie nieostre?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Napiszemy do Ciebie od razu i poprosimy o inne. Film zrobimy w ciągu 24 godzin od nowego zdjęcia.</p>
+        </details>
+      </div>
+    </section>
+    <section id="film" class="faq-group" aria-labelledby="film-h" data-grupa>
+      <h2 id="film-h" class="faq-group__title">Film i dostawa</h2>
+      <div class="faq">
+        <details>
+          <summary>Jak długi jest film?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>[DŁUGOŚĆ FILMU], w jakości Full HD.</p>
+        </details>
+        <details>
+          <summary>Jak dostanę film?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Mailem, jako link do strony z filmem. Możesz go obejrzeć w przeglądarce i pobrać na telefon albo komputer.</p>
+        </details>
+        <details>
+          <summary>Jak długo działa link?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Przez 60 dni. Pobierz film, żeby mieć go na zawsze. Jeśli link wygaśnie, napisz do nas.</p>
+        </details>
+        <details>
+          <summary>Czy film powstaje z pomocą AI?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Tak, film tworzymy z pomocą narzędzi sztucznej inteligencji. Zdjęcie dziecka nie trafia do żadnego modelu AI: wklejamy je do księgi przy montażu.</p>
+        </details>
+      </div>
+    </section>
+    <section id="platnosc" class="faq-group" aria-labelledby="platnosc-h" data-grupa>
+      <h2 id="platnosc-h" class="faq-group__title">Płatność</h2>
+      <div class="faq">
+        <details>
+          <summary>Jak mogę zapłacić?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>BLIK-iem, kartą albo szybkim przelewem przez [OPERATOR PŁATNOŚCI]. Nie trzeba zakładać konta.</p>
+        </details>
+        <details>
+          <summary>Czy dostanę fakturę?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>[Do ustalenia: rachunek albo faktura na życzenie, jak o nią poprosić.]</p>
+        </details>
+        <details>
+          <summary>Czy mogę odstąpić od zamówienia?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Film to treść cyfrowa robiona na zamówienie. Składając zamówienie, zgadzasz się na rozpoczęcie realizacji od razu, co oznacza utratę prawa do odstąpienia od umowy po dostarczeniu filmu. Szczegóły są w <a href="regulamin.html#par-6">regulaminie</a>.</p>
+        </details>
+        <details>
+          <summary>Co, jeśli w filmie jest błąd?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Jeśli coś się nie zgadza, na przykład imię albo zdjęcie, napisz do nas. Poprawimy film albo zwrócimy pieniądze.</p>
+        </details>
+      </div>
+    </section>
+    <section id="dane" class="faq-group" aria-labelledby="dane-h" data-grupa>
+      <h2 id="dane-h" class="faq-group__title">Dane i bezpieczeństwo</h2>
+      <div class="faq">
+        <details>
+          <summary>Co dzieje się ze zdjęciem i danymi dziecka?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Używamy ich wyłącznie do wykonania filmu i usuwamy 7 dni po dostawie. Nie prosimy o nazwisko ani adres.</p>
+        </details>
+        <details>
+          <summary>Czy pokażecie film komuś innemu?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Nie. Film widzi tylko osoba z linkiem. Nie używamy filmów ani zdjęć w reklamach bez osobnej zgody rodzica.</p>
+        </details>
+        <details>
+          <summary>Mogę poprosić o wcześniejsze usunięcie danych?<span class="faq__plus" aria-hidden="true">+</span></summary>
+          <p>Tak, napisz do nas, a usuniemy je od razu.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="contact-box" aria-labelledby="kontakt-h">
+      <div>
+        <h2 id="kontakt-h">Nie ma tu Twojego pytania?</h2>
+        <p>Napisz do nas: <strong>[ADRES E-MAIL]</strong>. Odpowiadamy w ciągu jednego dnia roboczego, w grudniu zwykle szybciej.</p>
+      </div>
+      <a class="btn btn--accent" href="mailto:[ADRES E-MAIL]">Napisz do nas</a>
+    </section>
+  </main>
+</div>
+
+<footer class="site-footer dark">
+  <div class="container site-footer__inner">
+    <p>Film powstaje z pomocą sztucznej inteligencji.</p>
+    <nav class="site-footer__links" aria-label="Informacje">
+      <a href="regulamin.html">Regulamin</a>
+      <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+      <a href="faq.html" aria-current="page">Pytania</a>
+      <a href="mailto:[ADRES E-MAIL]">Kontakt</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
