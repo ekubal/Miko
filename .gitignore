@@ -8,3 +8,6 @@ __pycache__/
 # Font odręczny (licencja dostawcy; nie commitujemy)
 fonts/*.ttf
 fonts/*.otf
+
+# Aplikacja Rails — osobne repozytorium
+/app/

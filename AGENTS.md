@@ -14,9 +14,10 @@ Język projektu to **polski**: kod komentujemy, piszemy komunikaty CLI, dokument
 
 | Ścieżka | Zawartość |
 |---|---|
+| `app/` | aplikacja Rails 8 + Hotwire (witryna sprzedażowa, zamówienia, płatności, panel); instrukcje: `app/AGENTS.md` |
 | `generator/` | pakiet Pythona: `images` (Nano Banana Pro), `videos` (Gemini Omni Flash), `audio` + `elevenlabs` (głos, muzyka), `order` (tekst i głos dla zamówienia), `montage` (ffmpeg), `prompts` (wszystkie prompty i kwestie), `config`, `common` |
 | `testy_fal/` | robocze skrypty porównujące modele wideo na fal.ai; nie są częścią produkcji |
-| `strona/` | statyczna strona sprzedażowa: `index.html`, `zamowienie.html`, `potwierdzenie.html`, `css/style.css`, `js/` (bez bibliotek) |
+| `strona/` | **wzór / archiwum** (HTML/CSS/JS); produkcyjny front jest w Rails (`app/`), nie serwujemy `strona/` na produkcji |
 | `szablony/` | maile HTML (tabele, style inline), opis pól, przykładowa transkrypcja filmu |
 | `scenariusze/`, `SCENARIUSZ_8MIN.md` | scenariusze długiej wersji filmu (md, docx, pdf); odrzucone w `scenariusze/odrzucone/` |
 | `examples/` | przykładowe pliki zamówień JSON (format danych dziecka) |
@@ -44,9 +45,11 @@ Polecenia uruchamiamy z katalogu głównego repozytorium (`python -m ...`). Prze
 - Każdy generator tworzy warianty `nazwa_NN.ext` (`common.variant_paths`, nigdy nie nadpisuje), a człowiek zatwierdza jeden poleceniem `select` do `output/selected/`. Kolejne kroki czytają tylko zatwierdzone pliki.
 - Prompty i kwestie Mikołaja trzymamy wyłącznie w `generator/prompts.py`, nie w kodzie modułów.
 - Montaż opisuje lista `TIMELINE` w `generator/montage.py`; nowe sceny dodajemy tam i w `prompts.SCENES`.
-- Pola formularza na stronie mają te same nazwy co dane dziecka w `examples/*.json` (`imie`, `zwrot`, `plec`, `wiek`, `zdjecie`, `osiagniecie`, `zainteresowania`, `do_poprawy`, `prezent`, `prezent_kupiony`). Pilnuje tego `tests/test_strona.py`.
-- Strona: czysty HTML/CSS/JS, kolory jako zmienne CSS w `:root` (`--accent`, `--red`, …), dostępność (etykiety, fokus, `aria-*`), działa na szerokości telefonu bez przewijania w poziomie.
+- Pola formularza mają te same nazwy co dane dziecka w `examples/*.json` / payload generatora (`imie`, `zwrot`, …). Produkcyjny formularz jest w Rails; `strona/` to wzór.
+- Witryna w Rails: Hotwire (Turbo + Stimulus), Haml, Tailwind; kolory jako zmienne CSS, dostępność, mobile bez przewijania w poziomie. `strona/` nie serwujemy na produkcji.
 - Maile HTML: układ na tabelach, style inline, szerokość 600 px, bez SVG i skryptów.
+
+Konwencje Rails (modele, serwisy, RSpec, domena zamówienia): `app/AGENTS.md`.
 
 ## Zasady produktu (obowiązkowe)
 

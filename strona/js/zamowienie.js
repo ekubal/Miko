@@ -32,7 +32,7 @@
     zwrot: "Wpisz, jak Mikołaj ma się zwracać do dziecka.",
     plec: "Zaznacz jedną z odpowiedzi.",
     wiek: "Wybierz wiek dziecka.",
-    zdjecie: "Dodaj zdjęcie dziecka (JPG lub PNG).",
+    zdjecie: "Dodaj zdjęcie dziecka (JPG, PNG lub WebP).",
     osiagniecie: "Napisz, co udało się dziecku w tym roku.",
     zainteresowania: "Napisz, co dziecko lubi.",
     prezent_kupiony: "Zaznacz „tak” albo „nie”.",
@@ -272,8 +272,8 @@
     var nameEl = zone.querySelector("[data-plik]");
     var extraEl = zone.querySelector("[data-plik-dopisek]");
     input.setCustomValidity("");
-    if (file && !/^image\/(jpeg|png)$/.test(file.type)) {
-      input.setCustomValidity("To nie jest zdjęcie JPG ani PNG. Wybierz inny plik.");
+    if (file && !/^image\/(jpeg|png|webp)$/.test(file.type)) {
+      input.setCustomValidity("To nie jest zdjęcie JPG, PNG ani WebP. Wybierz inny plik.");
     } else if (file && file.size > MAX_MB * 1024 * 1024) {
       input.setCustomValidity("Zdjęcie jest za duże (największe: " + MAX_MB + " MB). Wybierz mniejsze.");
     }
@@ -381,7 +381,7 @@
           imie: value(group, "imie"),
           zwrot: value(group, "zwrot"),
           plec: value(group, "plec"),
-          wiek: value(group, "wiek"),
+          wiek: Number(value(group, "wiek")),
           zdjecie: "zdjecie_" + i,
           osiagniecie: value(group, "osiagniecie"),
           zainteresowania: value(group, "zainteresowania"),

@@ -167,9 +167,9 @@
             <label class="field__label" data-for="wiek">Wiek</label>
             <select class="input" data-pole="wiek" required>
               <option value="">Wybierz</option>
-              <option>2 lata</option><option>3 lata</option><option>4 lata</option><option>5 lat</option>
-              <option>6 lat</option><option>7 lat</option><option>8 lat</option><option>9 lat</option>
-              <option>10 lat</option><option>11 lat</option><option>12 lat</option>
+              <option value="2">2 lata</option><option value="3">3 lata</option><option value="4">4 lata</option><option value="5">5 lat</option>
+              <option value="6">6 lat</option><option value="7">7 lat</option><option value="8">8 lat</option><option value="9">9 lat</option>
+              <option value="10">10 lat</option><option value="11">11 lat</option><option value="12">12 lat</option>
             </select>
             <span class="field__error" data-blad="wiek"></span>
           </div>
@@ -177,14 +177,14 @@
 
         <div class="field field--full">
           <span class="field__label" data-etykieta="zdjecie">Zdjęcie dziecka</span>
-          <input class="file-input" data-pole="zdjecie" type="file" accept="image/jpeg,image/png" required>
+          <input class="file-input" data-pole="zdjecie" type="file" accept="image/jpeg,image/png,image/webp" required>
           <label class="dropzone" data-for="zdjecie">
             <span class="dropzone__icon" data-podglad>
               <svg class="icon icon--28" stroke="#6d5843" aria-hidden="true"><use href="#i-camera"/></svg>
             </span>
             <span class="dropzone__text">
               <strong data-plik>Wybierz zdjęcie</strong> <span data-plik-dopisek>albo przeciągnij je tutaj</span><br>
-              <span class="dropzone__hint" data-opis="zdjecie">JPG lub PNG, ostre, z dobrze widoczną twarzą. Trafi do ramki w magicznej księdze.</span>
+              <span class="dropzone__hint" data-opis="zdjecie">JPG, PNG lub WebP, ostre, z dobrze widoczną twarzą. Trafi do ramki w magicznej księdze.</span>
             </span>
           </label>
           <span class="field__error" data-blad="zdjecie"></span>

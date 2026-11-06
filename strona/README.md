@@ -47,7 +47,7 @@ Przykładowy JSON zamówienia:
 {
   "dzieci": [
     {
-      "imie": "Kasia", "zwrot": "Kasiu", "plec": "dziewczynka", "wiek": "5 lat",
+      "imie": "Kasia", "zwrot": "Kasiu", "plec": "dziewczynka", "wiek": 5,
       "zdjecie": "zdjecie_0",
       "osiagniecie": "nauczyła się jeździć na rowerze bez bocznych kółek",
       "zainteresowania": "dinozaury, rysowanie", "do_poprawy": "",
