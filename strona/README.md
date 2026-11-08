@@ -10,6 +10,8 @@ Kod HTML trzech stron z projektu na kanwie:
 | `faq.html` | pytania rodziców z wyszukiwarką (`js/faq.js`) |
 | `regulamin.html` | układ regulaminu: spis treści, skrót, 10 paragrafów; treść od prawnika |
 | `404.html` | błędny adres i wygasły link do filmu |
+| `kontakt.html` | formularz kontaktowy (`js/kontakt.js`), adres e-mail z kopiowaniem, godziny, dane firmy |
+| `js/cookies.js` | baner zgody na cookies i okno ustawień, dołączony do wszystkich stron |
 
 Strony są statyczne: czysty HTML, jeden arkusz `css/style.css` i trochę JavaScriptu bez bibliotek (`js/`). Działają na każdym hostingu plików, np. Netlify, Cloudflare Pages albo zwykłym serwerze.
 
@@ -40,6 +42,23 @@ Potem otwórz http://localhost:8000. Formularz działa w **trybie pokazowym**: n
 Ceny (49 zł i 15 zł za rodzeństwo) są w tekstach stron i w atrybutach formularza `data-cena-bazowa` i `data-cena-rodzenstwo`. Zmieniaj je w obu miejscach. Cenę, którą płaci klient, i tak musi wyliczyć serwer.
 
 **404:** ustaw w hostingu `404.html` jako stronę błędu (np. Netlify i Cloudflare Pages robią to same, w nginx `error_page 404 /404.html;`). Strona używa ścieżek od korzenia (`/css/style.css`), więc działa pod każdym błędnym adresem, ale wymaga, żeby strona leżała w katalogu głównym domeny.
+
+## Baner cookies
+
+`js/cookies.js` pokazuje baner przy pierwszej wizycie i zapisuje wybór w przeglądarce (`localStorage`). Odrzucenie jest tak samo widoczne jak akceptacja, a kategorie opcjonalne są domyślnie wyłączone. Przycisk „Ustawienia cookies” w stopce otwiera okno ustawień ponownie.
+
+Narzędzia analityczne i reklamowe wstawiaj tak, żeby ładowały się dopiero po zgodzie:
+
+```html
+<script type="text/plain" data-zgoda="reklamowe" data-src="https://adres-skryptu.js"></script>
+<script type="text/plain" data-zgoda="analityczne">/* kod narzędzia */</script>
+```
+
+Nazwy narzędzi uzupełnij w tablicy `CATEGORIES` w `js/cookies.js`. Po zmianie kategorii albo narzędzi podnieś `VERSION`: każdy zobaczy baner ponownie. Treść banera trzeba sprawdzić z prawnikiem.
+
+## Formularz kontaktowy
+
+`kontakt.html` ma atrybut `data-endpoint`. Pusty oznacza tryb pokazowy: po wysłaniu pokazuje się podziękowanie, ale wiadomość nigdzie nie trafia. Podaj adres, który przyjmuje `POST` z JSON-em `{imie, email, temat, numer, wiadomosc, zgoda}` i odpowiada kodem 2xx (własny serwer albo usługa formularzy, np. Formspree). Godziny odpowiedzi i czas odpowiedzi na stronie to propozycja do potwierdzenia.
 
 ## Formularz i serwer
 
