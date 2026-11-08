@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "strona"
-PAGES = ["index.html", "zamowienie.html", "potwierdzenie.html", "404.html", "regulamin.html", "faq.html"]
+PAGES = ["index.html", "zamowienie.html", "potwierdzenie.html", "404.html", "regulamin.html", "faq.html", "kontakt.html"]
 # Strony i pliki, które trzeba dopiero dodać (opisane w strona/README.md).
 TODO_TARGETS = {"polityka-prywatnosci.html", "media/przyklad.mp4", "media/przyklad.jpg", "pliki/regulamin.pdf"}
 
