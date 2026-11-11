@@ -142,15 +142,20 @@ SCENES = {
     # Scenariusz 4 („Od listu do sań”), scena 3: śnieżna kula daje znak, że przyszło dziecko.
     # Na końcu filmu ta sama kula pokazuje dom dziecka (szablon_kula + zdjęcie w montażu).
     "kula": {
-        "scene": "Santa sitting at his large wooden desk in his cozy study at night, writing with a quill pen "
-        "in a big leather notebook with blank pages. Right next to his hand stands a glass snow globe on a "
-        "carved dark wooden base, with a tiny snowy village of wooden houses inside. Warm light from a desk "
-        "lamp, a crackling fireplace softly blurred in the background, frost patterns on the window. "
-        "The notebook pages are blank, without any writing.",
-        "motion": "Santa calmly writes with the quill pen. Then the snow inside the glass globe suddenly starts "
-        "to swirl and the tiny village inside begins to glow with warm golden light. Santa notices it, puts "
-        "the quill down, gently picks up the snow globe with both hands, raises it a little and looks warmly "
-        "towards the camera, his eyes smiling. The glass globe stays whole and round the whole time",
+        "scene": "Medium shot of Santa sitting at his large wooden desk in his cozy study at night, framed from "
+        "the waist up, his whole face, glasses and beard clearly visible. He is writing with a quill pen in a "
+        "big leather notebook with blank pages. On the desk in front of him, slightly to the side, stands a "
+        "small glass snow globe on a carved dark wooden base, with a tiny snowy village of wooden houses inside. "
+        "Warm light from a desk lamp, a crackling fireplace softly blurred in the background, frost patterns "
+        "on the window. The notebook pages are blank, without any writing.",
+        "motion": "Santa calmly writes with the quill pen. Then the snow inside the small glass globe on the "
+        "desk starts to swirl and the tiny village inside glows with warm golden light. Santa notices it, "
+        "smiles with his eyes, puts the quill down and gently picks up the snow globe with both hands, "
+        "holding it at chest height below his beard, so his face stays fully visible. He looks warmly towards "
+        "the camera. Santa stays in the frame, in the same place and the same size for the whole shot; "
+        "he never fades, disappears or turns into something else. The glass globe stays small, whole and round",
+        # Bez najazdu: zbliżenie na kulę robi osobne ujęcie (szablon_kula) w montażu.
+        "camera": "Static camera, locked-off medium shot, no zoom, no push-in, no camera movement.",
     },
 }
 
@@ -181,10 +186,24 @@ the background. The globe is centered and fills about half of the frame height.
 # --- Wideo (Gemini Omni Flash) ----------------------------------------------------------
 
 MOTION_PROMPT = """\
-In a single continuous shot, no scene cuts. Gentle slow camera push-in. {motion}.
+In a single continuous shot, no scene cuts. {camera} {motion}.
 Calm, magical Christmas atmosphere, soft ambient sounds only (crackling fire,
 sleigh bells far away). No dialogue, nobody speaks, no lip movement, no music,
 no text, no logos. {seconds} seconds."""
+
+# Ruch kamery w klipie. Domyślnie powolny najazd; scena może podać własny w kluczu "camera".
+# Przy kuli najazd sprawiał, że model „gubił” Mikołaja, więc tam kamera stoi.
+DEFAULT_CAMERA = "Gentle slow camera push-in."
+
+
+def motion_prompt(motion: str, seconds, camera: str | None = None) -> str:
+    """Prompt ruchu dla klipu wideo: stałe zasady, ruch kamery i opis ruchu sceny."""
+    return MOTION_PROMPT.format(camera=camera or DEFAULT_CAMERA, motion=motion, seconds=seconds)
+
+
+def scene_motion_prompt(key: str, seconds) -> str:
+    scene = SCENES[key]
+    return motion_prompt(scene["motion"], seconds, scene.get("camera"))
 
 # --- Głos i muzyka (ElevenLabs) -----------------------------------------------
 

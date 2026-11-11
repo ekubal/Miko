@@ -75,7 +75,7 @@ def cmd_generate(args):
 
     client = google_client()
     for key in keys:
-        prompt = prompts.MOTION_PROMPT.format(motion=prompts.SCENES[key]["motion"], seconds=args.duration)
+        prompt = prompts.scene_motion_prompt(key, args.duration)
         print(f"[{key}] {args.count} klip(ów), {config.VIDEO_MODEL}, {args.resolution}, {args.duration} s")
         frame_file = upload_frame(client, selected_path(key))
         for out in variant_paths(config.VIDEOS_DIR, key, ".mp4", args.count):
