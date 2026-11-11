@@ -139,6 +139,19 @@ SCENES = {
         "waving goodbye to the camera.",
         "motion": "Santa waves goodbye, reindeer shake their heads, the sleigh lifts off",
     },
+    # Scenariusz 4 („Od listu do sań”), scena 3: śnieżna kula daje znak, że przyszło dziecko.
+    # Na końcu filmu ta sama kula pokazuje dom dziecka (szablon_kula + zdjęcie w montażu).
+    "kula": {
+        "scene": "Santa sitting at his large wooden desk in his cozy study at night, writing with a quill pen "
+        "in a big leather notebook with blank pages. Right next to his hand stands a glass snow globe on a "
+        "carved dark wooden base, with a tiny snowy village of wooden houses inside. Warm light from a desk "
+        "lamp, a crackling fireplace softly blurred in the background, frost patterns on the window. "
+        "The notebook pages are blank, without any writing.",
+        "motion": "Santa calmly writes with the quill pen. Then the snow inside the glass globe suddenly starts "
+        "to swirl and the tiny village inside begins to glow with warm golden light. Santa notices it, puts "
+        "the quill down, gently picks up the snow globe with both hands, raises it a little and looks warmly "
+        "towards the camera, his eyes smiling. The glass globe stays whole and round the whole time",
+    },
 }
 
 # Puste szablony do personalizacji (napisy dodaje się w edytorze).
@@ -154,6 +167,15 @@ An old parchment scroll titled with an empty ornamental banner at the top,
 unrolled on Santa's wooden desk, many blank lines, a red wax seal and a
 quill pen next to it, warm candle light. 16:9, photorealistic.
 No text, no letters, no writing on the scroll.""",
+    # Scenariusz 4, koniec filmu: w pustą kulę montaż wkleja zdjęcie domu albo ogólny domek.
+    "szablon_kula": """\
+Close-up, straight front view of a glass snow globe standing on a carved dark
+wooden base on Santa's wooden desk at night. The inside of the glass sphere is
+empty and filled with soft, even, cream-white mist, with no objects inside,
+so a picture can be placed inside later. Gentle reflections only on the edges
+of the glass. Warm candle and desk lamp light, blurred golden fireplace glow in
+the background. The globe is centered and fills about half of the frame height.
+16:9, photorealistic. No text, no letters, no people.""",
 }
 
 # --- Wideo (Gemini Omni Flash) ----------------------------------------------------------
