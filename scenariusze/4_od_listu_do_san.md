@@ -9,7 +9,7 @@ lang: pl
 Dziecko odwiedza Mikołaja na dalekiej Północy i przechodzi z nim całą drogę swojego prezentu.
 
 1. Zorza nad wioską i dom Mikołaja.
-2. Mikołaj wita dziecko po imieniu, patrząc w kamerę.
+2. W śnieżnej kuli na biurku Mikołaja zaczyna padać śnieg: to znak, że przyszło dziecko. Mikołaj wita je po imieniu, patrząc w kamerę.
 3. Na Poczcie Mikołaja znajduje się list dziecka.
 4. W pracowni elfy robią zabawki.
 5. W magicznej księdze jest zdjęcie dziecka, a Mikołaj opowiada, co elfy wiedzą o jego roku.
@@ -17,15 +17,17 @@ Dziecko odwiedza Mikołaja na dalekiej Północy i przechodzi z nim całą drog�
 7. Mikołaj przekazuje dziecku słowa od jego bliskich.
 8. Prezent trafia do worka na saniach.
 9. Na koniec zaprzęganie reniferów, wspólne odliczanie i start.
+10. Klamra: w tej samej śnieżnej kuli pojawia się dom dziecka.
 
 | | |
 |---|---|
 | **Dla kogo** | dzieci 3–9 lat |
-| **Długość** | ok. 7:15 |
+| **Długość** | ok. 7:30 |
 | **Nastrój** | ciepły, z humorem, „za kulisami” wioski Mikołaja |
 | **Oś filmu** | droga prezentu: list, pracownia, księga, pakowanie, worek, start |
 | **Zabawa dziecka** | stukanie młoteczkiem, wybór kokardy, odliczanie do startu |
 | **Najmocniejszy moment** | zdjęcie w księdze z opowieścią o roku dziecka i słowa od rodziców |
+| **Motyw przewodni** | śnieżna kula: śnieży, gdy przychodzi dziecko, a na końcu pokazuje jego dom |
 
 Scenariusz łączy:
 
@@ -46,6 +48,7 @@ Nowa jest scena z rodzicami.
 | **Jak dziecko mówi do bliskich, z którymi ogląda film** | tak | scena 8; wybór: „mama i tata”, „mama”, „tata”, „babcia i dziadek”, „inne” (pole tekstowe) |
 | **Wiadomość od bliskich** | nie | scena 8; jedno lub dwa zdania, do 200 znaków |
 | Zdjęcie listu albo rysunku dziecka | nie | Poczta Mikołaja (scena 4) |
+| **Zdjęcie domu z zewnątrz** | nie | śnieżna kula na końcu filmu (scena 10); bez zdjęcia ogólny domek |
 
 Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwane 7 dni po dostawie. Wiadomość od bliskich czyta człowiek przed nagraniem, tak jak cały tekst dla dziecka.
 
@@ -72,14 +75,14 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 |---|---|---|---|---|
 | 1 | 0:00–0:20 | Zorza nad wioską | [W] | klip z wersji krótkiej |
 | 2 | 0:20–0:40 | Dom Mikołaja | [W] | klip z wersji krótkiej |
-| 3 | 0:40–1:15 | Powitanie | [L] | lip-sync, ok. 30 s |
+| 3 | 0:40–1:15 | Powitanie: śnieżna kula | [L] | nowy kadr biurka z kulą + lip-sync, ok. 25 s |
 | 4 | 1:15–1:55 | List na poczcie | [P], [G] list (opcjonalnie) | nowy klip |
 | 5 | 1:55–2:40 | Pracownia | [W] | klip z wersji krótkiej + nowy |
 | 6 | 2:40–3:55 | Księga i opowieść o dziecku | [T], [G] zdjęcie | klip księgi + szablon |
 | 7 | 3:55–4:50 | Przygotowanie prezentu | [T] lub [P], [G] bilecik | nowe klipy + szablon |
 | 8 | 4:50–5:35 | Rodzice | [P], [T] (opcjonalnie) | nowy klip |
 | 9 | 5:35–6:15 | Załadunek sań | [W] | nowy klip |
-| 10 | 6:15–7:15 | Zaprzęganie i start | [W], [P] | nowe klipy + klip sań |
+| 10 | 6:15–7:30 | Zaprzęganie, start i dom w kuli | [W], [P], [G] dom (opcjonalnie) | nowe klipy + klip sań + szablon kuli |
 
 # Sceny
 
@@ -103,15 +106,21 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 ↳ *Rodzeństwo:* Wejdźcie, proszę… mam dziś gości specjalnych.
 
-## 3. Powitanie (0:40–1:15)
+## 3. Powitanie: śnieżna kula (0:40–1:15)
 
-**Obraz:** Mikołaj w fotelu przy kominku patrzy w kamerę. Wąsy i broda poruszają się w rytm słów.
+**Obraz:** gabinet Mikołaja. Mikołaj siedzi przy biurku i pisze gęsim piórem. Na biurku stoi szklana śnieżna kula z maleńką wioską w środku. Nagle w kuli sam zaczyna padać śnieg, a w środku rozbłyska ciepłe światło. Mikołaj odkłada pióro, bierze kulę w dłonie i spogląda w kamerę.
 
-**Źródło:** lip-sync (HeyGen), krótki tekst z imieniem, ok. 30 s.
+**Efekty w montażu:** śnieg i światło w kuli (nakładka), żeby kula zawsze wyglądała tak samo w scenie 3 i 10.
 
-**MIKOŁAJ [L]:** Ho, ho, ho! {ZWROT}, jak dobrze cię widzieć! Czekałem na ciebie cały dzień. Dziś pokażę ci coś, czego nie widzi prawie nikt: drogę, jaką przechodzi prezent, zanim trafi pod choinkę. A zaczniemy od miejsca, do którego przychodzą listy. Chodź ze mną!
+**Dźwięk:** cichy, magiczny dźwięk dzwoneczków, trzask kominka.
 
-↳ *Rodzeństwo:* …{ZWROT}, jak dobrze was widzieć! Czekałem na was… pokażę wam… Chodźcie ze mną!
+**MIKOŁAJ [W] (zza kadru, gdy kula zaczyna śnieżyć):** Ho, ho, ho! Moja śnieżna kula nigdy nie śnieży bez powodu. Robi to tylko wtedy, gdy zagląda do mnie ktoś wyjątkowy…
+
+**Źródło:** lip-sync (HeyGen), krótki tekst z imieniem, ok. 25 s.
+
+**MIKOŁAJ [L]:** {ZWROT}, to ty! Elfy mówiły, że przyjdziesz właśnie dziś. Siadaj wygodnie, bo mam dla ciebie coś wyjątkowego: pokażę ci, jak powstaje twój prezent. Zaczniemy od miejsca, do którego przychodzą listy. Chodź ze mną!
+
+↳ *Rodzeństwo:* {ZWROT}, to wy! Elfy mówiły, że przyjdziecie właśnie dziś. Siadajcie wygodnie… pokażę wam, jak powstają wasze prezenty… Chodźcie ze mną!
 
 ## 4. List na poczcie (1:15–1:55)
 
@@ -227,17 +236,22 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 **MIKOŁAJ [W]:** START! Ho, ho, ho!
 
-**MIKOŁAJ [P] (gdy sanie odlatują):** {ZWROT}, do zobaczenia w Wigilię! Zostaw marchewkę dla moich reniferów. Wesołych Świąt!
+**Obraz (klamra, 7:00–7:30):** sanie znikają w zorzy. Cięcie do gabinetu: na biurku stoi ta sama śnieżna kula, w której znowu pada śnieg. Kamera zbliża się do kuli.
 
-↳ *Rodzeństwo:* {ZWROT}, do zobaczenia w Wigilię! Zostawcie marchewkę…
+- **Ze zdjęciem domu [G]:** w kuli widać zdjęcie domu dziecka z zewnątrz, przyprószone padającym śniegiem.
+- **Bez zdjęcia:** w kuli widać zaśnieżony domek z jednym ciepło świecącym oknem.
 
-*Wyciszenie obrazu i muzyki.*
+**MIKOŁAJ [P] (zza kadru):** {ZWROT}, moja śnieżna kula już pokazuje mi twój dom. Do zobaczenia w Wigilię! Zostaw marchewkę dla moich reniferów. Wesołych Świąt!
+
+↳ *Rodzeństwo:* {ZWROT}, moja śnieżna kula już pokazuje mi wasz dom. Do zobaczenia w Wigilię! Zostawcie marchewkę…
+
+*Światło w kuli powoli gaśnie. Wyciszenie obrazu i muzyki.*
 
 # Elementy personalizowane
 
 | Element | Scena | Narzędzie |
 |---|---|---|
-| Powitanie do kamery | 3 | ElevenLabs + HeyGen (ok. 30 s) |
+| Powitanie do kamery | 3 | ElevenLabs + HeyGen (ok. 25 s) |
 | Kwestie z imieniem (5) | 4, 7 [niekupiony], 8, 10 | ElevenLabs |
 | Opowieść o dziecku | 6 | Gemini + człowiek + ElevenLabs |
 | Zdanie o prezencie | 7 [kupiony] | Gemini + człowiek + ElevenLabs |
@@ -245,11 +259,14 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 | Zdjęcie listu lub rysunku | 4 | opcjonalne, montaż |
 | Zdjęcie w księdze | 6 | montaż |
 | Bilecik z imieniem | 7 | montaż |
+| Dom w śnieżnej kuli | 10 | opcjonalne zdjęcie domu, montaż |
 
 # Materiały do przygotowania (raz)
 
 - **Kadry i klipy już zrobione (wersja krótka):** zorza, dom, pracownia, księga, sanie.
 - **Nowe kadry i klipy:**
+  - gabinet: Mikołaj przy biurku ze śnieżną kulą, bierze ją w dłonie;
+  - zbliżenie na pustą kulę na biurku (do sceny 10);
   - Poczta Mikołaja (zjeżdżalnia z listami, koperta);
   - pakowanie i kokarda;
   - gabinet z kopertą z sercem;
@@ -258,12 +275,15 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 - **Szablony:**
   - ramka listu na biurku;
   - strona księgi (jest);
-  - bilecik.
+  - bilecik;
+  - wnętrze śnieżnej kuli z miejscem na zdjęcie domu i wariant z ogólnym domkiem;
+  - nakładka: śnieg i światło w kuli.
 - **Dźwięki:** listy na zjeżdżalni, papier, taśma, uprząż, start sań.
 
 # Uwagi
 
-- **Krótszy lip-sync:** Mikołaj mówi do kamery tylko w powitaniu (ok. 30 s zamiast 45–60 s), a opowieść o dziecku jest głosem zza kadru nad księgą ze zdjęciem. To tańsze w HeyGen i mniej ryzykowne, bo dłuższy lip-sync częściej wymaga poprawek.
+- **Śnieżna kula jako klamra:** ten sam przedmiot otwiera film (znak, że przyszło dziecko) i go zamyka (dom dziecka). Gabinet z kulą to też miejsce sceny 8 (koperta od bliskich), więc jeden nowy kadr służy trzem scenom.
+- **Krótszy lip-sync:** Mikołaj mówi do kamery tylko w powitaniu (ok. 25 s zamiast 45–60 s), a opowieść o dziecku jest głosem zza kadru nad księgą ze zdjęciem. To tańsze w HeyGen i mniej ryzykowne, bo dłuższy lip-sync częściej wymaga poprawek.
 - **Ponowne użycie materiałów:** pięć klipów jest już gotowych z wersji krótkiej, więc do wygenerowania zostaje ok. 6–8 nowych ujęć.
 - **Najtrudniejsze ujęcia dla modelu wideo:** pakowanie i wiązanie kokardy oraz zaprzęganie reniferów. Warto je najpierw sprawdzić w `testy_fal`.
 - **Scena z rodzicami** daje silny moment dla dorosłych i powód do udostępnienia filmu rodzinie. Tekst musi uwzględniać różne rodziny, stąd wybór `{BLISCY}` w formularzu.
