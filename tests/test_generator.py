@@ -33,7 +33,13 @@ def tmp_output(tmp_path, monkeypatch):
 def test_scene_and_motion_prompts_have_no_placeholders_left():
     for scene in prompts.SCENES.values():
         assert "{" not in prompts.SCENE_PROMPT.format(scene=scene["scene"])
-        assert "{" not in prompts.MOTION_PROMPT.format(motion=scene["motion"], seconds=8)
+        assert "{" not in prompts.motion_prompt(scene["motion"], 8, scene.get("camera"))
+
+
+def test_scene_camera_override():
+    assert "push-in" in prompts.scene_motion_prompt("zorza", 8)
+    kula = prompts.scene_motion_prompt("kula", 8)
+    assert "Static camera" in kula and "push-in." not in kula.replace("no push-in", "")
 
 
 def test_voice_sample_text_fits_voice_design_limits():

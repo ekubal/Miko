@@ -163,7 +163,8 @@ def frame_prompt(shot: Shot, with_kardamon_reference: bool) -> str:
 
 def motion_prompt(shot: Shot) -> str:
     """Prompt ruchu jak w produkcji; {seconds} uzupełnia mapowanie długością wysłaną do modelu."""
-    return prompts.MOTION_PROMPT.format(motion=shot.ruch, seconds="{seconds}")
+    camera = prompts.SCENES.get(shot.key, {}).get("camera") if shot.produkcja else None
+    return prompts.motion_prompt(shot.ruch, "{seconds}", camera)
 
 
 def references(shot: Shot) -> list[Path]:
