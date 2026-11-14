@@ -1,6 +1,7 @@
 """Testy offline: bez kluczy API i bez połączeń sieciowych."""
 
 import json
+import re
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -81,12 +82,39 @@ def test_voice_sample_text_fits_voice_design_limits():
     assert 100 <= len(prompts.VOICE_SAMPLE_TEXT) <= 1000
 
 
+# Słowa, po których widać, że kwestia mówi do jednego dziecka (zaimki i tryb rozkazujący).
+SINGLE_CHILD_WORDS = re.compile(
+    r"\b(ciebie|cię|tobą|tobie|twojej|twoje|spójrz|witaj|słuchaj|popatrz|wejdź|pomóż|weź|chodź"
+    r"|wiesz|zrób|powiedz|pomożesz|odliczaj)\b",
+    re.IGNORECASE,
+)
+
+
 def test_general_lines_have_both_variants():
-    for lines in prompts.GENERAL_LINES.values():
-        assert lines["single"] and lines["plural"]
+    for key, lines in prompts.GENERAL_LINES.items():
+        assert lines["single"] and lines["plural"], key
         # Kwestia zwracająca się do jednego dziecka musi mieć inną wersję dla rodzeństwa.
-        if any(word in lines["single"] for word in ("ciebie", "Twoje", "Spójrz", "Witaj ", "Słuchaj", "Popatrz")):
-            assert lines["single"] != lines["plural"]
+        if SINGLE_CHILD_WORDS.search(lines["single"]):
+            assert lines["single"] != lines["plural"], key
+        # W wersji dla rodzeństwa nie zostaje forma dla jednego dziecka.
+        assert not SINGLE_CHILD_WORDS.search(lines["plural"]), (key, SINGLE_CHILD_WORDS.search(lines["plural"]))
+
+
+def test_long_version_has_all_shared_lines_in_film_order():
+    # Kwestie [W] scenariusza 4 („Od listu do sań”), sceny 1–11.
+    assert prompts.LONG_LINES == [
+        "d_zorza", "d_dom", "d_kula", "d_poczta", "d_pracownia_1", "d_pracownia_2",
+        "d_stajnia_1", "d_stajnia_2", "d_ksiega", "d_pakowanie_1", "d_pakowanie_2", "d_pakowanie_3",
+        "d_bliscy_1", "d_bliscy_2", "d_worek", "d_zaprzeg", "d_start",
+    ]
+
+
+def test_lines_dluga_records_only_long_version(tmp_output, monkeypatch):
+    monkeypatch.setenv("ELEVENLABS_VOICE_ID", "voice123")
+    monkeypatch.setattr(audio.elevenlabs, "text_to_speech", lambda text, vid, s: b"MP3")
+    audio.main(["lines", "--dluga", "--variant", "plural"])
+    files = sorted(p.name for p in (tmp_output / "audio" / "lines").iterdir())
+    assert files == sorted(f"{key}_rodzenstwo.mp3" for key in prompts.LONG_LINES)
 
 
 def test_build_prompt_single_child():

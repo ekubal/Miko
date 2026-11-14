@@ -115,6 +115,8 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 **MIKOŁAJ [W] (zza kadru, gdy kula zaczyna śnieżyć):** Ho, ho, ho! Moja śnieżna kula nigdy nie śnieży bez powodu. Robi to tylko wtedy, gdy zagląda do mnie ktoś wyjątkowy…
 
+↳ *Rodzeństwo:* …gdy zaglądają do mnie wyjątkowi goście…
+
 **Źródło:** lip-sync (HeyGen), krótki tekst z imieniem, ok. 25 s.
 
 **MIKOŁAJ [L]:** {ZWROT}, to ty! Elfy mówiły, że przyjdziesz właśnie dziś. Siadaj wygodnie, bo mam dla ciebie coś wyjątkowego: pokażę ci, jak powstaje twój prezent. Zaczniemy od miejsca, do którego przychodzą listy. Chodź ze mną!
@@ -132,9 +134,11 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 **MIKOŁAJ [W]:** To moja poczta. Każdego dnia przychodzą tu tysiące listów z całego świata. Elfy sortują je według krajów, miast i ulic. A ten list…
 
+↳ *Rodzeństwo:* …A te listy…
+
 **MIKOŁAJ [P]:** …ten jest od ciebie, {ZWROT}! Przeczytałem go bardzo uważnie. Nawet dwa razy.
 
-↳ *Rodzeństwo:* …ten jest od was, {ZWROT}! Przeczytałem je bardzo uważnie…
+↳ *Rodzeństwo:* …te są od was, {ZWROT}! Przeczytałem je bardzo uważnie. Nawet dwa razy.
 
 ## 5. Pracownia (1:55–2:40)
 
@@ -216,6 +220,8 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 **MIKOŁAJ [W]:** Ho, ho! W takim razie elfy zawiążą obie kokardy, żeby było podwójnie pięknie. I jeszcze bilecik z imieniem, żeby nikt nie pomylił prezentów.
 
+↳ *Rodzeństwo:* …elfy zawiążą na każdym prezencie obie kokardy… I jeszcze bileciki z imionami…
+
 ## 9. Bliscy (6:15–7:10)
 
 **Obraz:** Mikołaj przy biurku w gabinecie. Opcjonalnie na biurku stoi ramka ze zdjęciem bliskich [G]. Bierze do ręki kopertę zapieczętowaną czerwonym sercem (bez napisów), otwiera ją i czyta, uśmiechając się oczami. Ciepłe światło lampy, za oknem pada śnieg. W tle ta sama śnieżna kula.
@@ -232,9 +238,11 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 **MIKOŁAJ [T] (gdy rodzic wpisał wiadomość):** „Przekazali mi też wiadomość dla ciebie: …” i treść wiadomości od bliskich, lekko wygładzona przez model i sprawdzona przez człowieka.
 
-**MIKOŁAJ [W]:** Zrób coś dla mnie: kiedy skończy się film, przytul ich mocno. To najlepszy prezent, jaki można dać.
+**MIKOŁAJ [W]:** Zrób coś dla mnie: kiedy skończy się film, przytul mocno każdego, kto ogląda go razem z tobą. To najlepszy prezent, jaki można dać.
 
-↳ *Rodzeństwo:* Zróbcie coś dla mnie…
+↳ *Rodzeństwo:* Zróbcie coś dla mnie: kiedy skończy się film, przytulcie mocno każdego, kto ogląda go razem z wami…
+
+*Bez „przytul ich”: `{BLISCY}` może oznaczać jedną osobę („mama”), a kwestia wspólna musi pasować do każdego wyboru.*
 
 **Uwaga:** `{BLISCY}` wybiera rodzic w formularzu. Domyślnie „Twoi bliscy”. Wariant „inne” wymaga sprawdzenia odmiany przez człowieka.
 
@@ -245,6 +253,8 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 **Dźwięk:** stukot taśmy, dzwoneczki, śmiech elfów, parskanie Płatka.
 
 **MIKOŁAJ [W]:** I… hop! Prezent ląduje w moim worku. Mój worek jest magiczny: zmieszczą się w nim wszystkie prezenty świata, a i tak nigdy nie jest za ciężki. Brawo, Płatku — właśnie pomogłeś przy prawdziwej dostawie!
+
+↳ *Rodzeństwo:* I… hop! Prezenty lądują w moim worku…
 
 ## 11. Zaprzęganie, pierwszy lot Płatka i dom w kuli (7:55–9:30)
 
@@ -326,4 +336,5 @@ Ustalono 14 lis 2026:
 - **Najtrudniejsze ujęcia:** wpadka elfa ze wstążką oraz spójny Płatek w trzech scenach (portret wzorcowy). Wczesny test w `testy_fal`.
 - **Kwestie [W]** bez form zależnych od płci; formy płciowe tylko w tekstach pisanych dla konkretnego dziecka i w wariantach rodzeństwa oznaczonych osobno.
 - **Montaż:** kilka ujęć w jednej scenie (zwłaszcza pakowanie, stajnia, start).
+- **Kwestie [W]** (karta 1.3): w `generator/prompts.py`, `GENERAL_LINES` z kluczami `d_*` (lista `LONG_LINES`, kolejność filmu); nagrywa je `python -m generator.audio lines --dluga`. Kwestie bez ↳ *Rodzeństwo* (stajnia, wpadka elfa, „START!”) są takie same w obu wersjach.
 - **Prompty obrazów** (karta 1.2): w `generator/prompts.py` (`SCENES`, `TEMPLATES`, `PLATEK_PORTRAIT_PROMPT`). Sceny: `kula`, `sortownia`, `koperta`, `stajnia_skok`, `stajnia`, `pakowanie`, `wpadka`, `bliscy`, `worek`, `zaprzeg`, `start`; szablony: `szablon_kula`, `szablon_kula_domek`, `szablon_poczta`, `szablon_bilecik`, `szablon_bliscy`.

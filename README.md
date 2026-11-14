@@ -284,7 +284,7 @@ python -m generator.videos select zorza 2
 |---|---|---|
 | `design` | Voice Design: kilka podglądów głosu według `VOICE_DESCRIPTION` | `output/audio/voice_design/preview_NN.mp3` i `previews.json` z ich identyfikatorami |
 | `save-voice <id>` | zapisuje wybrany podgląd w bibliotece ElevenLabs | `output/voice.json` (`voice_id`) |
-| `lines` | nagrywa kwestie ogólne scen 1, 2, 4, 5, 6 | `output/audio/lines/<scena>.mp3` i `<scena>_rodzenstwo.mp3` |
+| `lines` | nagrywa kwestie wspólne: wersji krótkiej i długiej (klucze `d_*`, scenariusz 4) | `output/audio/lines/<scena>.mp3` i `<scena>_rodzenstwo.mp3` |
 | `tts` | dowolny tekst głosem Mikołaja | wskazany plik |
 | `music` | podkład muzyczny (ElevenLabs Music, bez wokalu) | `output/audio/music/podklad_NN.mp3` |
 | `select-music <N>` | zatwierdza podkład do montażu | `output/selected/podklad.mp3` |
@@ -296,6 +296,7 @@ python -m generator.videos select zorza 2
 | `save-voice` | `--name` | `Mikolaj` | nazwa głosu w bibliotece |
 | `lines` | `--variant` | `all` | `single`, `plural` albo `all` |
 | `lines` | `--only` | wszystkie | wybrane sceny, np. `pracownia` |
+| `lines` | `--dluga` | wyłączone | tylko kwestie wersji długiej (`d_*`, kolejność w `prompts.LONG_LINES`) |
 | `lines` | `--force` | wyłączone | nadpisz istniejące nagrania |
 | `tts` | `--text` / `--file`, `-o` | — | tekst lub plik z tekstem, plik wynikowy |
 | `music` | `--seconds`, `--prompt`, `-n` | 150, z `prompts.py`, 1 | długość, opis, liczba wariantów |
@@ -305,6 +306,7 @@ python -m generator.audio design --rounds 2
 # odsłuchaj preview_*.mp3, znajdź id w previews.json
 python -m generator.audio save-voice abc123XYZ
 python -m generator.audio lines
+python -m generator.audio lines --dluga      # tylko wersja długa
 python -m generator.audio music --seconds 150 -n 2
 python -m generator.audio select-music 2
 ```

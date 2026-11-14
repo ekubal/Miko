@@ -4,6 +4,7 @@ Przykłady:
     python -m generator.audio design --rounds 2         # podglądy głosów do odsłuchania
     python -m generator.audio save-voice <generated_voice_id>
     python -m generator.audio lines                     # kwestie ogólne: pojedyncze i dla rodzeństwa
+    python -m generator.audio lines --dluga             # tylko kwestie wersji długiej (d_*)
     python -m generator.audio tts --text "Ho, ho, ho!" -o test.mp3
     python -m generator.audio music --seconds 150
     python -m generator.audio select-music 1            # -> output/selected/podklad.mp3
@@ -66,6 +67,8 @@ def cmd_lines(args):
     for key, lines in prompts.GENERAL_LINES.items():
         if args.only and key not in args.only:
             continue
+        if args.dluga and key not in prompts.LONG_LINES:
+            continue
         for variant in variants:
             suffix = "" if variant == "single" else "_rodzenstwo"
             out = directory / f"{key}{suffix}.mp3"
@@ -112,9 +115,10 @@ def main(argv=None):
     p.add_argument("--name", default="Mikolaj")
     p.set_defaults(func=cmd_save_voice)
 
-    p = sub.add_parser("lines", help="nagraj kwestie ogólne (sceny 1, 2, 4, 5, 6)")
+    p = sub.add_parser("lines", help="nagraj kwestie wspólne (wersja krótka i długa)")
     p.add_argument("--variant", choices=["single", "plural", "all"], default="all")
     p.add_argument("--only", nargs="+", choices=list(prompts.GENERAL_LINES))
+    p.add_argument("--dluga", action="store_true", help="tylko kwestie wersji długiej (klucze d_*)")
     p.add_argument("--force", action="store_true", help="nadpisz istniejące nagrania")
     p.set_defaults(func=cmd_lines)
 

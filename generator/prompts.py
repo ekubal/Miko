@@ -485,7 +485,128 @@ GENERAL_LINES = {
         "Słuchajcie rodziców i uśmiechajcie się często. Do zobaczenia w Wigilię! Ho, ho, ho! "
         "Wesołych Świąt!",
     },
+    # --- Wersja długa: scenariusz 4 „Od listu do sań”, kwestie [W] ---
+    # Przedrostek d_ oddziela je od kwestii wersji krótkiej (te zostają do czasu TIMELINE_LONG,
+    # karta 1.6). Scena z kilkoma kwestiami ma klucze _1, _2, …, bo pauzę na reakcję
+    # dziecka wstawia montaż między nagraniami. Kolejność jak w filmie.
+    "d_zorza": {
+        "single": "Ho, ho, ho! Spójrz w niebo. Tak tańczy zorza polarna nad moją wioską "
+        "na dalekiej Północy.",
+        "plural": "Ho, ho, ho! Spójrzcie w niebo. Tak tańczy zorza polarna nad moją wioską "
+        "na dalekiej Północy.",
+    },
+    "d_dom": {
+        "single": "A to mój dom. Wejdź, proszę. Przy kominku jest ciepło, a ja mam dziś "
+        "gościa specjalnego.",
+        "plural": "A to mój dom. Wejdźcie, proszę. Przy kominku jest ciepło, a ja mam dziś "
+        "gości specjalnych.",
+    },
+    # Zza kadru, gdy w kuli zaczyna padać śnieg; potem lip-sync z imieniem (HeyGen).
+    "d_kula": {
+        "single": "Ho, ho, ho! Moja śnieżna kula nigdy nie śnieży bez powodu. Robi to tylko wtedy, "
+        "gdy zagląda do mnie ktoś wyjątkowy…",
+        "plural": "Ho, ho, ho! Moja śnieżna kula nigdy nie śnieży bez powodu. Robi to tylko wtedy, "
+        "gdy zaglądają do mnie wyjątkowi goście…",
+    },
+    # Po niej kwestia [P] z imieniem: „…ten jest od ciebie” / „…te są od was”.
+    "d_poczta": {
+        "single": "To moja poczta. Każdego dnia przychodzą tu tysiące listów z całego świata. "
+        "Elfy sortują je według krajów, miast i ulic. A ten list…",
+        "plural": "To moja poczta. Każdego dnia przychodzą tu tysiące listów z całego świata. "
+        "Elfy sortują je według krajów, miast i ulic. A te listy…",
+    },
+    "d_pracownia_1": {
+        "single": "Tu, w mojej pracowni, powstają prezenty dla dzieci z całego świata. Elfy pracują "
+        "dzień i noc. Pomóż im! Weź niewidzialny młoteczek i stukaj razem z nimi: puk, puk, puk!",
+        "plural": "Tu, w mojej pracowni, powstają prezenty dla dzieci z całego świata. Elfy pracują "
+        "dzień i noc. Pomóżcie im! Weźcie niewidzialne młoteczki i stukajcie razem z nimi: "
+        "puk, puk, puk!",
+    },
+    # Po pauzie 5 s na stukanie.
+    "d_pracownia_2": {
+        "single": "Ho, ho! Z taką pomocą skończymy przed czasem! A teraz chodź, ktoś w stajni "
+        "bardzo chce cię poznać.",
+        "plural": "Ho, ho! Z taką pomocą skończymy przed czasem! A teraz chodźcie, ktoś w stajni "
+        "bardzo chce was poznać.",
+    },
+    # Po niej kwestia [P]: „{ZWROT}, pokaż mu, jak wysoko umiesz skakać!”.
+    "d_stajnia_1": {
+        "single": "To Płatek, najmłodszy z moich reniferów. Cały rok ćwiczy podskoki, bo marzy "
+        "o pierwszym locie w zaprzęgu. Jeszcze trochę mu brakuje… Hop!",
+        "plural": "To Płatek, najmłodszy z moich reniferów. Cały rok ćwiczy podskoki, bo marzy "
+        "o pierwszym locie w zaprzęgu. Jeszcze trochę mu brakuje… Hop!",
+    },
+    # Po pauzie 3 s na kibicowanie. Mikołaj mówi do Płatka, więc wersje są takie same.
+    "d_stajnia_2": {
+        "single": "Brawo! Widzisz, Płatku? Masz kibiców. Jeszcze dziś może przyjść twoja wielka "
+        "chwila. A my zajrzyjmy do magicznej księgi, elfy coś zapisały.",
+        "plural": "Brawo! Widzisz, Płatku? Masz kibiców. Jeszcze dziś może przyjść twoja wielka "
+        "chwila. A my zajrzyjmy do magicznej księgi, elfy coś zapisały.",
+    },
+    # Po niej opowieść o dziecku [T].
+    "d_ksiega": {
+        "single": "To moja magiczna księga. Elfy zapisują w niej wszystko, co ważnego wydarzyło się "
+        "u dzieci w tym roku. Zobaczmy, co jest na twojej stronie…",
+        "plural": "To moja magiczna księga. Elfy zapisują w niej wszystko, co ważnego wydarzyło się "
+        "u dzieci w tym roku. Zobaczmy, co jest na waszych stronach…",
+    },
+    # Po zdaniu o prezencie ([T] kupiony / [P] niekupiony); potem pauza 3 s na wybór kokardy.
+    "d_pakowanie_1": {
+        "single": "Jaką kokardę wybierzemy: czerwoną czy złotą? Powiedz głośno!",
+        "plural": "Jaką kokardę wybierzemy: czerwoną czy złotą? Powiedzcie głośno!",
+    },
+    # Wpadka elfa ze wstążką.
+    "d_pakowanie_2": {
+        "single": "Ojej… ktoś tu trochę przesadził z dekoracją! Spokojnie, spokojnie, wystarczy "
+        "odwinąć… i gotowe!",
+        "plural": "Ojej… ktoś tu trochę przesadził z dekoracją! Spokojnie, spokojnie, wystarczy "
+        "odwinąć… i gotowe!",
+    },
+    "d_pakowanie_3": {
+        "single": "Ho, ho! W takim razie elfy zawiążą obie kokardy, żeby było podwójnie pięknie. "
+        "I jeszcze bilecik z imieniem, żeby nikt nie pomylił prezentów.",
+        "plural": "Ho, ho! W takim razie elfy zawiążą na każdym prezencie obie kokardy, żeby było "
+        "podwójnie pięknie. I jeszcze bileciki z imionami, żeby nikt nie pomylił prezentów.",
+    },
+    # Po niej kwestia [P] z {BLISCY} i opcjonalna wiadomość od bliskich [T].
+    "d_bliscy_1": {
+        "single": "Wiesz, kto pomaga mi najbardziej? Ci, którzy są przy tobie każdego dnia.",
+        "plural": "Wiecie, kto pomaga mi najbardziej? Ci, którzy są przy was każdego dnia.",
+    },
+    # Bez „przytul ich”: rodzic może wybrać jedną osobę („mama”), więc zwrot pasuje do każdej liczby.
+    "d_bliscy_2": {
+        "single": "Zrób coś dla mnie: kiedy skończy się film, przytul mocno każdego, kto ogląda go "
+        "razem z tobą. To najlepszy prezent, jaki można dać.",
+        "plural": "Zróbcie coś dla mnie: kiedy skończy się film, przytulcie mocno każdego, kto ogląda "
+        "go razem z wami. To najlepszy prezent, jaki można dać.",
+    },
+    # „Pomogłeś” mówi Mikołaj do Płatka, nie do dziecka.
+    "d_worek": {
+        "single": "I… hop! Prezent ląduje w moim worku. Mój worek jest magiczny: zmieszczą się "
+        "w nim wszystkie prezenty świata, a i tak nigdy nie jest za ciężki. Brawo, Płatku, "
+        "właśnie pomogłeś przy prawdziwej dostawie!",
+        "plural": "I… hop! Prezenty lądują w moim worku. Mój worek jest magiczny: zmieszczą się "
+        "w nim wszystkie prezenty świata, a i tak nigdy nie jest za ciężki. Brawo, Płatku, "
+        "właśnie pomogłeś przy prawdziwej dostawie!",
+    },
+    # Po niej pauza 5 s na wspólne odliczanie.
+    "d_zaprzeg": {
+        "single": "Renifery, do zaprzęgu! Dzwoneczki zapięte, worek na miejscu. Dziś z nami leci "
+        "Płatek, pierwszy raz! Pomożesz mi wystartować? Odliczaj ze mną: pięć… cztery… trzy… "
+        "dwa… jeden…",
+        "plural": "Renifery, do zaprzęgu! Dzwoneczki zapięte, worek na miejscu. Dziś z nami leci "
+        "Płatek, pierwszy raz! Pomożecie mi wystartować? Odliczajcie ze mną: pięć… cztery… trzy… "
+        "dwa… jeden…",
+    },
+    # Po niej klamra z kulą i pożegnanie [P] z imieniem.
+    "d_start": {
+        "single": "START! Ho, ho, ho!",
+        "plural": "START! Ho, ho, ho!",
+    },
 }
+
+# Klucze kwestii wersji długiej w kolejności filmu (do nagrywania i montażu wersji długiej).
+LONG_LINES = [key for key in GENERAL_LINES if key.startswith("d_")]
 
 # --- Tekst personalizowany (scena 3) ------------------------------------------
 # ZAMROŻONE. Źródłem promptu i reguł jest Rails: app/app/services/orders/speech_prompt.rb
