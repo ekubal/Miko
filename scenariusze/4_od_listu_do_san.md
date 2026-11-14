@@ -1,23 +1,23 @@
 ---
 title: "Scenariusz 4: Od listu do sań"
-subtitle: "Długi film od Mikołaja (ok. 9:30) · połączenie wybranych scen + Płatek"
+subtitle: "Długi film od Mikołaja (ok. 9:30) · Płatek, droga prezentu, śnieżna kula"
 lang: pl
 ---
 
 # Koncepcja
 
-Dziecko odwiedza Mikołaja na dalekiej Północy i przechodzi z nim całą drogę swojego prezentu.
+Dziecko odwiedza Mikołaja na dalekiej Północy i przechodzi z nim całą drogę swojego prezentu: od listu na poczcie, przez pracownię i pakowanie, aż po worek na saniach i start zaprzęgu. Równolegle biegnie drugi wątek: najmłodszy renifer Płatek marzy o pierwszym locie, a dziecko mu kibicuje. Klamrą filmu jest śnieżna kula — na początku zaczyna w niej padać śnieg, bo przyszło dziecko, a na końcu pokazuje jego dom.
 
 1. Zorza nad wioską i dom Mikołaja.
-2. W śnieżnej kuli na biurku Mikołaja zaczyna padać śnieg: to znak, że przyszło dziecko. Mikołaj wita je po imieniu, patrząc w kamerę.
+2. W śnieżnej kuli na biurku zaczyna padać śnieg; Mikołaj wita dziecko po imieniu, patrząc w kamerę.
 3. Na Poczcie Mikołaja znajduje się list dziecka.
 4. W pracowni elfy robią zabawki; dziecko stuka młoteczkiem.
-5. W stajni najmłodszy renifer Płatek ćwiczy podskoki; dziecko mu kibicuje.
-6. W magicznej księdze jest zdjęcie dziecka, a Mikołaj opowiada, co elfy wiedzą o jego roku.
+5. W stajni Płatek ćwiczy podskoki; dziecko mu kibicuje.
+6. W magicznej księdze jest zdjęcie dziecka; Mikołaj opowiada o jego roku.
 7. Elfy pakują prezent (wpadka ze wstążką), dziecko wybiera kokardę, bilecik z imieniem.
-8. Mikołaj przekazuje dziecku słowa od jego bliskich.
-9. Prezent trafia do worka na saniach; Płatek pomaga.
-10. Zaprzęganie, pierwszy lot Płatka, wspólne odliczanie i start; w śnieżnej kuli pojawia się dom dziecka.
+8. Mikołaj przekazuje słowa od bliskich.
+9. Prezent trafia do worka; Płatek pomaga.
+10. Zaprzęganie, pierwszy lot Płatka, odliczanie, start; w kuli pojawia się dom dziecka.
 
 | | |
 |---|---|
@@ -30,26 +30,19 @@ Dziecko odwiedza Mikołaja na dalekiej Północy i przechodzi z nim całą drog�
 | **Najmocniejszy moment** | zdjęcie w księdze z opowieścią o roku dziecka i słowa od bliskich |
 | **Motyw przewodni** | śnieżna kula: śnieży, gdy przychodzi dziecko, a na końcu pokazuje jego dom |
 
-Scenariusz łączy:
-
-- otwarcie wersji krótkiej (zorza, dom);
-- środek „Prezentu w drodze” (poczta, pracownia, pakowanie, worek);
-- zakończenie „Wigilijnej próby” (zaprzęganie, odliczanie, start);
-- nowy wątek: Płatek + scena z bliskimi + wpadka elfa.
-
-Pełne teksty scen (przebieg poniżej) w karcie **1.1** dopisujemy do długości 9:30; decyzje z 0.3 są w sekcji „Do decyzji”.
+Scenariusz łączy otwarcie wersji krótkiej (zorza, dom), środek „Prezentu w drodze” (poczta, pracownia, pakowanie, worek), zakończenie „Wigilijnej próby” (zaprzęganie, odliczanie, start) oraz nowy wątek: Płatek, scena z bliskimi i wpadka elfa.
 
 # Dane z formularza
 
 | Pole | Wymagane | Użycie w filmie |
 |---|---|---|
 | Imię i forma zwracania się (wołacz) | tak | kwestie z imieniem, bilecik |
-| Wiek, płeć, osiągnięcie, zainteresowania, nad czym popracować | tak (ostatnie nie) | opowieść o dziecku (scena 6) |
-| Zdjęcie dziecka | tak | magiczna księga (scena 6) |
-| Wymarzony prezent, czy jest kupiony | tak | przygotowanie prezentu (scena 7), dwa warianty |
-| **Jak dziecko mówi do bliskich, z którymi ogląda film** | tak | scena 8; wybór: „mama i tata”, „mama”, „tata”, „babcia i dziadek”, „inne” (pole tekstowe) |
-| **Wiadomość od bliskich** | nie | scena 8; jedno lub dwa zdania, do 200 znaków |
-| **Zdjęcie bliskich** | nie | ramka na biurku (scena 8); bez zdjęcia brak ramki |
+| Wiek, płeć, osiągnięcie, zainteresowania, nad czym popracować | tak (ostatnie nie) | opowieść o dziecku (scena 7) |
+| Zdjęcie dziecka | tak | magiczna księga (scena 7) |
+| Wymarzony prezent, czy jest kupiony | tak | przygotowanie prezentu (scena 8), dwa warianty |
+| **Jak dziecko mówi do bliskich, z którymi ogląda film** | tak | scena 9; wybór: „mama i tata”, „mama”, „tata”, „babcia i dziadek”, „inne” (pole tekstowe) |
+| **Wiadomość od bliskich** | nie | scena 9; jedno lub dwa zdania, do 200 znaków |
+| **Zdjęcie bliskich** | nie | ramka na biurku (scena 9); bez zdjęcia brak ramki |
 | Zdjęcie listu albo rysunku dziecka | nie | Poczta Mikołaja (scena 4) |
 | **Zdjęcie domu z zewnątrz** | nie | śnieżna kula na końcu filmu; bez zdjęcia ogólny domek |
 
@@ -72,20 +65,23 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 **Zasada prezentu:** konkretny prezent pojawia się tylko w wariancie **[kupiony]**. W wariancie **[niekupiony]** film mówi o niespodziance i o zapisanym marzeniu.
 
+**Pauzy (0.3):** młoteczek 5 s · Płatek / kciuki 3 s · kokarda 3 s · odliczanie 5 s.
+
 # Przebieg
 
 | # | Czas | Scena | Personalizacja | Źródło obrazu |
 |---|---|---|---|---|
 | 1 | 0:00–0:20 | Zorza nad wioską | [W] | klip z wersji krótkiej |
 | 2 | 0:20–0:40 | Dom Mikołaja | [W] | klip z wersji krótkiej |
-| 3 | 0:40–1:15 | Powitanie: śnieżna kula | [L] | nowy kadr biurka z kulą + lip-sync, ok. 25 s |
-| 4 | 1:15–1:55 | List na poczcie | [P], [G] list (opcjonalnie) | nowy klip |
+| 3 | 0:40–1:15 | Powitanie: śnieżna kula | [W], [L] | nowy kadr biurka + lip-sync, ok. 25 s |
+| 4 | 1:15–1:55 | List na poczcie | [W], [P], [G] list (opcjonalnie) | nowy klip |
 | 5 | 1:55–2:40 | Pracownia | [W] | klip z wersji krótkiej + nowy |
-| 6 | 2:40–3:55 | Księga i opowieść o dziecku | [T], [G] zdjęcie | klip księgi + szablon |
-| 7 | 3:55–4:50 | Przygotowanie prezentu | [T] lub [P], [G] bilecik | nowe klipy + szablon |
-| 8 | 4:50–5:35 | Rodzice | [P], [T] (opcjonalnie) | nowy klip |
-| 9 | 5:35–6:15 | Załadunek sań | [W] | nowy klip |
-| 10 | 6:15–7:30 | Zaprzęganie, start i dom w kuli | [W], [P], [G] dom (opcjonalnie) | nowe klipy + klip sań + szablon kuli |
+| 6 | 2:40–3:45 | Stajnia: Płatek | [W], [P] | nowe klipy + portret wzorcowy Płatka |
+| 7 | 3:45–5:00 | Księga i opowieść o dziecku | [W], [T], [G] zdjęcie | klip księgi + szablon |
+| 8 | 5:00–6:15 | Przygotowanie prezentu i wpadka elfa | [T] lub [P], [W], [G] bilecik | nowe klipy + szablon |
+| 9 | 6:15–7:10 | Bliscy | [W], [P], [T] (opcjonalnie), [G] ramka (opcjonalnie) | nowy klip + szablon ramki |
+| 10 | 7:10–7:55 | Załadunek sań | [W] | nowy klip (Płatek z portretu) |
+| 11 | 7:55–9:30 | Zaprzęganie, lot Płatka i dom w kuli | [W], [P], [G] dom (opcjonalnie) | nowe klipy + klip sań + szablon kuli |
 
 # Sceny
 
@@ -113,7 +109,7 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 **Obraz:** gabinet Mikołaja. Mikołaj siedzi przy biurku i pisze gęsim piórem. Na biurku stoi szklana śnieżna kula z maleńką wioską w środku. Nagle w kuli sam zaczyna padać śnieg, a w środku rozbłyska ciepłe światło. Mikołaj odkłada pióro, bierze kulę w dłonie i spogląda w kamerę.
 
-**Efekty w montażu:** śnieg i światło w kuli (nakładka), żeby kula zawsze wyglądała tak samo w scenie 3 i 10.
+**Efekty w montażu:** śnieg i światło w kuli (nakładka), żeby kula zawsze wyglądała tak samo w scenie 3 i 11.
 
 **Dźwięk:** cichy, magiczny dźwięk dzwoneczków, trzask kominka.
 
@@ -152,9 +148,30 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 **[PAUZA 5 s]**
 
-**MIKOŁAJ [W]:** Ho, ho! Z taką pomocą skończymy przed czasem!
+**MIKOŁAJ [W]:** Ho, ho! Z taką pomocą skończymy przed czasem! A teraz chodź — ktoś w stajni bardzo chce cię poznać.
 
-## 6. Księga i opowieść o dziecku (2:40–3:55)
+↳ *Rodzeństwo:* …ktoś w stajni bardzo chce was poznać.
+
+## 6. Stajnia: Płatek (2:40–3:45)
+
+**Obraz:** ciepła stajnia reniferów, latarnie, siano. Najmłodszy renifer Płatek (zawsze z portretu wzorcowego) podskakuje, próbuje oderwać kopytka od ziemi, ląduje miękko w sianie. Mikołaj głaszcze go po szyi. Dziecko „pokazuje” skok przed kamerą; Płatek odpowiada małym podskokiem.
+
+**Dźwięk:** parskanie, dzwoneczki uprzęży, śmiech Mikołaja.
+
+**MIKOŁAJ [W]:** To Płatek, najmłodszy z moich reniferów. Cały rok ćwiczy podskoki, bo marzy o pierwszym locie w zaprzęgu. Jeszcze trochę mu brakuje… Hop!
+
+**Obraz:** Płatek ląduje w sianie, potrząsa głową.
+
+**MIKOŁAJ [P]:** {ZWROT}, pokaż mu, jak wysoko umiesz skakać! A potem trzymaj za niego kciuki.
+
+↳ *Rodzeństwo:* {ZWROT}, pokażcie mu, jak wysoko umiecie skakać! A potem trzymajcie za niego kciuki.
+
+**[PAUZA 3 s]**
+
+**MIKOŁAJ [W]:** Brawo! Widzisz, Płatku? Masz kibiców. Jeszcze dziś może przyjść twoja wielka chwila. A my zajrzyjmy do magicznej księgi — elfy coś zapisały.
+
+
+## 7. Księga i opowieść o dziecku (3:45–5:00)
 
 **Obraz:** Mikołaj siada w fotelu i otwiera wielką księgę oprawioną w skórę, ze stron unosi się złote światło. Przenikanie do zbliżenia na stronę ze zdjęciem dziecka w złotej ramce. W trakcie opowieści kamera wolno przesuwa się po stronie, a obok zdjęcia pojawia się złota pieczęć z gwiazdą.
 
@@ -168,16 +185,16 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 - **Treść:** pochwała osiągnięcia, zainteresowania, wiek.
 - **Nad czym popracować:** jedno ciepłe zdanie zachęty, jeśli rodzic wypełnił to pole.
-- **Bez prezentu:** prezent pojawia się dopiero w scenie 7.
+- **Bez prezentu:** prezent pojawia się dopiero w scenie 8.
 - **Zakończenie:** zdanie przejścia „Elfy mówią, że to był naprawdę wyjątkowy rok. Chodźmy sprawdzić, co szykują dla ciebie!”.
 
 **Przykład dla Kasi (5 lat):**
 
 > Kasiu, tu jest napisane, że w tym roku nauczyłaś się jeździć na rowerze bez bocznych kółek. To było bardzo odważne i jestem z ciebie ogromnie dumny! Elfy zapisały też, że uwielbiasz dinozaury i pięknie rysujesz. Podobno twoje dinozaury są groźniejsze niż moje renifery! Jest tu jeszcze mała notatka: że zabawki czasem zostają na podłodze. Wiem, że sobie z tym poradzisz, bo pięciolatki to bardzo zdolni pomocnicy. Elfy mówią, że to był naprawdę wyjątkowy rok. Chodźmy sprawdzić, co szykują dla ciebie!
 
-## 7. Przygotowanie prezentu (3:55–4:50)
+## 8. Przygotowanie prezentu i wpadka elfa (5:00–6:15)
 
-**Obraz:** elfy owijają pudełko czerwonym papierem w złote gwiazdki, Mikołaj trzyma dwie szpule wstążki: czerwoną i złotą. Potem zbliżenie na kremowy bilecik przywiązany do kokardy, na którym pojawia się imię dziecka odręcznym pismem.
+**Obraz:** elfy owijają pudełko czerwonym papierem w złote gwiazdki. Mikołaj trzyma dwie szpule wstążki: czerwoną i złotą. Jeden dorosły elf zaplątuje się we wstążki, kręci się w miejscu, inni elfy pomagają go odwinąć — krótka, ciepła komedia. Potem zbliżenie na kremowy bilecik przywiązany do kokardy, na którym pojawia się imię dziecka odręcznym pismem.
 
 **Grafika [G]:** imię na bileciku (mianownik).
 
@@ -193,11 +210,15 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 **[PAUZA 3 s]**
 
-**MIKOŁAJ [W]:** Ho, ho! W takim razie elfy zawiążą obie, żeby było podwójnie pięknie. I jeszcze bilecik z imieniem, żeby nikt nie pomylił prezentów.
+**Obraz:** elf zaplątany we wstążki; Mikołaj i pozostałe elfy pomagają.
 
-## 8. Rodzice (4:50–5:35)
+**MIKOŁAJ [W]:** Ojej… ktoś tu trochę przesadził z dekoracją! Spokojnie, spokojnie — wystarczy odwinąć… i gotowe!
 
-**Obraz:** Mikołaj przy biurku w swoim gabinecie bierze do ręki kopertę zapieczętowaną czerwonym sercem (bez napisów), otwiera ją i czyta, uśmiechając się oczami. Ciepłe światło lampy, za oknem pada śnieg.
+**MIKOŁAJ [W]:** Ho, ho! W takim razie elfy zawiążą obie kokardy, żeby było podwójnie pięknie. I jeszcze bilecik z imieniem, żeby nikt nie pomylił prezentów.
+
+## 9. Bliscy (6:15–7:10)
+
+**Obraz:** Mikołaj przy biurku w gabinecie. Opcjonalnie na biurku stoi ramka ze zdjęciem bliskich [G]. Bierze do ręki kopertę zapieczętowaną czerwonym sercem (bez napisów), otwiera ją i czyta, uśmiechając się oczami. Ciepłe światło lampy, za oknem pada śnieg. W tle ta sama śnieżna kula.
 
 **Dźwięk:** trzask kominka, cicha pozytywka.
 
@@ -215,38 +236,38 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 ↳ *Rodzeństwo:* Zróbcie coś dla mnie…
 
-**Uwaga:** `{BLISCY}` wybiera rodzic w formularzu. Domyślnie „Twoi bliscy”, bo nie każde dziecko ogląda film z mamą i tatą. Wariant „inne” wymaga sprawdzenia odmiany przez człowieka.
+**Uwaga:** `{BLISCY}` wybiera rodzic w formularzu. Domyślnie „Twoi bliscy”. Wariant „inne” wymaga sprawdzenia odmiany przez człowieka.
 
-## 9. Załadunek sań (5:35–6:15)
+## 10. Załadunek sań (7:10–7:55)
 
-**Obraz:** zapakowany prezent z kokardą jedzie po drewnianej taśmie do wielkiego hangaru, gdzie stoją sanie, i wpada do ogromnego czerwonego worka. Elfy układają w worku kolejne paczki.
+**Obraz:** zapakowany prezent z kokardą jedzie po drewnianej taśmie do hangaru z saniami i wpada do ogromnego czerwonego worka. Płatek (portret wzorcowy) dopycha nosem paczkę, która prawie wypadła; elfy klaszczą.
 
-**Dźwięk:** stukot taśmy, dzwoneczki, śmiech elfów.
+**Dźwięk:** stukot taśmy, dzwoneczki, śmiech elfów, parskanie Płatka.
 
-**MIKOŁAJ [W]:** I… hop! Prezent ląduje w moim worku. Mój worek jest magiczny: zmieszczą się w nim wszystkie prezenty świata, a i tak nigdy nie jest za ciężki.
+**MIKOŁAJ [W]:** I… hop! Prezent ląduje w moim worku. Mój worek jest magiczny: zmieszczą się w nim wszystkie prezenty świata, a i tak nigdy nie jest za ciężki. Brawo, Płatku — właśnie pomogłeś przy prawdziwej dostawie!
 
-## 10. Zaprzęganie i start (6:15–7:15)
+## 11. Zaprzęganie, pierwszy lot Płatka i dom w kuli (7:55–9:30)
 
-**Obraz:** renifery same ustawiają się w parach przed saniami, elfy zapinają uprząż z dzwoneczkami. Mikołaj siada w saniach, chwyta lejce. Na „start” renifery ruszają i sanie wzbijają się nad wioskę, w stronę zorzy.
+**Obraz:** renifery ustawiają się w parach przed saniami, elfy zapinają uprząż z dzwoneczkami. Płatek staje w zaprzęgu po raz pierwszy — lekko się trzęsie, potem zadziera głowę. Mikołaj siada w saniach, chwyta lejce. Wspólne odliczanie; na „start” sanie wzbijają się nad wioskę w stronę zorzy. Płatek leci.
 
 **Dźwięk:** dzwonki uprzęży, parskanie reniferów, narastająca muzyka.
 
-**MIKOŁAJ [W]:** Renifery, do zaprzęgu! Dzwoneczki zapięte, worek na miejscu. Pomożesz mi wystartować? Odliczaj ze mną: pięć… cztery… trzy… dwa… jeden…
+**MIKOŁAJ [W]:** Renifery, do zaprzęgu! Dzwoneczki zapięte, worek na miejscu. Dziś z nami leci Płatek — pierwszy raz! Pomożesz mi wystartować? Odliczaj ze mną: pięć… cztery… trzy… dwa… jeden…
 
 ↳ *Rodzeństwo:* Pomożecie mi wystartować? Odliczajcie ze mną…
 
-**[PAUZA 1 s]**
+**[PAUZA 5 s]**
 
 **MIKOŁAJ [W]:** START! Ho, ho, ho!
 
-**Obraz (klamra, 7:00–7:30):** sanie znikają w zorzy. Cięcie do gabinetu: na biurku stoi ta sama śnieżna kula, w której znowu pada śnieg. Kamera zbliża się do kuli.
+**Obraz (klamra, ok. 8:40–9:30):** sanie znikają w zorzy. Cięcie do gabinetu: na biurku stoi ta sama śnieżna kula, w której znowu pada śnieg. Kamera zbliża się do kuli.
 
 - **Ze zdjęciem domu [G]:** w kuli widać zdjęcie domu dziecka z zewnątrz, przyprószone padającym śniegiem.
 - **Bez zdjęcia:** w kuli widać zaśnieżony domek z jednym ciepło świecącym oknem.
 
-**MIKOŁAJ [P] (zza kadru):** {ZWROT}, moja śnieżna kula już pokazuje mi twój dom. Do zobaczenia w Wigilię! Zostaw marchewkę dla moich reniferów. Wesołych Świąt!
+**MIKOŁAJ [P] (zza kadru):** {ZWROT}, moja śnieżna kula już pokazuje mi twój dom. Płatek leciał dziś pierwszy raz — a Twoje kciuki bardzo mu pomogły. Do zobaczenia w Wigilię! Zostaw marchewkę dla moich reniferów. Wesołych Świąt!
 
-↳ *Rodzeństwo:* {ZWROT}, moja śnieżna kula już pokazuje mi wasz dom. Do zobaczenia w Wigilię! Zostawcie marchewkę…
+↳ *Rodzeństwo:* {ZWROT}, moja śnieżna kula już pokazuje mi wasz dom. Płatek leciał dziś pierwszy raz — a Wasze kciuki bardzo mu pomogły. Do zobaczenia w Wigilię! Zostawcie marchewkę…
 
 *Światło w kuli powoli gaśnie. Wyciszenie obrazu i muzyki.*
 
@@ -255,41 +276,42 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 | Element | Scena | Narzędzie |
 |---|---|---|
 | Powitanie do kamery | 3 | ElevenLabs + HeyGen (ok. 25 s) |
-| Kwestie z imieniem (5) | 4, 7 [niekupiony], 8, 10 | ElevenLabs |
-| Opowieść o dziecku | 6 | Gemini + człowiek + ElevenLabs |
-| Zdanie o prezencie | 7 [kupiony] | Gemini + człowiek + ElevenLabs |
-| Wiadomość od bliskich | 8 | opcjonalna; człowiek + ElevenLabs |
+| Kwestie z imieniem | 4, 6, 8 [niekupiony], 9, 11 | ElevenLabs |
+| Opowieść o dziecku | 7 | model + człowiek + ElevenLabs |
+| Zdanie o prezencie | 8 [kupiony] | model + człowiek + ElevenLabs |
+| Wiadomość od bliskich | 9 | opcjonalna; człowiek + ElevenLabs |
 | Zdjęcie listu lub rysunku | 4 | opcjonalne, montaż |
-| Zdjęcie w księdze | 6 | montaż |
-| Bilecik z imieniem | 7 | montaż |
-| Dom w śnieżnej kuli | 10 | opcjonalne zdjęcie domu, montaż |
+| Zdjęcie w księdze | 7 | montaż |
+| Bilecik z imieniem | 8 | montaż |
+| Zdjęcie bliskich w ramce | 9 | opcjonalne, montaż |
+| Dom w śnieżnej kuli | 11 | opcjonalne zdjęcie domu, montaż |
+
+Imię / wołacz pada w siedmiu miejscach: powitanie [L], list [P], stajnia [P], opowieść [T], prezent [T]/[P], bliscy [P], pożegnanie [P].
 
 # Materiały do przygotowania (raz)
 
-- **Kadry i klipy już zrobione (wersja krótka):** zorza, dom, pracownia, księga, sanie.
-- **Nowe kadry i klipy:**
-  - gabinet: Mikołaj przy biurku ze śnieżną kulą, bierze ją w dłonie;
-  - zbliżenie na pustą kulę na biurku (do sceny 10);
-  - Poczta Mikołaja (zjeżdżalnia z listami, koperta);
-  - pakowanie i kokarda;
-  - gabinet z kopertą z sercem;
-  - taśma i worek w hangarze;
-  - zaprzęganie, start i odlot.
-- **Szablony:**
-  - ramka listu na biurku;
-  - strona księgi (jest);
-  - bilecik;
-  - wnętrze śnieżnej kuli z miejscem na zdjęcie domu i wariant z ogólnym domkiem;
-  - nakładka: śnieg i światło w kuli.
-- **Dźwięki:** listy na zjeżdżalni, papier, taśma, uprząż, start sań.
+- **Kadry i klipy już zrobione (wersja krótka):** zorza, dom, pracownia, księga, sanie (i inne zatwierdzone z krótkiej).
+- **Portret wzorcowy Płatka** — referencja do wszystkich ujęć z reniferem (stajnia, załadunek, zaprzęg).
+- **Nowe kadry i klipy (szacunek z 0.2: ok. 14 nowych + 1 kadr HeyGen):**
+  - gabinet: Mikołaj przy biurku ze śnieżną kulą;
+  - zbliżenie na kulę (scena 11);
+  - Poczta Mikołaja (zjeżdżalnia, koperta);
+  - pracownia (uzupełnienie, jeśli potrzeba);
+  - stajnia: Płatek ćwiczy i ląduje w sianie;
+  - pakowanie, wybór kokardy, wpadka elfa we wstążki, bilecik;
+  - gabinet z kopertą z sercem (+ miejsce na ramkę);
+  - taśma, worek, Płatek dopycha paczkę;
+  - zaprzęganie z Płatkiem, start, odlot.
+- **Szablony montażu:** śnieżna kula (dom / ogólny domek), ramka bliskich, ramka listu, bilecik; nakładka śniegu i światła w kuli; strona księgi (jest).
+- **Dźwięki:** listy na zjeżdżalni, papier, wstążki, taśma, uprząż, start sań, stajnia (siano, parskanie).
 
-# Do decyzji
+# Decyzje (0.3)
 
-Ustalono 14 lis 2026 (karta 0.3):
+Ustalono 14 lis 2026:
 
 | # | Pytanie | Decyzja |
 |---|---|---|
-| 1 | Wersja kanoniczna | **ok. 9:30** ze stajnią, Płatkiem i wpadką elfa (nie 7:30 z wcześniejszego szkicu przebiegu) |
+| 1 | Wersja kanoniczna | **ok. 9:30** ze stajnią, Płatkiem i wpadką elfa |
 | 2 | Podfabuła Płatka | **zostaje** — imię Płatek, 3 sceny, portret wzorcowy |
 | 3 | Wpadka elfa ze wstążką | **zostaje**; najpierw test w `testy_fal` (2.1); przy porażce modelu upraszczamy ujęcie, nie całą scenę pakowania |
 | 4 | Wariant skrócony (~7:30) | **nie** — jeden produkt, jeden montaż |
@@ -299,8 +321,9 @@ Ustalono 14 lis 2026 (karta 0.3):
 
 # Uwagi
 
-- **Śnieżna kula jako klamra:** ten sam przedmiot otwiera film (znak, że przyszło dziecko) i go zamyka (dom dziecka). Gabinet z kulą to też miejsce sceny z bliskimi, więc jeden nowy kadr służy kilku scenom.
-- **Krótszy lip-sync:** Mikołaj mówi do kamery tylko w powitaniu (ok. 25 s), a opowieść o dziecku jest głosem zza kadru nad księgą ze zdjęciem.
-- **Najtrudniejsze ujęcia dla modelu wideo:** wpadka elfa ze wstążką oraz Płatek wyglądający tak samo w trzech scenach (portret wzorcowy). Pakowanie/kokarda i zaprzęganie też warte wczesnego testu w `testy_fal`.
-- **Scena z bliskimi** daje silny moment dla dorosłych; tekst musi uwzględniać różne rodziny (`{BLISCY}`).
-- Tabela „Przebieg” i pełne teksty scen poniżej to jeszcze szkic ~7:30 — synchronizacja do 9:30 z Płatkiem i wpadką to karta **1.1**.
+- **Śnieżna kula jako klamra:** ten sam przedmiot otwiera film i go zamyka; gabinet z kulą służy też scenie z bliskimi.
+- **Krótszy lip-sync:** Mikołaj mówi do kamery tylko w powitaniu (ok. 25 s); opowieść o dziecku jest głosem zza kadru nad księgą.
+- **Najtrudniejsze ujęcia:** wpadka elfa ze wstążką oraz spójny Płatek w trzech scenach (portret wzorcowy). Wczesny test w `testy_fal`.
+- **Kwestie [W]** bez form zależnych od płci; formy płciowe tylko w tekstach pisanych dla konkretnego dziecka i w wariantach rodzeństwa oznaczonych osobno.
+- **Montaż:** kilka ujęć w jednej scenie (zwłaszcza pakowanie, stajnia, start).
+- **Prompty obrazów** (karta 1.2): w `generator/prompts.py` (`SCENES`, `TEMPLATES`, `PLATEK_PORTRAIT_PROMPT`). Sceny: `kula`, `sortownia`, `koperta`, `stajnia_skok`, `stajnia`, `pakowanie`, `wpadka`, `bliscy`, `worek`, `zaprzeg`, `start`; szablony: `szablon_kula`, `szablon_kula_domek`, `szablon_poczta`, `szablon_bilecik`, `szablon_bliscy`.

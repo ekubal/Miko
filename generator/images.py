@@ -4,6 +4,8 @@ Przykłady:
     python -m generator.images portrait -n 10
     python -m generator.images portrait -n 4 --wariant pelna-broda
     python -m generator.images select portrait 4
+    python -m generator.images platek -n 6       # portret wzorcowy Płatka (sceny z reniferem)
+    python -m generator.images select platek 2
     python -m generator.images scenes -n 3
     python -m generator.images select dom 2      # i tak dla pracownia, ksiega, sanie
     python -m generator.images templates -n 3
@@ -22,12 +24,15 @@ from .common import google_client, selected_path, variant_paths, with_retry
 EXTENSIONS = {"image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp"}
 
 
-def generate_image(client, prompt: str, reference: Path | None, aspect_ratio: str, size: str):
-    """Zwraca (bajty, mime_type) pierwszego obrazu z odpowiedzi modelu."""
+def generate_image(client, prompt: str, references: list[Path], aspect_ratio: str, size: str):
+    """Zwraca (bajty, mime_type) pierwszego obrazu z odpowiedzi modelu.
+
+    Referencje idą przed promptem w podanej kolejności (prompt odwołuje się do ich numerów).
+    """
     from google.genai import types
 
     contents: list = []
-    if reference is not None:
+    for reference in references:
         mime = mimetypes.guess_type(reference.name)[0] or "image/png"
         contents.append(types.Part.from_bytes(data=reference.read_bytes(), mime_type=mime))
     contents.append(prompt)
@@ -50,12 +55,12 @@ def generate_image(client, prompt: str, reference: Path | None, aspect_ratio: st
     raise RuntimeError(f"Model nie zwrócił obrazu (powód: {reason}).")
 
 
-def generate_variants(name: str, prompt: str, directory: Path, count: int, reference: Path | None, args):
+def generate_variants(name: str, prompt: str, directory: Path, count: int, references: list[Path], args):
     client = google_client()
     print(f"[{name}] {count} wariant(ów) -> {directory}")
     for path in variant_paths(directory, name, ".png", count):
         try:
-            data, mime = generate_image(client, prompt, reference, args.aspect_ratio, args.size)
+            data, mime = generate_image(client, prompt, references, args.aspect_ratio, args.size)
         except Exception as exc:
             print(f"  x {path.name}: {exc}")
             continue
@@ -64,34 +69,44 @@ def generate_variants(name: str, prompt: str, directory: Path, count: int, refer
         print(f"  + {path.relative_to(config.ROOT) if path.is_relative_to(config.ROOT) else path}")
 
 
-def require_reference(args) -> Path:
-    reference = Path(args.reference) if args.reference else selected_path("portrait")
-    if not reference.exists():
-        sys.exit(
-            f"Brak portretu referencyjnego: {reference}\n"
-            "Najpierw: python -m generator.images portrait, potem: python -m generator.images select portrait N"
-        )
-    return reference
+def require_references(args, keys: list[str]) -> dict[str, Path]:
+    """Ścieżki referencji potrzebnych wybranym scenom; kończy program, gdy którejś brakuje."""
+    needed = {ref for key in keys for ref in prompts.scene_references(key)}
+    paths = {}
+    for ref in sorted(needed):
+        path = Path(args.reference) if ref == "portrait" and args.reference else selected_path(ref)
+        if not path.exists():
+            sys.exit(
+                f"Brak obrazu referencyjnego: {path}\n"
+                f"Najpierw: python -m generator.images {ref}, potem: python -m generator.images select {ref} N"
+            )
+        paths[ref] = path
+    return paths
 
 
 def cmd_portrait(args):
     print(f"Wariant portretu: {args.wariant}")
     prompt = prompts.PORTRAIT_VARIANTS[args.wariant]
-    generate_variants("portrait", prompt, config.IMAGES_DIR / "portrait", args.count, None, args)
+    generate_variants("portrait", prompt, config.IMAGES_DIR / "portrait", args.count, [], args)
+
+
+def cmd_platek(args):
+    generate_variants("platek", prompts.PLATEK_PORTRAIT_PROMPT, config.IMAGES_DIR / "portrait", args.count, [], args)
 
 
 def cmd_scenes(args):
-    reference = require_reference(args)
     keys = args.only or list(prompts.SCENES)
+    paths = require_references(args, keys)
     for key in keys:
         prompt = prompts.scene_prompt(key)
-        generate_variants(key, prompt, config.IMAGES_DIR / "scenes", args.count, reference, args)
+        references = [paths[ref] for ref in prompts.scene_references(key)]
+        generate_variants(key, prompt, config.IMAGES_DIR / "scenes", args.count, references, args)
 
 
 def cmd_templates(args):
     keys = args.only or list(prompts.TEMPLATES)
     for key in keys:
-        generate_variants(key, prompts.TEMPLATES[key], config.IMAGES_DIR / "templates", args.count, None, args)
+        generate_variants(key, prompts.TEMPLATES[key], config.IMAGES_DIR / "templates", args.count, [], args)
 
 
 def cmd_select(args):
@@ -129,19 +144,23 @@ def main(argv=None):
     )
     p.set_defaults(func=cmd_portrait)
 
+    p = sub.add_parser("platek", help="portret wzorcowy Płatka, referencja scen z reniferem")
+    add_common(p, 6)
+    p.set_defaults(func=cmd_platek)
+
     p = sub.add_parser("scenes", help="kadry scen z tą samą postacią (krok 2)")
     add_common(p, 3)
     p.add_argument("--reference", help="portret referencyjny (domyślnie output/selected/portrait.png)")
     p.add_argument("--only", nargs="+", choices=list(prompts.SCENES), help="tylko wybrane sceny")
     p.set_defaults(func=cmd_scenes)
 
-    p = sub.add_parser("templates", help="puste szablony księgi i listy (krok 3)")
+    p = sub.add_parser("templates", help="puste szablony do personalizacji w montażu (krok 3)")
     add_common(p, 3)
     p.add_argument("--only", nargs="+", choices=list(prompts.TEMPLATES))
     p.set_defaults(func=cmd_templates)
 
     p = sub.add_parser("select", help="zatwierdź wariant, np. select portrait 4")
-    p.add_argument("name", choices=["portrait", *prompts.SCENES, *prompts.TEMPLATES])
+    p.add_argument("name", choices=["portrait", "platek", *prompts.SCENES, *prompts.TEMPLATES])
     p.add_argument("number", type=int)
     p.set_defaults(func=cmd_select)
 

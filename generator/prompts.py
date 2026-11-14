@@ -61,15 +61,59 @@ PORTRAIT_VARIANTS = {
     "pelna-broda": PORTRAIT_PROMPT_FULL_BEARD,
 }
 
+# Portret wzorcowy Płatka, najmłodszego renifera (scenariusz 4). Jest referencją dla
+# wszystkich kadrów z Płatkiem, żeby w stajni, przy worku i w zaprzęgu wyglądał tak samo.
+# Znak rozpoznawczy: biała łatka w kształcie płatka śniegu na czole i dzwoneczek na
+# czerwonej wstążce. Nos zwykły, czarny: Płatek to nasza postać, nie znany czerwononosy renifer.
+PLATEK_PORTRAIT_PROMPT = """\
+Photorealistic full-body portrait of Płatek, the youngest reindeer of Santa's team:
+a young, small and slender reindeer calf, clearly smaller than an adult reindeer,
+with long thin legs, big shiny dark eyes with long lashes and soft fluffy fur.
+His fur is warm light brown with a cream-white chest, cream-white muzzle and
+cream-white fur around the hooves. On his forehead, between the eyes, there is one
+small clear white patch shaped like a snowflake. Short, young, velvety antlers with
+only two small points on each side. A normal black reindeer nose, not red, not glowing.
+Around his neck a thin red ribbon with one small round golden bell.
+He stands on fresh straw in a cozy wooden reindeer stable at night, seen from a
+three-quarter side view, the whole body from antlers to hooves visible and sharp,
+head turned towards the camera with a curious, eager and friendly expression.
+Warm lantern light, softly blurred wooden stalls in the background.
+Cinematic 16:9, high detail, warm storybook atmosphere.
+Original character design, no people, no brand logos, no text."""
+
+# Zasady wspólne dla każdego kadru sceny; przed nimi stoją reguły postaci z referencji.
+SCENE_RULES = """\
+Scene: {scene}
+Warm cinematic lighting, photorealistic, 16:9.
+No children appear in the image; every person in it is an adult.
+No brand logos, no text, no letters anywhere in the image."""
+
+# Kadr z jedną referencją: portretem Mikołaja (sceny z wersji krótkiej i większość nowych).
 SCENE_PROMPT = """\
 Use the attached image as the reference character. Keep Santa's face, age,
 glasses, beard, mustache, hair, hat, coat and proportions exactly the same.
 His mustache hangs down over his mouth into the beard exactly as in the reference,
 so his mouth stays covered by hair.
-Scene: {scene}
-Warm cinematic lighting, photorealistic, 16:9.
-No children appear in the image; every person in it is an adult.
-No brand logos, no text, no letters anywhere in the image."""
+""" + SCENE_RULES
+
+# Reguły postaci, gdy kadr ma kilka referencji albo tylko Płatka. {nr} to numer obrazu
+# w kolejności wysyłania (kolejność z klucza "refs" sceny).
+REFERENCE_RULES = {
+    "portrait": """\
+Santa: attached image {nr} is his reference. Keep Santa's face, age, glasses, beard,
+mustache, hair, hat, coat and proportions exactly the same as in it.
+His mustache hangs down over his mouth into the beard exactly as in the reference,
+so his mouth stays covered by hair.""",
+    "platek": """\
+Płatek, the youngest reindeer: attached image {nr} is his reference. Keep his small
+size, light brown fur with cream-white chest and muzzle, the white snowflake-shaped
+patch on his forehead, his short young antlers, his black nose and the red ribbon
+with a small golden bell exactly the same as in it. He is clearly smaller than
+the adult reindeer.""",
+}
+
+# Kadr bez postaci z referencji (np. zbliżenie na kopertę).
+SCENE_PROMPT_NO_REFERENCE = SCENE_RULES
 
 # Wygląd elfów, dopisywany do każdej sceny z "elves": True, żeby we wszystkich scenach
 # wyglądały tak samo (portret pilnuje tylko wyglądu Mikołaja). Elfy są wyraźnie dorosłe:
@@ -84,10 +128,27 @@ photorealistic, warm cinematic style as the rest of the image.
 There are no children anywhere in the image."""
 
 
+def scene_references(key: str) -> list[str]:
+    """Nazwy zatwierdzonych obrazów (output/selected/<nazwa>.png) wysyłanych jako referencje.
+
+    Domyślnie portret Mikołaja; scena może podać własną listę w kluczu "refs"
+    (np. ["portrait", "platek"] albo [] dla kadru bez postaci).
+    """
+    return list(SCENES[key].get("refs", ["portrait"]))
+
+
 def scene_prompt(key: str) -> str:
-    """Pełny prompt kadru sceny: opis sceny i, jeśli w scenie są elfy, ich stały wygląd."""
+    """Pełny prompt kadru sceny: reguły postaci z referencji, opis sceny i, jeśli w scenie są elfy, ich stały wygląd."""
     scene = SCENES[key]
-    prompt = SCENE_PROMPT.format(scene=scene["scene"])
+    refs = scene_references(key)
+    if refs == ["portrait"]:
+        prompt = SCENE_PROMPT.format(scene=scene["scene"])
+    elif refs:
+        rules = [REFERENCE_RULES[ref].format(nr=nr) for nr, ref in enumerate(refs, start=1)]
+        prompt = "\n".join(["Use the attached images as references for the characters.", *rules, ""])
+        prompt += SCENE_RULES.format(scene=scene["scene"])
+    else:
+        prompt = SCENE_PROMPT_NO_REFERENCE.format(scene=scene["scene"])
     if scene.get("elves"):
         prompt += "\n" + ELVES_DESCRIPTION
     return prompt
@@ -157,6 +218,110 @@ SCENES = {
         # Bez najazdu: zbliżenie na kulę robi osobne ujęcie (szablon_kula) w montażu.
         "camera": "Static camera, locked-off medium shot, no zoom, no push-in, no camera movement.",
     },
+    # Scenariusz 4, scena 4: sortownia na Poczcie Mikołaja. Inny kadr niż "listy" z wersji krótkiej.
+    "sortownia": {
+        "scene": "Santa's big post office hall at night: a long curved wooden slide in the middle of the room "
+        "with sacks of colorful envelopes sliding down it, elves sorting the envelopes into tall walls of "
+        "wooden pigeonholes, warm lantern light. Santa walks down the middle of the hall and pulls one "
+        "envelope out of a pile, looking at it with a warm smile in his eyes. "
+        "All envelopes are blank, without any writing, stamps or addresses.",
+        "motion": "Envelopes slide down the wooden slide, elves sort them into the pigeonholes, Santa walks "
+        "slowly and pulls out one envelope, looking at it warmly",
+        "elves": True,
+    },
+    # Scena 4 bez zdjęcia listu: zbliżenie na kopertę z pieczęcią, bez postaci.
+    "koperta": {
+        "scene": "Close-up of a single cream paper envelope lying on Santa's old wooden desk, closed with "
+        "a round red wax seal pressed with a small star, a quill pen and a candle beside it, warm candle "
+        "light, softly blurred fireplace glow in the background. No people in the image. "
+        "The envelope is blank, without any writing, stamps or addresses.",
+        "motion": "The candle flame flickers gently, warm light plays over the red wax seal",
+        "refs": [],
+    },
+    # Scena 6: Płatek ćwiczy podskoki i ląduje w sianie (sam Płatek, bez Mikołaja).
+    "stajnia_skok": {
+        "scene": "Inside a cozy wooden reindeer stable at night: Płatek, the young reindeer, stands on a soft "
+        "pile of hay in the middle of the stable, crouching playfully as if getting ready to jump. Adult "
+        "reindeer with warm red blankets watch from their stalls, glowing lanterns, golden straw on the floor. "
+        "Santa is not visible.",
+        "motion": "Płatek bounces a few times, tries to lift his hooves off the ground, jumps up a little and "
+        "lands softly in the hay, then shakes his head happily; the adult reindeer watch calmly",
+        "refs": ["platek"],
+    },
+    # Scena 6: Mikołaj głaszcze Płatka; ujęcie pod kwestie [W] i [P] o kibicowaniu.
+    "stajnia": {
+        "scene": "Santa in a cozy wooden reindeer stable at night, kneeling on the hay next to Płatek, the young "
+        "reindeer, and gently stroking his neck. Płatek looks up at Santa eagerly. Adult reindeer with warm "
+        "red blankets rest in their stalls in the background, glowing lanterns, golden straw.",
+        "motion": "Santa gently strokes Płatek's neck and laughs softly, Płatek does one small happy hop "
+        "in place and nuzzles Santa's hand",
+        "refs": ["portrait", "platek"],
+    },
+    # Scena 8: pakowanie prezentu i dwie wstążki do wyboru.
+    "pakowanie": {
+        "scene": "Santa's wrapping room at night: on a big wooden table elves wrap a box in shiny red paper "
+        "with small golden stars. Santa stands at the table holding up two large spools of ribbon, a red "
+        "one in one hand and a golden one in the other, showing them with a warm smile in his eyes. "
+        "Rolls of wrapping paper, ribbons and bows around, warm lamp light.",
+        "motion": "Elves fold the red paper with golden stars around the box, Santa lifts the red and the "
+        "golden ribbon spools one after another, as if asking which one to choose",
+        "elves": True,
+    },
+    # Scena 8: wpadka elfa ze wstążką. Najtrudniejsze ujęcie, test w testy_fal (karta 2.1).
+    "wpadka": {
+        "scene": "Santa's wrapping room at night: one adult elf is comically tangled from shoulders to knees "
+        "in long red and golden ribbons, with a big bow stuck on top of his cap, looking surprised. Two other "
+        "elves hold the ends of the ribbons, ready to unwind him, and Santa stands beside them laughing "
+        "warmly with his eyes, one hand on his belly. A half-wrapped red box with golden stars on the table.",
+        "motion": "The tangled elf turns slowly in place while the other elves unwind the ribbons from him, "
+        "the bow falls off his cap, Santa laughs warmly and helps pull the last ribbon free",
+        "elves": True,
+    },
+    # Scena 9: Mikołaj czyta wiadomość od bliskich. Ramka ze zdjęciem to osobne zbliżenie (szablon_bliscy).
+    "bliscy": {
+        "scene": "Medium shot of Santa sitting at his large wooden desk in his cozy study at night, framed "
+        "from the waist up, his whole face, glasses and beard clearly visible. He holds an open cream "
+        "envelope sealed with a small red wax heart and reads a folded letter from it, his eyes smiling "
+        "warmly. In the background on the desk stands a small glass snow globe on a carved dark wooden "
+        "base. Warm desk lamp light, snow falling outside the window, fireplace glow. "
+        "The envelope and the letter are blank, without any writing.",
+        "motion": "Santa unfolds the letter and reads it slowly, smiling with his eyes and nodding gently, "
+        "snow falls outside the window",
+        "camera": "Static camera, locked-off medium shot, no zoom, no push-in, no camera movement.",
+    },
+    # Scena 10: prezent wpada do worka, Płatek dopycha paczkę. Bez Mikołaja.
+    "worek": {
+        "scene": "A big wooden sleigh hangar at night: a wrapped red present with golden stars and a big bow "
+        "rides along a wooden conveyor belt towards a huge open red sack lying on Santa's sleigh. Next to "
+        "the sack stands Płatek, the young reindeer, pushing a small parcel that almost fell back onto the "
+        "belt with his nose. Elves stand around the sleigh clapping. Warm lantern light. Santa is not visible.",
+        "motion": "The present rides along the conveyor belt and drops into the red sack, Płatek nudges a "
+        "slipping parcel back with his nose, the elves clap happily",
+        "elves": True,
+        "refs": ["platek"],
+    },
+    # Scena 11: zaprzęganie; Płatek pierwszy raz w zaprzęgu.
+    "zaprzeg": {
+        "scene": "Outside Santa's sleigh hangar on a snowy night: reindeer stand in pairs in front of Santa's "
+        "big red wooden sleigh full of presents, elves fasten harnesses with golden bells. Płatek, the young "
+        "reindeer, stands in the harness at the front for the first time, head held high. Santa sits in the "
+        "sleigh holding the reins and smiling with his eyes. Green aurora in the sky above the village.",
+        "motion": "Elves buckle the last harness, the bells jingle, Płatek trembles a little and then lifts his "
+        "head proudly, Santa takes the reins",
+        "elves": True,
+        "refs": ["portrait", "platek"],
+    },
+    # Scena 11: start sań i odlot w stronę zorzy.
+    "start": {
+        "scene": "Santa's red sleigh pulled by reindeer, with Płatek, the young reindeer, at the front, lifting "
+        "off from the snowy village at night and flying up towards a bright green and violet aurora. Santa "
+        "sits in the sleigh holding the reins, a big red sack of presents behind him. Wide shot, small wooden "
+        "houses with warm glowing windows below.",
+        "motion": "The reindeer run, the sleigh lifts off the snow and climbs into the sky towards the aurora, "
+        "Płatek flies at the front with the others",
+        "camera": "Camera slowly tilts up and follows the sleigh into the sky.",
+        "refs": ["portrait", "platek"],
+    },
 }
 
 # Puste szablony do personalizacji (napisy dodaje się w edytorze).
@@ -181,6 +346,42 @@ so a picture can be placed inside later. Gentle reflections only on the edges
 of the glass. Warm candle and desk lamp light, blurred golden fireplace glow in
 the background. The globe is centered and fills about half of the frame height.
 16:9, photorealistic. No text, no letters, no people.""",
+    # Koniec filmu bez zdjęcia domu: ta sama kula z ogólnym domkiem w środku.
+    "szablon_kula_domek": """\
+Close-up, straight front view of a glass snow globe standing on a carved dark
+wooden base on Santa's wooden desk at night. Inside the glass sphere stands one
+tiny snowy wooden cottage with a snow-covered roof and one warmly glowing window,
+on a small snowy hill, with gentle snowflakes floating around it. Gentle
+reflections only on the edges of the glass. Warm candle and desk lamp light,
+blurred golden fireplace glow in the background. The globe is centered and
+fills about half of the frame height.
+16:9, photorealistic. No text, no letters, no people.""",
+    # Scena 4: w pustą ramkę montaż wkleja zdjęcie listu albo rysunku dziecka.
+    "szablon_poczta": """\
+Top-down close-up of Santa's old wooden desk with a large empty wooden picture
+frame lying flat in the center, the inside of the frame is plain, even cream
+paper, completely blank, so a picture can be placed inside later. Around the
+frame: a few blank cream envelopes, a red wax seal, a quill pen and a burning
+candle, soft warm candle light. The frame fills about two thirds of the frame
+height. 16:9, photorealistic. No text, no letters, no writing, no people.""",
+    # Scena 8: na pustym bileciku montaż wypisuje imię dziecka odręcznym pismem.
+    "szablon_bilecik": """\
+Close-up of a present wrapped in shiny red paper with small golden stars,
+tied with a red and a golden ribbon in one big double bow. A blank cream paper
+gift tag hangs from the bow on a thin golden string, facing the camera straight
+on, flat and evenly lit, large and sharp in the center of the frame, completely
+empty, so a name can be written on it later. Warm lamp light, softly blurred
+Christmas lights in the background. 16:9, photorealistic.
+No text, no letters, no writing on the tag, no people.""",
+    # Scena 9: w pustą ramkę na biurku montaż wkleja zdjęcie bliskich.
+    "szablon_bliscy": """\
+Close-up of a small carved wooden picture frame standing upright on Santa's
+wooden desk at night, facing the camera straight on, the inside of the frame is
+plain, even cream paper, completely blank, so a photo can be placed inside later.
+Next to it an open cream envelope with a small red wax heart seal. In the softly
+blurred background a small glass snow globe, a desk lamp and fireplace glow,
+snow falling outside the window. The frame is centered and fills about half of
+the frame height. 16:9, photorealistic. No text, no letters, no people.""",
 }
 
 # --- Wideo (Gemini Omni Flash) ----------------------------------------------------------

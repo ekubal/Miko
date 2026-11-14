@@ -31,9 +31,44 @@ def tmp_output(tmp_path, monkeypatch):
 
 
 def test_scene_and_motion_prompts_have_no_placeholders_left():
-    for scene in prompts.SCENES.values():
-        assert "{" not in prompts.SCENE_PROMPT.format(scene=scene["scene"])
-        assert "{" not in prompts.motion_prompt(scene["motion"], 8, scene.get("camera"))
+    for key, scene in prompts.SCENES.items():
+        assert "{" not in prompts.scene_prompt(key), key
+        assert "{" not in prompts.motion_prompt(scene["motion"], 8, scene.get("camera")), key
+
+
+def test_scene_prompts_keep_image_rules():
+    for key in prompts.SCENES:
+        prompt = prompts.scene_prompt(key)
+        assert "No children appear in the image" in prompt, key
+        assert "no text, no letters" in prompt, key
+        if "portrait" in prompts.scene_references(key):
+            assert "mouth stays covered by hair" in prompt, key
+
+
+def test_templates_have_no_text():
+    for key, template in prompts.TEMPLATES.items():
+        assert "No text, no letters" in template, key
+
+
+def test_scene_references_default_to_santa_portrait():
+    assert prompts.scene_references("dom") == ["portrait"]
+    assert prompts.scene_prompt("dom") == prompts.SCENE_PROMPT.format(scene=prompts.SCENES["dom"]["scene"])
+    assert prompts.scene_references("koperta") == []
+    assert "attached image" not in prompts.scene_prompt("koperta")
+
+
+def test_scene_prompt_numbers_references_in_order():
+    prompt = prompts.scene_prompt("stajnia")
+    assert prompts.scene_references("stajnia") == ["portrait", "platek"]
+    assert "Santa: attached image 1" in prompt
+    assert "attached image 2 is his reference" in prompt
+    assert "snowflake-shaped" in prompt
+
+
+def test_scenes_with_platek_mention_him():
+    for key in prompts.SCENES:
+        mentions = "Płatek" in prompts.SCENES[key]["scene"]
+        assert mentions == ("platek" in prompts.scene_references(key)), key
 
 
 def test_scene_camera_override():
@@ -122,15 +157,66 @@ def test_scenes_use_selected_portrait_as_reference(tmp_output, monkeypatch):
     (tmp_output / "selected" / "portrait.png").write_bytes(b"REF")
     seen = []
 
-    def fake_generate(client, prompt, reference, aspect, size):
-        seen.append((reference.read_bytes(), prompt))
+    def fake_generate(client, prompt, references, aspect, size):
+        seen.append(([r.read_bytes() for r in references], prompt))
         return b"IMG", "image/png"
 
     monkeypatch.setattr(images, "google_client", lambda: object())
     monkeypatch.setattr(images, "generate_image", fake_generate)
     images.main(["scenes", "-n", "1", "--only", "dom", "sanie"])
-    assert [ref for ref, _ in seen] == [b"REF", b"REF"]
+    assert [refs for refs, _ in seen] == [[b"REF"], [b"REF"]]
     assert "sleigh" in seen[1][1]
+
+
+def test_scenes_send_santa_and_platek_references_in_order(tmp_output, monkeypatch):
+    (tmp_output / "selected").mkdir()
+    (tmp_output / "selected" / "portrait.png").write_bytes(b"SANTA")
+    (tmp_output / "selected" / "platek.png").write_bytes(b"PLATEK")
+    seen = {}
+
+    def fake_generate(client, prompt, references, aspect, size):
+        seen[prompt] = [r.read_bytes() for r in references]
+        return b"IMG", "image/png"
+
+    monkeypatch.setattr(images, "google_client", lambda: object())
+    monkeypatch.setattr(images, "generate_image", fake_generate)
+    images.main(["scenes", "-n", "1", "--only", "zaprzeg", "worek", "koperta"])
+    assert seen[prompts.scene_prompt("zaprzeg")] == [b"SANTA", b"PLATEK"]
+    assert seen[prompts.scene_prompt("worek")] == [b"PLATEK"]
+    assert seen[prompts.scene_prompt("koperta")] == []
+    assert (tmp_output / "images" / "scenes" / "zaprzeg_01.png").exists()
+
+
+def test_scenes_with_platek_exit_without_his_portrait(tmp_output, monkeypatch, capsys):
+    (tmp_output / "selected").mkdir()
+    (tmp_output / "selected" / "portrait.png").write_bytes(b"SANTA")
+    monkeypatch.setattr(images, "generate_image", lambda *a: pytest.fail("nie powinno generować"))
+    with pytest.raises(SystemExit) as exc:
+        images.main(["scenes", "--only", "kula", "stajnia"])
+    assert "platek" in str(exc.value)
+
+
+def test_platek_portrait_and_select(tmp_output, monkeypatch):
+    seen = []
+    monkeypatch.setattr(images, "google_client", lambda: object())
+    monkeypatch.setattr(
+        images, "generate_image", lambda c, prompt, refs, *a: seen.append((prompt, refs)) or (b"IMG", "image/png")
+    )
+    images.main(["platek", "-n", "1"])
+    assert seen == [(prompts.PLATEK_PORTRAIT_PROMPT, [])]
+    images.main(["select", "platek", "1"])
+    assert (tmp_output / "selected" / "platek.png").read_bytes() == b"IMG"
+
+
+def test_templates_generate_each_new_template(tmp_output, monkeypatch):
+    seen = []
+    monkeypatch.setattr(images, "google_client", lambda: object())
+    monkeypatch.setattr(images, "generate_image", lambda c, prompt, refs, *a: seen.append(prompt) or (b"IMG", "image/png"))
+    images.main(["templates", "-n", "1"])
+    assert seen == list(prompts.TEMPLATES.values())
+    assert sorted(p.name for p in (tmp_output / "images" / "templates").iterdir()) == sorted(
+        f"{key}_01.png" for key in prompts.TEMPLATES
+    )
 
 
 def test_scenes_without_portrait_exit(tmp_output):
@@ -142,7 +228,7 @@ def test_generate_image_extracts_inline_data(monkeypatch):
     part = SimpleNamespace(inline_data=SimpleNamespace(data=b"IMG", mime_type="image/png"))
     response = SimpleNamespace(candidates=[SimpleNamespace(content=SimpleNamespace(parts=[part]))])
     client = SimpleNamespace(models=SimpleNamespace(generate_content=lambda **kw: response))
-    assert images.generate_image(client, "prompt", None, "16:9", "2K") == (b"IMG", "image/png")
+    assert images.generate_image(client, "prompt", [], "16:9", "2K") == (b"IMG", "image/png")
 
 
 def test_lines_records_single_and_plural(tmp_output, monkeypatch):

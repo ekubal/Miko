@@ -25,7 +25,7 @@ Skrypty, które wykonują kroki z [MVP.md](MVP.md) przez API zamiast ręcznie w 
 
 | Moduł | Co robi | Usługa | Koszt |
 |---|---|---|---|
-| `generator.images` | portret Mikołaja, 8 kadrów scen, puste szablony księgi i listy | Gemini API: Nano Banana Pro | za obraz |
+| `generator.images` | portrety Mikołaja i Płatka, kadry scen, puste szablony do montażu | Gemini API: Nano Banana Pro | za obraz |
 | `generator.videos` | 8 klipów scen ogólnych (8 s) z kadrów jako pierwszej klatki | Gemini API: Gemini Omni Flash | za sekundę wideo |
 | `generator.audio` | głos Mikołaja, kwestie ogólne, podkład muzyczny | ElevenLabs | znaki / minuty z planu |
 | `generator.order` | nagranie tekstu Mikołaja (tekst pisze Rails: `Orders::GenerateSpeech`; `order text` zamrożone) | ElevenLabs | grosze za zamówienie |
@@ -207,8 +207,9 @@ Generuje obrazy w Nano Banana Pro. Odpowiada krokom 1–3 przygotowania z MVP.md
 | Polecenie | Co robi | Wynik |
 |---|---|---|
 | `portrait` | portret Mikołaja do awatara | `output/images/portrait/portrait_NN.png` |
-| `scenes` | 8 kadrów z tą samą postacią; jako referencję wysyła zatwierdzony portret | `output/images/scenes/<scena>_NN.png` |
-| `templates` | pusta księga z ramką i pusta lista | `output/images/templates/<szablon>_NN.png` |
+| `platek` | portret wzorcowy Płatka, najmłodszego renifera (scenariusz 4) | `output/images/portrait/platek_NN.png` |
+| `scenes` | kadry scen z tymi samymi postaciami; jako referencje wysyła zatwierdzone portrety, które podaje scena (domyślnie Mikołaj, w scenach z Płatkiem także `platek`) | `output/images/scenes/<scena>_NN.png` |
+| `templates` | puste szablony do personalizacji w montażu (księga, lista, kula, ramki, bilecik) | `output/images/templates/<szablon>_NN.png` |
 | `select <nazwa> <N>` | zatwierdza wariant N | `output/selected/<nazwa>.png` |
 
 Opcje `portrait`, `scenes`, `templates`:
@@ -218,15 +219,27 @@ Opcje `portrait`, `scenes`, `templates`:
 | `-n`, `--count` | 10 / 3 / 3 | liczba wariantów |
 | `--size` | `2K` | `1K` (tańszy test), `2K`, `4K` |
 | `--aspect-ratio` | `16:9` | proporcje obrazu |
-| `--only` | wszystkie | tylko wybrane sceny (`zorza dom pracownia renifery listy ksiega mapa sanie`) lub szablony (`szablon_ksiega szablon_lista`) |
+| `--only` | wszystkie | tylko wybrane sceny lub szablony (lista niżej) |
 | `--wariant` | `klasyczny` | tylko `portrait`: `pelna-broda` daje bardzo długą brodę, wąsy zakrywające usta, okulary, klasyczny strój i kadr do kolan |
 | `--reference` | `output/selected/portrait.png` | tylko `scenes`: inny portret referencyjny |
 
-Nazwy dla `select`: `portrait`, `dom`, `pracownia`, `ksiega`, `sanie`, `szablon_ksiega`, `szablon_lista`.
+Nazwy dla `select`: `portrait`, `platek` i wszystkie sceny oraz szablony:
+
+| Grupa | Nazwy |
+|---|---|
+| sceny wersji krótkiej | `zorza dom pracownia renifery listy ksiega mapa sanie` |
+| sceny scenariusza 4 (z Mikołajem) | `kula sortownia pakowanie wpadka bliscy` |
+| sceny scenariusza 4 (z Płatkiem) | `stajnia_skok` i `worek` (sam Płatek), `stajnia`, `zaprzeg` i `start` (Mikołaj i Płatek) |
+| scena bez postaci | `koperta` (scena 4, gdy rodzic nie przesłał zdjęcia listu) |
+| szablony | `szablon_ksiega szablon_lista szablon_kula szablon_kula_domek szablon_poczta szablon_bilecik szablon_bliscy` |
+
+Sceny z Płatkiem wymagają zatwierdzonego `output/selected/platek.png` (`platek`, potem `select platek N`). Bez niego `scenes` kończy się podpowiedzią, zanim cokolwiek wygeneruje.
 
 ```bash
 python -m generator.images portrait -n 10
 python -m generator.images select portrait 4
+python -m generator.images platek -n 6
+python -m generator.images select platek 2
 python -m generator.images scenes -n 3
 python -m generator.images scenes -n 2 --only ksiega      # dołóż warianty jednej sceny
 python -m generator.images select ksiega 5
