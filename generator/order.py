@@ -107,6 +107,7 @@ def apply_pronunciation(text: str, order: dict) -> str:
 
 
 def cmd_text(args):
+    # Zamrożone: produkcyjnie tekst pisze Rails (Orders::GenerateSpeech). Zostaje awaryjnie do karty 6.3 (PLAN_WDROZENIA.md).
     order = load_order(args.order)
     out = order_dir(order) / "tekst.txt"
     if out.exists() and not args.force:

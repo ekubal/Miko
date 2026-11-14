@@ -1,6 +1,6 @@
 ---
 title: "Scenariusz 4: Od listu do sań"
-subtitle: "Długi film od Mikołaja (ok. 7 minut) · połączenie wybranych scen"
+subtitle: "Długi film od Mikołaja (ok. 9:30) · połączenie wybranych scen + Płatek"
 lang: pl
 ---
 
@@ -11,31 +11,33 @@ Dziecko odwiedza Mikołaja na dalekiej Północy i przechodzi z nim całą drog�
 1. Zorza nad wioską i dom Mikołaja.
 2. W śnieżnej kuli na biurku Mikołaja zaczyna padać śnieg: to znak, że przyszło dziecko. Mikołaj wita je po imieniu, patrząc w kamerę.
 3. Na Poczcie Mikołaja znajduje się list dziecka.
-4. W pracowni elfy robią zabawki.
-5. W magicznej księdze jest zdjęcie dziecka, a Mikołaj opowiada, co elfy wiedzą o jego roku.
-6. Elfy pakują prezent i wiążą bilecik z imieniem.
-7. Mikołaj przekazuje dziecku słowa od jego bliskich.
-8. Prezent trafia do worka na saniach.
-9. Na koniec zaprzęganie reniferów, wspólne odliczanie i start.
-10. Klamra: w tej samej śnieżnej kuli pojawia się dom dziecka.
+4. W pracowni elfy robią zabawki; dziecko stuka młoteczkiem.
+5. W stajni najmłodszy renifer Płatek ćwiczy podskoki; dziecko mu kibicuje.
+6. W magicznej księdze jest zdjęcie dziecka, a Mikołaj opowiada, co elfy wiedzą o jego roku.
+7. Elfy pakują prezent (wpadka ze wstążką), dziecko wybiera kokardę, bilecik z imieniem.
+8. Mikołaj przekazuje dziecku słowa od jego bliskich.
+9. Prezent trafia do worka na saniach; Płatek pomaga.
+10. Zaprzęganie, pierwszy lot Płatka, wspólne odliczanie i start; w śnieżnej kuli pojawia się dom dziecka.
 
 | | |
 |---|---|
 | **Dla kogo** | dzieci 3–9 lat |
-| **Długość** | ok. 7:30 |
+| **Długość** | ok. 9:30 (jedyny wariant produktu; bez osobnej wersji skróconej) |
 | **Nastrój** | ciepły, z humorem, „za kulisami” wioski Mikołaja |
-| **Oś filmu** | droga prezentu: list, pracownia, księga, pakowanie, worek, start |
-| **Zabawa dziecka** | stukanie młoteczkiem, wybór kokardy, odliczanie do startu |
-| **Najmocniejszy moment** | zdjęcie w księdze z opowieścią o roku dziecka i słowa od rodziców |
+| **Oś filmu** | droga prezentu: list, pracownia, stajnia, księga, pakowanie, worek, start |
+| **Wątek równoległy** | Płatek — pierwszy lot w zaprzęgu |
+| **Zabawa dziecka** | stukanie młoteczkiem, kibicowanie Płatkowi, wybór kokardy, odliczanie do startu |
+| **Najmocniejszy moment** | zdjęcie w księdze z opowieścią o roku dziecka i słowa od bliskich |
 | **Motyw przewodni** | śnieżna kula: śnieży, gdy przychodzi dziecko, a na końcu pokazuje jego dom |
 
 Scenariusz łączy:
 
 - otwarcie wersji krótkiej (zorza, dom);
 - środek „Prezentu w drodze” (poczta, pracownia, pakowanie, worek);
-- zakończenie „Wigilijnej próby” (zaprzęganie, odliczanie, start).
+- zakończenie „Wigilijnej próby” (zaprzęganie, odliczanie, start);
+- nowy wątek: Płatek + scena z bliskimi + wpadka elfa.
 
-Nowa jest scena z rodzicami.
+Pełne teksty scen (przebieg poniżej) w karcie **1.1** dopisujemy do długości 9:30; decyzje z 0.3 są w sekcji „Do decyzji”.
 
 # Dane z formularza
 
@@ -47,8 +49,9 @@ Nowa jest scena z rodzicami.
 | Wymarzony prezent, czy jest kupiony | tak | przygotowanie prezentu (scena 7), dwa warianty |
 | **Jak dziecko mówi do bliskich, z którymi ogląda film** | tak | scena 8; wybór: „mama i tata”, „mama”, „tata”, „babcia i dziadek”, „inne” (pole tekstowe) |
 | **Wiadomość od bliskich** | nie | scena 8; jedno lub dwa zdania, do 200 znaków |
+| **Zdjęcie bliskich** | nie | ramka na biurku (scena 8); bez zdjęcia brak ramki |
 | Zdjęcie listu albo rysunku dziecka | nie | Poczta Mikołaja (scena 4) |
-| **Zdjęcie domu z zewnątrz** | nie | śnieżna kula na końcu filmu (scena 10); bez zdjęcia ogólny domek |
+| **Zdjęcie domu z zewnątrz** | nie | śnieżna kula na końcu filmu; bez zdjęcia ogólny domek |
 
 Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwane 7 dni po dostawie. Wiadomość od bliskich czyta człowiek przed nagraniem, tak jak cały tekst dla dziecka.
 
@@ -280,10 +283,24 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
   - nakładka: śnieg i światło w kuli.
 - **Dźwięki:** listy na zjeżdżalni, papier, taśma, uprząż, start sań.
 
+# Do decyzji
+
+Ustalono 14 lis 2026 (karta 0.3):
+
+| # | Pytanie | Decyzja |
+|---|---|---|
+| 1 | Wersja kanoniczna | **ok. 9:30** ze stajnią, Płatkiem i wpadką elfa (nie 7:30 z wcześniejszego szkicu przebiegu) |
+| 2 | Podfabuła Płatka | **zostaje** — imię Płatek, 3 sceny, portret wzorcowy |
+| 3 | Wpadka elfa ze wstążką | **zostaje**; najpierw test w `testy_fal` (2.1); przy porażce modelu upraszczamy ujęcie, nie całą scenę pakowania |
+| 4 | Wariant skrócony (~7:30) | **nie** — jeden produkt, jeden montaż |
+| 5 | Pauzy na reakcję | młoteczek **5 s**; kokarda **3 s**; odliczanie **5 s**; Płatek / kciuki **3 s** |
+| 6 | Zdjęcia opcjonalne | list/rysunek, bliscy, dom — **wszystkie nieobowiązkowe** |
+| 7 | Wiadomość od bliskich | limit **200 znaków**; wybór `{BLISCY}` bez zmian |
+
 # Uwagi
 
-- **Śnieżna kula jako klamra:** ten sam przedmiot otwiera film (znak, że przyszło dziecko) i go zamyka (dom dziecka). Gabinet z kulą to też miejsce sceny 8 (koperta od bliskich), więc jeden nowy kadr służy trzem scenom.
-- **Krótszy lip-sync:** Mikołaj mówi do kamery tylko w powitaniu (ok. 25 s zamiast 45–60 s), a opowieść o dziecku jest głosem zza kadru nad księgą ze zdjęciem. To tańsze w HeyGen i mniej ryzykowne, bo dłuższy lip-sync częściej wymaga poprawek.
-- **Ponowne użycie materiałów:** pięć klipów jest już gotowych z wersji krótkiej, więc do wygenerowania zostaje ok. 6–8 nowych ujęć.
-- **Najtrudniejsze ujęcia dla modelu wideo:** pakowanie i wiązanie kokardy oraz zaprzęganie reniferów. Warto je najpierw sprawdzić w `testy_fal`.
-- **Scena z rodzicami** daje silny moment dla dorosłych i powód do udostępnienia filmu rodzinie. Tekst musi uwzględniać różne rodziny, stąd wybór `{BLISCY}` w formularzu.
+- **Śnieżna kula jako klamra:** ten sam przedmiot otwiera film (znak, że przyszło dziecko) i go zamyka (dom dziecka). Gabinet z kulą to też miejsce sceny z bliskimi, więc jeden nowy kadr służy kilku scenom.
+- **Krótszy lip-sync:** Mikołaj mówi do kamery tylko w powitaniu (ok. 25 s), a opowieść o dziecku jest głosem zza kadru nad księgą ze zdjęciem.
+- **Najtrudniejsze ujęcia dla modelu wideo:** wpadka elfa ze wstążką oraz Płatek wyglądający tak samo w trzech scenach (portret wzorcowy). Pakowanie/kokarda i zaprzęganie też warte wczesnego testu w `testy_fal`.
+- **Scena z bliskimi** daje silny moment dla dorosłych; tekst musi uwzględniać różne rodziny (`{BLISCY}`).
+- Tabela „Przebieg” i pełne teksty scen poniżej to jeszcze szkic ~7:30 — synchronizacja do 9:30 z Płatkiem i wpadką to karta **1.1**.

@@ -15,11 +15,11 @@ Język projektu to **polski**: kod komentujemy, piszemy komunikaty CLI, dokument
 | Ścieżka | Zawartość |
 |---|---|
 | `app/` | aplikacja Rails 8 + Hotwire (witryna sprzedażowa, zamówienia, płatności, panel); instrukcje: `app/AGENTS.md` |
-| `generator/` | pakiet Pythona: `images` (Nano Banana Pro), `videos` (Gemini Omni Flash), `audio` + `elevenlabs` (głos, muzyka), `order` (tekst i głos dla zamówienia), `montage` (ffmpeg), `prompts` (wszystkie prompty i kwestie), `config`, `common` |
+| `generator/` | pakiet Pythona: `images` (Nano Banana Pro), `videos` (Gemini Omni Flash), `audio` + `elevenlabs` (głos, muzyka), `order` (głos dla zamówienia; `order text` zamrożone, tekst pisze Rails), `montage` (ffmpeg), `prompts` (wszystkie prompty i kwestie), `config`, `common` |
 | `testy_fal/` | robocze skrypty porównujące modele wideo na fal.ai; nie są częścią produkcji |
 | `strona/` | **wzór / archiwum** (HTML/CSS/JS); produkcyjny front jest w Rails (`app/`), nie serwujemy `strona/` na produkcji |
 | `szablony/` | maile HTML (tabele, style inline), opis pól, przykładowa transkrypcja filmu |
-| `scenariusze/`, `SCENARIUSZ_8MIN.md` | scenariusze długiej wersji filmu (md, docx, pdf); odrzucone w `scenariusze/odrzucone/` |
+| `scenariusze/` | wybrany scenariusz długiej wersji (`4_od_listu_do_san`); odrzucone w `scenariusze/odrzucone/` |
 | `examples/` | przykładowe pliki zamówień JSON (format danych dziecka) |
 | `tests/` | pytest; działają bez sieci i bez kluczy |
 | `output/` | wyniki generowania; w `.gitignore`, zawiera dane dzieci, nigdy nie commitować |
@@ -43,10 +43,10 @@ Polecenia uruchamiamy z katalogu głównego repozytorium (`python -m ...`). Prze
 - Konfiguracja i klucze tylko przez `generator/config.py` (`.env`, `require_env`). Modele są nazwami w `config` z nadpisaniem przez zmienne `MIKOLAJ_*_MODEL`.
 - Wywołania API owijamy w `common.with_retry`. Błędy, których nie da się ponowić (brak płatności, zły klucz, wyłączony model), kończą program z podpowiedzią (`permanent_error_hint`).
 - Każdy generator tworzy warianty `nazwa_NN.ext` (`common.variant_paths`, nigdy nie nadpisuje), a człowiek zatwierdza jeden poleceniem `select` do `output/selected/`. Kolejne kroki czytają tylko zatwierdzone pliki.
-- Prompty i kwestie Mikołaja trzymamy wyłącznie w `generator/prompts.py`, nie w kodzie modułów.
+- Prompty i kwestie Mikołaja trzymamy wyłącznie w `generator/prompts.py`, nie w kodzie modułów. Wyjątek: prompt i reguły tekstu Mikołaja dla dziecka (scena 3) są w Rails, w `app/app/services/orders/speech_prompt.rb` i `speech_checker.rb`. `SPEECH_*` w `prompts.py` to zamrożona kopia do czasu zapisu tekstu w Rails (karta 6.3 w PLAN_WDROZENIA.md); zmiany robimy tylko w Ruby.
 - Montaż opisuje lista `TIMELINE` w `generator/montage.py`; nowe sceny dodajemy tam i w `prompts.SCENES`.
 - Pola formularza mają te same nazwy co dane dziecka w `examples/*.json` / payload generatora (`imie`, `zwrot`, …). Produkcyjny formularz jest w Rails; `strona/` to wzór.
-- Witryna w Rails: Hotwire (Turbo + Stimulus), Haml, Tailwind; kolory jako zmienne CSS, dostępność, mobile bez przewijania w poziomie. `strona/` nie serwujemy na produkcji.
+- Witryna w Rails: Hotwire (Turbo + Stimulus), Haml, SCSS (Dart Sass, bez Tailwinda); kolory jako zmienne CSS, dostępność, mobile bez przewijania w poziomie. `strona/` nie serwujemy na produkcji.
 - Maile HTML: układ na tabelach, style inline, szerokość 600 px, bez SVG i skryptów.
 
 Konwencje Rails (modele, serwisy, RSpec, domena zamówienia): `app/AGENTS.md`.
@@ -60,7 +60,7 @@ Konwencje Rails (modele, serwisy, RSpec, domena zamówienia): `app/AGENTS.md`.
 5. **Kwestie wspólne bez form płciowych.** Formy zależne od płci są tylko w tekście pisanym dla konkretnego dziecka. Dla rodzeństwa kwestie są w liczbie mnogiej.
 6. **W generowanych kadrach nie ma dzieci.** Elfy są dorosłe (inaczej modele wideo odrzucają kadry). Bez napisów w obrazach: napisy dodaje montaż.
 7. **Wygląd Mikołaja:** ok. 80 lat, okulary, długa broda, gęste wąsy zakrywające usta (bez zakręconych końcówek). Zmiany w `PORTRAIT_PROMPT_FULL_BEARD` i `SCENE_PROMPT` testuj na nowych wariantach, nie zmieniaj tej zasady.
-8. Każdy tekst Mikołaja dla dziecka czyta człowiek przed nagraniem (`NEEDS_REVIEW`, kolejka przeglądu).
+8. Każdy tekst Mikołaja dla dziecka czyta człowiek przed nagraniem (flaga `needs_review` od modelu, kolejka przeglądu).
 
 ## Bezpieczeństwo i dane
 

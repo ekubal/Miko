@@ -6,7 +6,7 @@
 
 Zamówienie przechodzi od płatności do wysłanego filmu **bez udziału człowieka**. Człowiek zajmuje się tylko wyjątkami, które system sam oznaczy, oraz nadzoruje całość w panelu administracyjnym.
 
-Dotychczasowe skrypty (`generator/`) zostają rdzeniem produkcji. Zmienia się to, co je uruchamia: zamiast poleceń wpisywanych ręcznie robi to kolejka zadań na serwerze.
+Dotychczasowe skrypty (`generator/`) zostają rdzeniem produkcji. Zmienia się to, co je uruchamia: zamiast poleceń wpisywanych ręcznie robi to kolejka zadań na serwerze. Wyjątek: tekst Mikołaja dla dziecka pisze już aplikacja Rails (`Orders::GenerateSpeech`), bez Pythona.
 
 ## Co trzeba zastąpić, żeby nie było kroków ręcznych
 
@@ -14,7 +14,7 @@ Dotychczasowe skrypty (`generator/`) zostają rdzeniem produkcji. Zmienia się t
 |---|---|---|
 | Przepisanie danych z formularza | Własny formularz zapisuje zamówienie w bazie; płatność potwierdza powiadomienie (webhook) ze Stripe | niskie |
 | Sprawdzenie zdjęcia | Lokalna kontrola na serwerze: wykrycie twarzy i ostrości (bez wysyłania zdjęcia do zewnętrznych usług). Słabe zdjęcie → automatyczny mail 2 z prośbą o nowe | niskie |
-| Człowiek czyta i zatwierdza tekst | Reguły (liczba słów, zwrot, zdanie końcowe, obietnica prezentu) + moderacja treści przez model + odpowiedź „DO SPRAWDZENIA”. Wątpliwe → kolejka przeglądu. **Opcjonalnie: rodzic zatwierdza tekst jednym kliknięciem przed nagraniem** | średnie: treść dla dziecka |
+| Człowiek czyta i zatwierdza tekst | Reguły (liczba słów, zwrot, zdanie końcowe, obietnica prezentu) + moderacja treści przez model + flaga `needs_review` z powodem w odpowiedzi JSON modelu. Wątpliwe → kolejka przeglądu. **Opcjonalnie: rodzic zatwierdza tekst jednym kliknięciem przed nagraniem** | średnie: treść dla dziecka |
 | Odsłuchanie imienia | Rozpoznanie mowy na nagraniu (speech-to-text) i porównanie z tekstem; przy niezgodności imienia automatyczny zapis fonetyczny i ponowne nagranie, po 2 próbach → przegląd | średnie |
 | **HeyGen ręcznie** | **API usługi lip-sync** (HeyGen API albo inna, zob. niżej) | **wysokie: koszt i jakość** |
 | Montaż | Bez zmian (`generator.montage`), na serwerze z ffmpeg | niskie |
@@ -109,7 +109,7 @@ Panel nie służy do robienia filmów, tylko do nadzoru i obsługi wyjątków.
 
 ### 2. Kolejka przeglądu (wyjątki)
 Lista zamówień zatrzymanych przez system, z powodem:
-- tekst oznaczony przez moderację albo „DO SPRAWDZENIA”;
+- tekst oznaczony przez moderację albo flagą `needs_review` (z powodem od modelu);
 - niezgodność imienia w nagraniu po ponowieniach;
 - błąd lip-sync lub montażu po ponowieniach;
 - losowa kontrola jakości;

@@ -287,6 +287,8 @@ GENERAL_LINES = {
 }
 
 # --- Tekst personalizowany (scena 3) ------------------------------------------
+# ZAMROŻONE. Źródłem promptu i reguł jest Rails: app/app/services/orders/speech_prompt.rb
+# i speech_checker.rb. Tej kopii nie zmieniamy; usuniemy ją po zapisie tekstu w Rails (karta 6.3 w PLAN_WDROZENIA.md).
 
 SPEECH_CLOSING = "A teraz zajrzyjmy razem do mojej magicznej księgi!"
 NEEDS_REVIEW = "DO SPRAWDZENIA"

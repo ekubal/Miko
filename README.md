@@ -28,7 +28,7 @@ Skrypty, które wykonują kroki z [MVP.md](MVP.md) przez API zamiast ręcznie w 
 | `generator.images` | portret Mikołaja, 8 kadrów scen, puste szablony księgi i listy | Gemini API: Nano Banana Pro | za obraz |
 | `generator.videos` | 8 klipów scen ogólnych (8 s) z kadrów jako pierwszej klatki | Gemini API: Gemini Omni Flash | za sekundę wideo |
 | `generator.audio` | głos Mikołaja, kwestie ogólne, podkład muzyczny | ElevenLabs | znaki / minuty z planu |
-| `generator.order` | tekst Mikołaja dla dziecka i jego nagranie | Gemini API + ElevenLabs | grosze za zamówienie |
+| `generator.order` | nagranie tekstu Mikołaja (tekst pisze Rails: `Orders::GenerateSpeech`; `order text` zamrożone) | ElevenLabs | grosze za zamówienie |
 | `generator.montage` | gotowy film MP4 1080p | ffmpeg + Pillow, lokalnie | 0 zł |
 
 Mówiącego Mikołaja robisz ręcznie w HeyGen (zob. [6.6](#66-heygen-ręcznie)).
@@ -142,7 +142,7 @@ Wszystkie treści są w jednym pliku. Zmieniasz je tam, nie w kodzie skryptów.
 | `VOICE_DESCRIPTION`, `VOICE_SAMPLE_TEXT` | opis głosu i tekst próbny do Voice Design (100–1000 znaków) |
 | `MUSIC_PROMPT` | opis podkładu muzycznego |
 | `GENERAL_LINES` | kwestie ogólne scen 1, 2, 4, 5, 6: `single` dla jednego dziecka, `plural` dla rodzeństwa |
-| `SPEECH_PROMPT`, `CHILD_DATA`, `SPEECH_CLOSING` | prompt tekstu dla dziecka i wymagane zdanie końcowe |
+| `SPEECH_PROMPT`, `CHILD_DATA`, `SPEECH_CLOSING` | zamrożona kopia; źródłem jest `app/app/services/orders/speech_prompt.rb` |
 
 Po zmianie kwestii w `GENERAL_LINES` nagraj je ponownie: `python -m generator.audio lines --force`.
 
@@ -192,7 +192,7 @@ python -m generator.audio design
 python -m generator.audio save-voice <generated_voice_id z output/audio/voice_design/previews.json>
 python -m generator.audio tts --text "Ho, ho, ho! Wesołych Świąt!" -o output/test.mp3
 
-# Gemini: tekst dla dziecka
+# Gemini: tekst dla dziecka (zamrożone; produkcyjnie tekst pisze Rails, zob. 6.4)
 python -m generator.order text examples/zamowienie_kasia.json
 ```
 
@@ -294,6 +294,10 @@ python -m generator.audio select-music 2
 - **Używaj zawsze tego samego głosu.** Po zmianie głosu nagraj kwestie ogólne ponownie z `--force`.
 
 ### 6.4 Tekst i głos dla zamówienia (`generator.order`)
+
+> **Tekst pisze teraz Rails.** W konsoli `app/` (`bin/rails console`):
+> `r = Orders::GenerateSpeech.call(Order.find_by!(number: "2026-001"))`, potem `puts r[:text]` i `r[:issues].each { |i| puts "! #{i.message}" }`.
+> Model: `MIKOLAJ_TEXT_PROVIDER` (`gemini` albo `anthropic`) i `MIKOLAJ_TEXT_MODEL`; klucz z płatnego planu (`GEMINI_API_KEY` / `ANTHROPIC_API_KEY` albo credentials). Polecenie `order text` poniżej jest zamrożone (awaryjnie, do czasu zapisu tekstu w Rails, karta 6.3 w PLAN_WDROZENIA.md) i nie dostaje zmian promptu.
 
 Wymaga pliku JSON z danymi z formularza. Przykłady są w [`examples/`](examples/): jedno dziecko z kupionym prezentem, jedno z niekupionym i rodzeństwo.
 
@@ -459,7 +463,7 @@ Na koniec utwórz Photo Avatar w HeyGen ([6.6](#66-heygen-ręcznie)).
 ### Każde zamówienie
 
 1. Sprawdź płatność, zgody i zdjęcie. Zapisz dane z formularza jako JSON, a zdjęcie obok niego.
-2. `python -m generator.order text <zamówienie.json>`, potem przeczytaj i popraw `tekst.txt`.
+2. Tekst: `Orders::GenerateSpeech.call(order)` w konsoli Rails ([6.4](#64-tekst-i-głos-dla-zamówienia-generatororder)); przeczytaj, popraw i zapisz jako `output/orders/<id z JSON-a>/tekst.txt`.
 3. `python -m generator.order voice <zamówienie.json> --approved` i odsłuchaj imię.
 4. HeyGen: klip z `glos.mp3`, zapisany jako `heygen.mp4`.
 5. `python -m generator.montage build <zamówienie.json>`.
