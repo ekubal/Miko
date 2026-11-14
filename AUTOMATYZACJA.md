@@ -70,7 +70,8 @@ Panel administracyjny ◄── ta sama baza i kolejka
 
 ```
 OPŁACONE
-  → DANE_SPRAWDZONE      (zdjęcie: twarz i ostrość; pola formularza)      ✗ → CZEKA_NA_RODZICA (mail 2)
+  → SPRAWDZANIE_DANYCH   (status przejściowy; dispatcher co 5 min bierze OPŁACONE)
+  → DANE_SPRAWDZONE      (v1: zdjęcie — twarz i ostrość; pola formularza później)  ✗ → CZEKA_NA_RODZICA (mail 2)
   → TEKST_GOTOWY         (Gemini)
   → TEKST_ZATWIERDZONY   (reguły + moderacja [+ zgoda rodzica])            ✗ → PRZEGLĄD
   → GŁOS_GOTOWY          (ElevenLabs)
@@ -81,6 +82,10 @@ OPŁACONE
   → WYSŁANE              (mail 3 z linkiem)
   → DANE_USUNIĘTE        (7 dni po wysłaniu)
 ```
+
+W kodzie Rails: `paid` → `data_checking` → `data_checked` | `waiting_for_parent`. Szczegóły: `docs/superpowers/specs/2026-11-14-photo-quality-check-design.md`.
+
+**CZEKA_NA_RODZICA — workaround bez formularza uzupełnienia (v1):** rodzic odpisuje na mail 2 z nowym zdjęciem → operator podmienia główne `photo` dziecka → ustawia status z powrotem na `paid` (dispatcher znów podejmie; ewentualnie od razu `CheckPhotosJob`) → wynik: `data_checked` albo kolejny mail 2. Nie ustawiaj ręcznie `data_checking`.
 
 Każdy krok:
 - da się bezpiecznie powtórzyć (nie dubluje kosztów ani maili);
