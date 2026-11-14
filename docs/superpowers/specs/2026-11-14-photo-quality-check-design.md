@@ -1,7 +1,7 @@
 # Photo quality check (`data_checked`) — design
 
 Date: 2026-11-14  
-Status: approved for planning (revised after review)  
+Status: implemented (app branch `photo-quality-check`); revised during implementation — see “Changes during implementation”  
 Related: `AUTOMATYZACJA.md` (DANE_SPRAWDZONE), `PLAN_WDROZENIA.md` §6.7, `Order::STATUSES`
 
 ## Goal
@@ -26,7 +26,6 @@ Out:
 - Form-field heuristics
 - Parent self-serve upload form / automatic re-check after reply
 - Starting text generation after `data_checked`
-- Moving technical failures to `review` after retries
 
 ## Status flow
 
@@ -101,17 +100,22 @@ Gem: `onnxruntime` (+ numeric helper if needed). Docker: keep `libvips`; add any
 
 Check order per child: missing main `photo` → `missing_photo`; else auto-orient → face detect; if no qualifying face → `no_face` (skip sharpness); else sharpness on that crop → `blurry` or OK.
 
-Corrupt decode / missing model / ONNX crash: **raise** (Solid Queue retries). Do **not** set `waiting_for_parent`. Leave status `data_checking` so stale re-dispatch can retry. Do not revert to `paid` on tech failure (avoids flip-flop with the dispatcher).
+Undecodable file (libvips cannot open it): issue `unreadable` → `waiting_for_parent` + mail 2 — the parent has to send the photo again.
+
+Missing model / ONNX crash / Active Storage download error: **raise**, status stays `data_checking`. `ApplicationJob` has no `retry_on`, so the retry is the stale re-dispatch. Each failure writes `photo_check_failed`; after `max_check_attempts` (default 3) failures since the latest claim the order goes to `review`. Do not revert to `paid` on tech failure (avoids flip-flop with the dispatcher).
+
+`Orders::CheckPhotosJob` uses Solid Queue `limits_concurrency` (one run per order), so dispatcher duplicates during a queue backlog wait and then no-op on the finished status.
 
 ### Problem codes → parent copy
 
 | Code | Meaning | Mail copy source |
 |---|---|---|
 | `missing_photo` | Main `photo` not attached | I18n from `szablony/emaile.md` — brak zdjęcia |
+| `unreadable` | libvips cannot decode the file | Dedicated I18n (plik się nie otwiera) |
 | `no_face` | No face above confidence / size threshold | Dedicated I18n (twarz niewidoczna / nie nadaje się do księgi) |
 | `blurry` | Face-crop sharpness below threshold | I18n from `szablony/emaile.md` — nieostre zdjęcie |
 
-Mail: `OrderMailer.missing_data` via `deliver_later` after the status transaction commits (same pattern as mail 1).
+Mail: `OrderMailer.missing_data` via `deliver_later` after the `with_lock` block returns (production queue uses a separate database, so enqueueing inside the transaction is not atomic). Copy avoids the genitive name (`{IMIE_DLA}`), which the form does not collect: paragraphs start with “Kasia: …”.
 
 ### Thresholds (tunable)
 
@@ -131,6 +135,8 @@ Exact numeric thresholds calibrated on fixtures during implementation.
 | Claim | `paid` | `data_checking` | `data_checking` (optional) | none |
 | Pass | `data_checking` | `data_checked` | `data_checked` | none |
 | Fail | `data_checking` | `waiting_for_parent` | `waiting_for_parent` | mail 2 |
+| Tech error | `data_checking` | `data_checking` | `photo_check_failed` (`meta.error` = class) | none |
+| Tech error cap | `data_checking` | `review` | `review` | none |
 
 Event `meta` (no paths / binaries):
 
@@ -175,6 +181,15 @@ Offline only (no network, no API keys).
 3. Within ~5 minutes of `paid`, order is claimed (`data_checking`) without enqueue from webhook  
 4. Stale `data_checking` is re-dispatched  
 5. Specs pass without network; no child PII photos in git  
+
+## Changes during implementation
+
+- Issue code `unreadable` (corrupt file → parent fixes it, not an endless technical retry).
+- Technical failures capped by `max_check_attempts` → `review` (was out of scope; without it a broken order re-dispatches every 5 minutes forever).
+- `limits_concurrency` on `Orders::CheckPhotosJob`.
+- Images decoded in memory with `Vips::Image.thumbnail` (shrink-on-load to `analysis_max_size`, EXIF orientation); no temp files with child photos.
+- Same thresholds in every environment; calibration on public-domain fixtures, measured values in `app/spec/fixtures/files/photos/README.md`.
+- Model: OpenCV Zoo `face_detection_yunet_2023mar.onnx` (MIT), fixed 640×640 input, `vendor/models/README.md`.
 
 ## Open calibration (implementation, not design blockers)
 

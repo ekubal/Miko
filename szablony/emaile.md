@@ -135,6 +135,22 @@ Gotowe akapity do `{BRAKUJACE_DANE}`:
 - **Za mało szczegółów:** Mikołaj chętnie pochwali konkretne osiągnięcie z tego roku. Napisz w jednym, dwóch zdaniach, co się udało, np. „nauczyła się jeździć na rowerze bez bocznych kółek”.
 - **Treść do wyjaśnienia** (odpowiedź „DO SPRAWDZENIA” z kroku 2 produkcji): Niektóre informacje w formularzu chcemy z Tobą omówić, zanim Mikołaj je powie. Czy możesz napisać, jak chcesz, żeby Mikołaj o tym wspomniał, albo czy wolisz to pominąć?
 
+#### Automatyczne sprawdzenie zdjęć (Rails, `orders.photo_quality` w `config/locales/pl.yml`)
+
+System wysyła mail 2 sam, gdy główne zdjęcie dziecka nie przejdzie sprawdzenia (twarz i ostrość, lokalnie na serwerze). Formularz nie zbiera imienia w dopełniaczu, więc te wersje go nie odmieniają: imię stoi na początku akapitu, po dwukropku.
+
+**Temat:** Potrzebujemy jeszcze jednego zdjęcia: {IMIE} (jedno dziecko z problemem)
+**Temat:** Potrzebujemy nowych zdjęć: {IMIONA} (rodzeństwo, np. „Kasia i Antek”)
+
+Akapity do `{BRAKUJACE_DANE}` (po jednym na dziecko, oddzielone pustą linią):
+
+- **Nieostre zdjęcie (`blurry`):** {IMIE}: przesłane zdjęcie jest nieostre i twarz jest słabo widoczna. W magicznej księdze nie wyglądałoby dobrze. Najlepiej sprawdzi się ostre zdjęcie w świetle dziennym, z twarzą widoczną na wprost, w formacie JPG lub PNG.
+- **Nie widać twarzy (`no_face`):** {IMIE}: na przesłanym zdjęciu nie widać wyraźnie twarzy. W magicznej księdze potrzebujemy zdjęcia z twarzą widoczną na wprost. Najlepiej sprawdzi się ostre zdjęcie w świetle dziennym, w formacie JPG lub PNG.
+- **Plik się nie otwiera (`unreadable`):** {IMIE}: nie udało nam się otworzyć przesłanego zdjęcia. Dołącz je ponownie do odpowiedzi, w formacie JPG lub PNG.
+- **Brak zdjęcia (`missing_photo`):** {IMIE}: nie dotarło do nas zdjęcie. Dołącz je do odpowiedzi, najlepiej ostre, z twarzą widoczną na wprost, w formacie JPG lub PNG.
+
+Wstęp maila („film dla {IMIE_DLA}”) bierze imię w mianowniku, dopóki formularz nie zbiera dopełniacza.
+
 ### Przykład: Jaś, 8 lat (nieostre zdjęcie)
 
 **Temat:** Potrzebujemy jeszcze jednego zdjęcia Jasia

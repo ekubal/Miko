@@ -87,6 +87,8 @@ W kodzie Rails: `paid` → `data_checking` → `data_checked` | `waiting_for_par
 
 **CZEKA_NA_RODZICA — workaround bez formularza uzupełnienia (v1):** rodzic odpisuje na mail 2 z nowym zdjęciem → operator podmienia główne `photo` dziecka → ustawia status z powrotem na `paid` (dispatcher znów podejmie; ewentualnie od razu `CheckPhotosJob`) → wynik: `data_checked` albo kolejny mail 2. Nie ustawiaj ręcznie `data_checking`.
 
+**Błąd techniczny przy sprawdzaniu zdjęć:** zamówienie zostaje w `data_checking`, dispatcher ponawia je po 15 minutach. Każda nieudana próba to zdarzenie `photo_check_failed`; po 3 próbach (`max_check_attempts` w `config/photo_quality.yml`) zamówienie przechodzi na `review`. Operator usuwa przyczynę (np. brak modelu) i ustawia z powrotem `paid`. Plik, którego nie da się otworzyć, nie jest błędem technicznym: to kod `unreadable` i mail 2.
+
 Każdy krok:
 - da się bezpiecznie powtórzyć (nie dubluje kosztów ani maili);
 - zapisuje czas, koszt (np. sekundy lip-sync, znaki ElevenLabs) i wynik w dzienniku zdarzeń;
