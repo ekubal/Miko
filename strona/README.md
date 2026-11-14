@@ -33,8 +33,7 @@ Potem otwórz http://localhost:8000. Formularz działa w **trybie pokazowym**: n
 | `[ADRES NADAWCY]` | `potwierdzenie.html`: adres, z którego przychodzą maile |
 | `[OPERATOR PŁATNOŚCI]` | `zamowienie.html`, podsumowanie |
 | `[DŁUGOŚĆ]` i film przykładowy | `index.html`; pliki `media/przyklad.mp4` i `media/przyklad.jpg` (kadr) |
-| `polityka-prywatnosci.html` | strona do dodania (treść od prawnika); linkują do niej stopka i zgody |
-| Treść regulaminu | `regulamin.html`: miejsca `[Treść paragrafu od prawnika]`, dane sprzedawcy, daty wersji, plik `pliki/regulamin.pdf`; po wstawieniu usuń ramkę „Projekt układu” |
+| Regulamin i polityka prywatności | projekty w `../dokumenty/*.md`: pola w nawiasach kwadratowych (dane firmy, NIP, e-mail, dostawcy, daty wersji); po sprawdzeniu przez prawnika ustaw `projekt: nie` i przebuduj strony |
 | Odpowiedzi do potwierdzenia | `faq.html`: `[DŁUGOŚĆ FILMU]`, faktura, czas odpowiedzi na maile, link ważny 60 dni |
 | Treść zgód | `zamowienie.html`: do sprawdzenia przez prawnika |
 | Kadr listy z imieniem | `index.html`, sekcja „Mikołaj zna szczegóły”: zamień makietę na kadr z filmu |
@@ -137,3 +136,5 @@ Teksty pochodzą z projektu, który powstał dla filmu z 6 scenami (2–3 minuty
 - czy lokalne linki prowadzą do istniejących plików;
 - czy identyfikatory się nie powtarzają;
 - czy pola formularza zgadzają się z formatem zamówienia generatora.
+
+**Regulamin i polityka prywatności** są generowane z plików `../dokumenty/regulamin.md` i `../dokumenty/polityka-prywatnosci.md`. Nie poprawiaj `regulamin.html`, `polityka-prywatnosci.html` ani PDF-ów w `pliki/` ręcznie. Zmień plik `.md` i uruchom z katalogu głównego `python dokumenty/zbuduj.py` (potrzebny pandoc, a do PDF LibreOffice). Skrypt robi też wersje `.docx` dla prawnika.

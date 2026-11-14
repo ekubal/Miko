@@ -18,6 +18,7 @@ Język projektu to **polski**: kod komentujemy, piszemy komunikaty CLI, dokument
 | `generator/scenariusze/` | prompty długich scenariuszy (moduł na scenariusz, np. `od_listu_do_san.py`: ujęcia, postacie, szablony) i polecenie `python -m generator.scenariusze`; czytelna kopia promptów w `scenariusze/*_prompty.md` |
 | `testy_fal/` | robocze skrypty porównujące modele wideo na fal.ai; nie są częścią produkcji |
 | `strona/` | statyczna strona sprzedażowa: `index.html`, `zamowienie.html`, `potwierdzenie.html`, `css/style.css`, `js/` (bez bibliotek) |
+| `dokumenty/` | regulamin i polityka prywatności w Markdown (projekty dla prawnika) oraz `zbuduj.py`, który robi z nich strony w `strona/`, `.docx` i PDF-y w `strona/pliki/` |
 | `szablony/` | maile HTML (tabele, style inline), opis pól, przykładowa transkrypcja filmu |
 | `scenariusze/`, `SCENARIUSZ_8MIN.md` | scenariusze długiej wersji filmu (md, docx, pdf); odrzucone w `scenariusze/odrzucone/` |
 | `examples/` | przykładowe pliki zamówień JSON (format danych dziecka) |
@@ -33,6 +34,7 @@ python -m generator.images portrait -n 4  # przykłady; reszta w README.md
 python -m generator.videos generate --only zorza --resolution 360p
 python -m testy_fal generuj --na-sucho    # plan i koszt testu modeli bez wysyłania
 cd strona && python3 -m http.server 8000  # podgląd strony
+python dokumenty/zbuduj.py                # regulamin i polityka: html, docx, pdf (pandoc, LibreOffice)
 ```
 
 Polecenia uruchamiamy z katalogu głównego repozytorium (`python -m ...`). Przed commitem uruchom `python -m pytest -q`.
@@ -48,6 +50,7 @@ Polecenia uruchamiamy z katalogu głównego repozytorium (`python -m ...`). Prze
 - Montaż opisuje lista `TIMELINE` w `generator/montage.py`; nowe sceny dodajemy tam i w `prompts.SCENES`.
 - Pola formularza na stronie mają te same nazwy co dane dziecka w `examples/*.json` (`imie`, `zwrot`, `plec`, `wiek`, `zdjecie`, `osiagniecie`, `zainteresowania`, `do_poprawy`, `prezent`, `prezent_kupiony`). Pilnuje tego `tests/test_strona.py`.
 - Strona: czysty HTML/CSS/JS, kolory jako zmienne CSS w `:root` (`--accent`, `--red`, …), dostępność (etykiety, fokus, `aria-*`), działa na szerokości telefonu bez przewijania w poziomie.
+- Regulamin i politykę prywatności zmieniamy tylko w `dokumenty/*.md`, potem `python dokumenty/zbuduj.py`. Strony `strona/regulamin.html` i `strona/polityka-prywatnosci.html` są generowane.
 - Maile HTML: układ na tabelach, style inline, szerokość 600 px, bez SVG i skryptów.
 
 ## Zasady produktu (obowiązkowe)

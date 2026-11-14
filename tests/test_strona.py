@@ -7,9 +7,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "strona"
-PAGES = ["index.html", "zamowienie.html", "potwierdzenie.html", "404.html", "regulamin.html", "faq.html", "kontakt.html"]
+PAGES = ["index.html", "zamowienie.html", "potwierdzenie.html", "404.html", "regulamin.html", "faq.html", "kontakt.html", "polityka-prywatnosci.html"]
 # Strony i pliki, które trzeba dopiero dodać (opisane w strona/README.md).
-TODO_TARGETS = {"polityka-prywatnosci.html", "media/przyklad.mp4", "media/przyklad.jpg", "pliki/regulamin.pdf"}
+TODO_TARGETS = {"media/przyklad.mp4", "media/przyklad.jpg"}
 
 
 class Collector(HTMLParser):
@@ -71,3 +71,25 @@ def test_form_fields_match_generator_order():
     script = (SITE / "js" / "zamowienie.js").read_text(encoding="utf-8")
     for key in expected:
         assert f"{key}:" in script, f"zamowienie.js nie wysyła pola {key}"
+
+
+def test_legal_pages_are_built_from_markdown():
+    # Po zmianie dokumenty/*.md uruchom: python dokumenty/zbuduj.py
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("zbuduj", ROOT / "dokumenty" / "zbuduj.py")
+    zbuduj = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(zbuduj)
+    for slug in zbuduj.PAGES:
+        meta, body = zbuduj.front_matter((ROOT / "dokumenty" / f"{slug}.md").read_text(encoding="utf-8"))
+        page = (SITE / f"{slug}.html").read_text(encoding="utf-8")
+        for anchor, label in zbuduj.toc(body):
+            assert f'href="#{anchor}"' in page and f'id="{anchor}"' in page, (slug, anchor)
+
+
+def test_legal_texts_follow_product_rules():
+    for slug in ("regulamin", "polityka-prywatnosci"):
+        text = (ROOT / "dokumenty" / f"{slug}.md").read_text(encoding="utf-8").lower()
+        assert "fikcyj" not in text, slug
+        assert "sztucznej inteligencji" in text, slug
+        assert "7 dni" in text, slug

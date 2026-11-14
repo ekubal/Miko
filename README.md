@@ -451,6 +451,8 @@ Kod HTML strony głównej, formularza zamówienia i potwierdzenia, przeniesiony 
 cd strona && python3 -m http.server 8000   # podgląd: http://localhost:8000
 ```
 
+Regulamin i polityka prywatności są w `dokumenty/*.md` (projekty do sprawdzenia przez prawnika). Polecenie `python dokumenty/zbuduj.py` robi z nich strony `strona/regulamin.html` i `strona/polityka-prywatnosci.html`, pliki `.docx` dla prawnika i PDF-y w `strona/pliki/` (wymaga pandoc i LibreOffice).
+
 ## 7. Przebieg pracy
 
 ### Przygotowanie jednorazowe

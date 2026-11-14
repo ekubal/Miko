@@ -684,3 +684,20 @@ textarea.input { min-height: 0; padding: 12px 14px; resize: vertical; }
 }
 .contact-success h2 { font-size: 20px; font-weight: 700; }
 .contact-success:focus { outline: none; }
+
+/* --- regulamin i polityka prywatności (generowane z dokumenty/*.md) ------------------------- */
+
+.legal .summary-box { margin-bottom: 28px; }
+.legal .summary-box section h2 { margin-bottom: 10px; font-family: var(--serif); font-weight: 600; font-size: 22px; }
+.legal .legal-section h2 { margin-bottom: 12px; }
+.legal .legal-section p, .legal .legal-section li { color: var(--ink); }
+.legal .legal-section p + p, .legal .legal-section p + ol, .legal .legal-section p + ul,
+.legal .legal-section ol + p, .legal .legal-section .table-wrap + p { margin-top: 12px; }
+.legal .legal-section ol, .legal .legal-section ul { padding-left: 24px; display: flex; flex-direction: column; gap: 8px; }
+.legal .legal-section ol ol { margin-top: 8px; gap: 4px; }
+.legal .legal-section strong { color: var(--ink); }
+.legal .legal-section a { color: var(--red-dark); }
+.table-wrap { margin-top: 12px; overflow-x: auto; border: 1px solid var(--sand); border-radius: 12px; background: var(--paper); }
+.table-wrap table { width: 100%; min-width: 520px; border-collapse: collapse; font-size: 15px; }
+.table-wrap th, .table-wrap td { padding: 10px 14px; text-align: left; vertical-align: top; border-top: 1px solid var(--sand); }
+.table-wrap thead th { border-top: none; background: var(--beige); font-weight: 700; }
