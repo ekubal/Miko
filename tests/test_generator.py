@@ -142,7 +142,7 @@ def test_variant_paths_count_other_extensions(tmp_path):
 
 def test_portrait_and_select(tmp_output, monkeypatch):
     monkeypatch.setattr(images, "google_client", lambda: object())
-    monkeypatch.setattr(images, "generate_image", lambda *a, **k: (b"PNGDATA", "image/png"))
+    monkeypatch.setattr(images, "generate_image", lambda *a, **k: (b"PNGDATA", "image/png", None))
     images.main(["portrait", "-n", "2"])
     assert sorted(p.name for p in (tmp_output / "images" / "portrait").iterdir()) == [
         "portrait_01.png",
@@ -159,7 +159,7 @@ def test_scenes_use_selected_portrait_as_reference(tmp_output, monkeypatch):
 
     def fake_generate(client, prompt, references, aspect, size):
         seen.append(([r.read_bytes() for r in references], prompt))
-        return b"IMG", "image/png"
+        return b"IMG", "image/png", None
 
     monkeypatch.setattr(images, "google_client", lambda: object())
     monkeypatch.setattr(images, "generate_image", fake_generate)
@@ -176,7 +176,7 @@ def test_scenes_send_santa_and_platek_references_in_order(tmp_output, monkeypatc
 
     def fake_generate(client, prompt, references, aspect, size):
         seen[prompt] = [r.read_bytes() for r in references]
-        return b"IMG", "image/png"
+        return b"IMG", "image/png", None
 
     monkeypatch.setattr(images, "google_client", lambda: object())
     monkeypatch.setattr(images, "generate_image", fake_generate)
@@ -200,7 +200,7 @@ def test_platek_portrait_and_select(tmp_output, monkeypatch):
     seen = []
     monkeypatch.setattr(images, "google_client", lambda: object())
     monkeypatch.setattr(
-        images, "generate_image", lambda c, prompt, refs, *a: seen.append((prompt, refs)) or (b"IMG", "image/png")
+        images, "generate_image", lambda c, prompt, refs, *a: seen.append((prompt, refs)) or (b"IMG", "image/png", None)
     )
     images.main(["platek", "-n", "1"])
     assert seen == [(prompts.PLATEK_PORTRAIT_PROMPT, [])]
@@ -211,7 +211,7 @@ def test_platek_portrait_and_select(tmp_output, monkeypatch):
 def test_templates_generate_each_new_template(tmp_output, monkeypatch):
     seen = []
     monkeypatch.setattr(images, "google_client", lambda: object())
-    monkeypatch.setattr(images, "generate_image", lambda c, prompt, refs, *a: seen.append(prompt) or (b"IMG", "image/png"))
+    monkeypatch.setattr(images, "generate_image", lambda c, prompt, refs, *a: seen.append(prompt) or (b"IMG", "image/png", None))
     images.main(["templates", "-n", "1"])
     assert seen == list(prompts.TEMPLATES.values())
     assert sorted(p.name for p in (tmp_output / "images" / "templates").iterdir()) == sorted(
@@ -228,7 +228,52 @@ def test_generate_image_extracts_inline_data(monkeypatch):
     part = SimpleNamespace(inline_data=SimpleNamespace(data=b"IMG", mime_type="image/png"))
     response = SimpleNamespace(candidates=[SimpleNamespace(content=SimpleNamespace(parts=[part]))])
     client = SimpleNamespace(models=SimpleNamespace(generate_content=lambda **kw: response))
-    assert images.generate_image(client, "prompt", [], "16:9", "2K") == (b"IMG", "image/png")
+    assert images.generate_image(client, "prompt", [], "16:9", "2K") == (b"IMG", "image/png", None)
+
+
+def test_image_cost_counts_input_image_and_thinking_tokens():
+    image = SimpleNamespace(modality=SimpleNamespace(name="IMAGE"), token_count=1120)
+    text = SimpleNamespace(modality=SimpleNamespace(name="TEXT"), token_count=100)
+    usage = SimpleNamespace(
+        prompt_token_count=1000, candidates_token_count=1220, candidates_tokens_details=[image, text],
+        thoughts_token_count=200,
+    )
+    # 1000 × 2 + 1120 × 120 + (100 + 200) × 12 = 140 000 USD za 1 mln tokenów
+    assert images.image_cost(usage) == pytest.approx(0.14)
+    assert images.image_cost(None) is None
+
+
+def test_generate_image_returns_cost_from_usage(monkeypatch):
+    part = SimpleNamespace(inline_data=SimpleNamespace(data=b"IMG", mime_type="image/png"))
+    usage = SimpleNamespace(
+        prompt_token_count=0, candidates_token_count=1120, candidates_tokens_details=None, thoughts_token_count=None
+    )
+    response = SimpleNamespace(candidates=[SimpleNamespace(content=SimpleNamespace(parts=[part]))], usage_metadata=usage)
+    client = SimpleNamespace(models=SimpleNamespace(generate_content=lambda **kw: response))
+    assert images.generate_image(client, "prompt", [], "16:9", "2K")[2] == pytest.approx(0.1344)
+
+
+def test_generation_prints_cost_per_image_and_total(tmp_output, monkeypatch, capsys):
+    monkeypatch.setattr(images, "google_client", lambda: object())
+    costs = iter([0.134, None])
+    monkeypatch.setattr(images, "generate_image", lambda *a: (b"IMG", "image/png", next(costs)))
+    images.main(["platek", "-n", "2"])
+    out = capsys.readouterr().out
+    assert "platek_01.png  (0.134 USD)" in out
+    assert "platek_02.png  (koszt nieznany)" in out
+    assert "Razem: 2 obraz(ów), ok. 0.134 USD; 1 bez danych o koszcie" in out
+
+
+def test_dry_run_estimates_cost_without_api_or_references(tmp_output, monkeypatch, capsys):
+    monkeypatch.setattr(images, "google_client", lambda: pytest.fail("dry run nie łączy się z API"))
+    images.main(["scenes", "-n", "2", "--size", "1K", "--only", "koperta", "zaprzeg", "--dry-run"])
+    out = capsys.readouterr().out
+    assert "[koperta] 2 ×" in out and "[zaprzeg] 2 ×" in out
+    assert "Razem (szacunek): 4 obraz(ów)" in out
+    assert not (tmp_output / "images").exists()
+    # zaprzeg ma dwie referencje, więc jest droższy od koperty
+    assert images.estimate_cost("x", 2, "1K") > images.estimate_cost("x", 0, "1K")
+    assert images.estimate_cost("", 0, "4K") == pytest.approx(0.24)
 
 
 def test_lines_records_single_and_plural(tmp_output, monkeypatch):
@@ -298,7 +343,7 @@ def test_with_retry_retries_transient_errors(monkeypatch):
 def test_portrait_variant_full_beard_uses_its_prompt(tmp_output, monkeypatch):
     seen = []
     monkeypatch.setattr(images, "google_client", lambda: object())
-    monkeypatch.setattr(images, "generate_image", lambda c, prompt, *a: seen.append(prompt) or (b"IMG", "image/png"))
+    monkeypatch.setattr(images, "generate_image", lambda c, prompt, *a: seen.append(prompt) or (b"IMG", "image/png", None))
     images.main(["portrait", "-n", "1", "--wariant", "pelna-broda"])
     assert seen == [prompts.PORTRAIT_PROMPT_FULL_BEARD]
     assert "Santa hat" in seen[0] and "mustache" in seen[0] and "{" not in seen[0]

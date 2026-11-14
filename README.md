@@ -117,6 +117,9 @@ Plan darmowy nie daje praw komercyjnych, minimum to Starter. Generowanie muzyki 
 | `MIKOLAJ_IMAGE_MODEL` | nie | `gemini-3-pro-image-preview` | model obrazu (Nano Banana Pro) |
 | `MIKOLAJ_VIDEO_MODEL` | nie | `gemini-omni-1.1-flash` | model wideo (Gemini Omni Flash) |
 | `MIKOLAJ_TEXT_MODEL` | nie | `gemini-3.8-flash` | model piszący tekst Mikołaja |
+| `MIKOLAJ_IMAGE_PRICE_INPUT` | nie | `2.0` | cena wejścia modelu obrazu (prompt, referencje), USD za 1 mln tokenów; tylko do podglądu kosztu |
+| `MIKOLAJ_IMAGE_PRICE_OUTPUT_IMAGE` | nie | `120.0` | cena obrazu wynikowego, USD za 1 mln tokenów |
+| `MIKOLAJ_IMAGE_PRICE_OUTPUT_TEXT` | nie | `12.0` | cena tekstu i myślenia w odpowiedzi, USD za 1 mln tokenów |
 | `ELEVENLABS_TTS_MODEL` | nie | `eleven_multilingual_v2` | model zamiany tekstu na mowę |
 | `ELEVENLABS_VOICE_DESIGN_MODEL` | nie | `eleven_multilingual_ttv_v2` | model projektowania głosu |
 | `ELEVENLABS_OUTPUT_FORMAT` | nie | `mp3_44100_128` | format plików audio |
@@ -212,14 +215,17 @@ Generuje obrazy w Nano Banana Pro. Odpowiada krokom 1–3 przygotowania z MVP.md
 | `templates` | puste szablony do personalizacji w montażu (księga, lista, kula, ramki, bilecik) | `output/images/templates/<szablon>_NN.png` |
 | `select <nazwa> <N>` | zatwierdza wariant N | `output/selected/<nazwa>.png` |
 
-Opcje `portrait`, `scenes`, `templates`:
+Po każdym obrazie polecenie wypisuje jego koszt, a na końcu sumę, np. `Razem: 3 obraz(ów), ok. 0.405 USD`. Koszt liczy z tokenów zwróconych przez model i cennika z `.env` (`MIKOLAJ_IMAGE_PRICE_*`, domyślnie cennik Nano Banana Pro z XI 2026: ok. 0,134 USD za obraz 1K/2K, 0,24 USD za 4K). To podgląd; rozliczenie jest w Google Cloud Billing.
+
+Opcje `portrait`, `platek`, `scenes`, `templates`:
 
 | Opcja | Domyślnie | Opis |
 |---|---|---|
-| `-n`, `--count` | 10 / 3 / 3 | liczba wariantów |
+| `-n`, `--count` | 10 / 6 / 3 / 3 | liczba wariantów |
 | `--size` | `2K` | `1K` (tańszy test), `2K`, `4K` |
 | `--aspect-ratio` | `16:9` | proporcje obrazu |
 | `--only` | wszystkie | tylko wybrane sceny lub szablony (lista niżej) |
+| `--dry-run` | wyłączone | pokazuje plan i szacowany koszt, nic nie wysyła i nie wymaga zatwierdzonych portretów |
 | `--wariant` | `klasyczny` | tylko `portrait`: `pelna-broda` daje bardzo długą brodę, wąsy zakrywające usta, okulary, klasyczny strój i kadr do kolan |
 | `--reference` | `output/selected/portrait.png` | tylko `scenes`: inny portret referencyjny |
 
@@ -240,6 +246,7 @@ python -m generator.images portrait -n 10
 python -m generator.images select portrait 4
 python -m generator.images platek -n 6
 python -m generator.images select platek 2
+python -m generator.images scenes -n 3 --dry-run   # najpierw szacunek kosztu
 python -m generator.images scenes -n 3
 python -m generator.images scenes -n 2 --only ksiega      # dołóż warianty jednej sceny
 python -m generator.images select ksiega 5

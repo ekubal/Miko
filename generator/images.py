@@ -10,6 +10,10 @@ Przykłady:
     python -m generator.images select dom 2      # i tak dla pracownia, ksiega, sanie
     python -m generator.images templates -n 3
     python -m generator.images select szablon_ksiega 1
+    python -m generator.images scenes -n 3 --dry-run   # plan i szacowany koszt, bez wysyłania
+
+Po każdym obrazie i na końcu polecenia wypisuje koszt policzony z tokenów odpowiedzi
+i cennika w config (IMAGE_PRICE_*). To podgląd; rozliczenie jest w Google Cloud Billing.
 """
 
 import argparse
@@ -24,8 +28,37 @@ from .common import google_client, selected_path, variant_paths, with_retry
 EXTENSIONS = {"image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp"}
 
 
+def usd(amount: float) -> str:
+    return f"{amount:.3f} USD"
+
+
+def image_cost(usage) -> float | None:
+    """Koszt jednej odpowiedzi w USD z usage_metadata; None, gdy model nie podał tokenów."""
+    if usage is None or usage.prompt_token_count is None:
+        return None
+    output = usage.candidates_token_count or 0
+    details = usage.candidates_tokens_details or []
+    if details:
+        image = sum(d.token_count or 0 for d in details if getattr(d.modality, "name", d.modality) == "IMAGE")
+    else:
+        image = output
+    text = output - image + (usage.thoughts_token_count or 0)
+    return (
+        usage.prompt_token_count * config.IMAGE_PRICE_INPUT
+        + image * config.IMAGE_PRICE_OUTPUT_IMAGE
+        + text * config.IMAGE_PRICE_OUTPUT_TEXT
+    ) / 1_000_000
+
+
+def estimate_cost(prompt: str, reference_count: int, size: str) -> float:
+    """Szacunek kosztu jednego obrazu przed wysłaniem: referencje, prompt (ok. 4 znaki na token) i wynik."""
+    tokens_in = reference_count * config.IMAGE_INPUT_TOKENS_PER_REFERENCE + len(prompt) // 4
+    tokens_out = config.IMAGE_OUTPUT_TOKENS[size]
+    return (tokens_in * config.IMAGE_PRICE_INPUT + tokens_out * config.IMAGE_PRICE_OUTPUT_IMAGE) / 1_000_000
+
+
 def generate_image(client, prompt: str, references: list[Path], aspect_ratio: str, size: str):
-    """Zwraca (bajty, mime_type) pierwszego obrazu z odpowiedzi modelu.
+    """Zwraca (bajty, mime_type, koszt_usd albo None) pierwszego obrazu z odpowiedzi modelu.
 
     Referencje idą przed promptem w podanej kolejności (prompt odwołuje się do ich numerów).
     """
@@ -50,23 +83,54 @@ def generate_image(client, prompt: str, references: list[Path], aspect_ratio: st
     for candidate in response.candidates or []:
         for part in (candidate.content.parts if candidate.content else None) or []:
             if part.inline_data and part.inline_data.data:
-                return part.inline_data.data, part.inline_data.mime_type or "image/png"
+                cost = image_cost(getattr(response, "usage_metadata", None))
+                return part.inline_data.data, part.inline_data.mime_type or "image/png", cost
     reason = response.candidates[0].finish_reason if response.candidates else response.prompt_feedback
     raise RuntimeError(f"Model nie zwrócił obrazu (powód: {reason}).")
 
 
-def generate_variants(name: str, prompt: str, directory: Path, count: int, references: list[Path], args):
-    client = google_client()
-    print(f"[{name}] {count} wariant(ów) -> {directory}")
-    for path in variant_paths(directory, name, ".png", count):
+def generate_variants(client, name: str, prompt: str, directory: Path, references: list[Path], args):
+    """Generuje args.count wariantów; zwraca (koszt_usd, liczba obrazów, liczba obrazów bez kosztu)."""
+    print(f"[{name}] {args.count} wariant(ów) -> {directory}")
+    total, made, unknown = 0.0, 0, 0
+    for path in variant_paths(directory, name, ".png", args.count):
         try:
-            data, mime = generate_image(client, prompt, references, args.aspect_ratio, args.size)
+            data, mime, cost = generate_image(client, prompt, references, args.aspect_ratio, args.size)
         except Exception as exc:
             print(f"  x {path.name}: {exc}")
             continue
         path = path.with_suffix(EXTENSIONS.get(mime, ".png"))
         path.write_bytes(data)
-        print(f"  + {path.relative_to(config.ROOT) if path.is_relative_to(config.ROOT) else path}")
+        made += 1
+        if cost is None:
+            unknown += 1
+        else:
+            total += cost
+        shown = path.relative_to(config.ROOT) if path.is_relative_to(config.ROOT) else path
+        print(f"  + {shown}  ({usd(cost) if cost is not None else 'koszt nieznany'})")
+    return total, made, unknown
+
+
+def run_jobs(jobs: list[tuple[str, str, Path, list[Path]]], args):
+    """Generuje warianty dla zadań (nazwa, prompt, katalog, referencje) i podsumowuje koszt.
+
+    Przy --dry-run tylko wypisuje plan i szacowany koszt, bez wywołań API.
+    """
+    if args.dry_run:
+        total = 0.0
+        for name, prompt, _, references in jobs:
+            each = estimate_cost(prompt, len(references), args.size)
+            total += each * args.count
+            print(f"[{name}] {args.count} × ~{usd(each)} = ~{usd(each * args.count)}")
+        print(f"Razem (szacunek): {len(jobs) * args.count} obraz(ów), ~{usd(total)}. Nic nie wysłano.")
+        return
+    client = google_client()
+    total, made, unknown = 0.0, 0, 0
+    for name, prompt, directory, references in jobs:
+        cost, count, missing = generate_variants(client, name, prompt, directory, references, args)
+        total, made, unknown = total + cost, made + count, unknown + missing
+    note = f"; {unknown} bez danych o koszcie" if unknown else ""
+    print(f"Razem: {made} obraz(ów), ok. {usd(total)}{note}. Rozliczenie: Google Cloud Billing.")
 
 
 def require_references(args, keys: list[str]) -> dict[str, Path]:
@@ -87,26 +151,30 @@ def require_references(args, keys: list[str]) -> dict[str, Path]:
 def cmd_portrait(args):
     print(f"Wariant portretu: {args.wariant}")
     prompt = prompts.PORTRAIT_VARIANTS[args.wariant]
-    generate_variants("portrait", prompt, config.IMAGES_DIR / "portrait", args.count, [], args)
+    run_jobs([("portrait", prompt, config.IMAGES_DIR / "portrait", [])], args)
 
 
 def cmd_platek(args):
-    generate_variants("platek", prompts.PLATEK_PORTRAIT_PROMPT, config.IMAGES_DIR / "portrait", args.count, [], args)
+    run_jobs([("platek", prompts.PLATEK_PORTRAIT_PROMPT, config.IMAGES_DIR / "portrait", [])], args)
 
 
 def cmd_scenes(args):
     keys = args.only or list(prompts.SCENES)
-    paths = require_references(args, keys)
+    if args.dry_run:
+        # Szacunek liczy tylko liczbę referencji, więc nie wymaga zatwierdzonych portretów.
+        paths = {ref: selected_path(ref) for key in keys for ref in prompts.scene_references(key)}
+    else:
+        paths = require_references(args, keys)
+    jobs = []
     for key in keys:
-        prompt = prompts.scene_prompt(key)
         references = [paths[ref] for ref in prompts.scene_references(key)]
-        generate_variants(key, prompt, config.IMAGES_DIR / "scenes", args.count, references, args)
+        jobs.append((key, prompts.scene_prompt(key), config.IMAGES_DIR / "scenes", references))
+    run_jobs(jobs, args)
 
 
 def cmd_templates(args):
     keys = args.only or list(prompts.TEMPLATES)
-    for key in keys:
-        generate_variants(key, prompts.TEMPLATES[key], config.IMAGES_DIR / "templates", args.count, [], args)
+    run_jobs([(key, prompts.TEMPLATES[key], config.IMAGES_DIR / "templates", []) for key in keys], args)
 
 
 def cmd_select(args):
@@ -133,6 +201,7 @@ def main(argv=None):
         p.add_argument("-n", "--count", type=int, default=default_count, help="liczba wariantów")
         p.add_argument("--aspect-ratio", default="16:9")
         p.add_argument("--size", default="2K", choices=["1K", "2K", "4K"])
+        p.add_argument("--dry-run", action="store_true", help="pokaż plan i szacowany koszt, nic nie wysyłaj")
 
     p = sub.add_parser("portrait", help="portret Mikołaja do awatara (krok 1)")
     add_common(p, 10)

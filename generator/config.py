@@ -36,6 +36,16 @@ IMAGE_MODEL = os.environ.get("MIKOLAJ_IMAGE_MODEL", "gemini-3-pro-image-preview"
 VIDEO_MODEL = os.environ.get("MIKOLAJ_VIDEO_MODEL", "gemini-omni-1.1-flash")
 TEXT_MODEL = os.environ.get("MIKOLAJ_TEXT_MODEL", "gemini-3.8-flash")
 
+# Cennik Nano Banana Pro (gemini-3-pro-image-preview) w USD za 1 mln tokenów, stan XI 2026
+# (ai.google.dev/gemini-api/docs/pricing). Służy tylko do podglądu kosztu; prawdziwe
+# rozliczenie jest w Google Cloud Billing. Przy zmianie modelu nadpisz zmiennymi.
+IMAGE_PRICE_INPUT = float(os.environ.get("MIKOLAJ_IMAGE_PRICE_INPUT", "2.0"))  # prompt i referencje
+IMAGE_PRICE_OUTPUT_IMAGE = float(os.environ.get("MIKOLAJ_IMAGE_PRICE_OUTPUT_IMAGE", "120.0"))
+IMAGE_PRICE_OUTPUT_TEXT = float(os.environ.get("MIKOLAJ_IMAGE_PRICE_OUTPUT_TEXT", "12.0"))  # tekst i myślenie
+# Tokeny do szacunku przed wysłaniem (--na-sucho): obraz wynikowy wg rozmiaru i jedna referencja.
+IMAGE_OUTPUT_TOKENS = {"1K": 1120, "2K": 1120, "4K": 2000}
+IMAGE_INPUT_TOKENS_PER_REFERENCE = 560
+
 # ElevenLabs.
 ELEVEN_API_URL = os.environ.get("ELEVENLABS_API_URL", "https://api.elevenlabs.io")
 ELEVEN_TTS_MODEL = os.environ.get("ELEVENLABS_TTS_MODEL", "eleven_multilingual_v2")
