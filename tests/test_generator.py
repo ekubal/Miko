@@ -38,7 +38,9 @@ def test_scene_and_motion_prompts_have_no_placeholders_left():
 
 def test_scene_camera_override():
     assert "push-in" in prompts.scene_motion_prompt("zorza", 8)
-    kula = prompts.scene_motion_prompt("kula", 8)
+    from generator.scenariusze import od_listu_do_san
+
+    kula = od_listu_do_san.motion_prompt("kula", 8)
     assert "Static camera" in kula and "push-in." not in kula.replace("no push-in", "")
 
 

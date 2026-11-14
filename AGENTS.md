@@ -15,6 +15,7 @@ Język projektu to **polski**: kod komentujemy, piszemy komunikaty CLI, dokument
 | Ścieżka | Zawartość |
 |---|---|
 | `generator/` | pakiet Pythona: `images` (Nano Banana Pro), `videos` (Gemini Omni Flash), `audio` + `elevenlabs` (głos, muzyka), `order` (tekst i głos dla zamówienia), `montage` (ffmpeg), `prompts` (wszystkie prompty i kwestie), `config`, `common` |
+| `generator/scenariusze/` | prompty długich scenariuszy (moduł na scenariusz, np. `od_listu_do_san.py`: ujęcia, postacie, szablony) i polecenie `python -m generator.scenariusze`; czytelna kopia promptów w `scenariusze/*_prompty.md` |
 | `testy_fal/` | robocze skrypty porównujące modele wideo na fal.ai; nie są częścią produkcji |
 | `strona/` | statyczna strona sprzedażowa: `index.html`, `zamowienie.html`, `potwierdzenie.html`, `css/style.css`, `js/` (bez bibliotek) |
 | `szablony/` | maile HTML (tabele, style inline), opis pól, przykładowa transkrypcja filmu |
@@ -42,7 +43,8 @@ Polecenia uruchamiamy z katalogu głównego repozytorium (`python -m ...`). Prze
 - Konfiguracja i klucze tylko przez `generator/config.py` (`.env`, `require_env`). Modele są nazwami w `config` z nadpisaniem przez zmienne `MIKOLAJ_*_MODEL`.
 - Wywołania API owijamy w `common.with_retry`. Błędy, których nie da się ponowić (brak płatności, zły klucz, wyłączony model), kończą program z podpowiedzią (`permanent_error_hint`).
 - Każdy generator tworzy warianty `nazwa_NN.ext` (`common.variant_paths`, nigdy nie nadpisuje), a człowiek zatwierdza jeden poleceniem `select` do `output/selected/`. Kolejne kroki czytają tylko zatwierdzone pliki.
-- Prompty i kwestie Mikołaja trzymamy wyłącznie w `generator/prompts.py`, nie w kodzie modułów.
+- Prompty i kwestie Mikołaja trzymamy w `generator/prompts.py` (wersja krótka i wspólne zasady) oraz w `generator/scenariusze/<scenariusz>.py` (długie scenariusze), nie w kodzie innych modułów. Po zmianie promptów scenariusza uruchom `python -m generator.scenariusze opis`, żeby odświeżyć `scenariusze/*_prompty.md` (pilnuje tego test).
+- Postacie powtarzające się w wielu ujęciach (np. renifer Płatek) mają portret wzorcowy, który idzie do kadrów jako dodatkowy obraz referencyjny, i stały opis doklejany do promptu.
 - Montaż opisuje lista `TIMELINE` w `generator/montage.py`; nowe sceny dodajemy tam i w `prompts.SCENES`.
 - Pola formularza na stronie mają te same nazwy co dane dziecka w `examples/*.json` (`imie`, `zwrot`, `plec`, `wiek`, `zdjecie`, `osiagniecie`, `zainteresowania`, `do_poprawy`, `prezent`, `prezent_kupiony`). Pilnuje tego `tests/test_strona.py`.
 - Strona: czysty HTML/CSS/JS, kolory jako zmienne CSS w `:root` (`--accent`, `--red`, …), dostępność (etykiety, fokus, `aria-*`), działa na szerokości telefonu bez przewijania w poziomie.

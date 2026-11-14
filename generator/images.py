@@ -22,14 +22,18 @@ from .common import google_client, selected_path, variant_paths, with_retry
 EXTENSIONS = {"image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp"}
 
 
-def generate_image(client, prompt: str, reference: Path | None, aspect_ratio: str, size: str):
-    """Zwraca (bajty, mime_type) pierwszego obrazu z odpowiedzi modelu."""
+def generate_image(client, prompt: str, reference: Path | list[Path] | None, aspect_ratio: str, size: str):
+    """Zwraca (bajty, mime_type) pierwszego obrazu z odpowiedzi modelu.
+
+    reference: jeden obraz wzorcowy, lista (np. portret Mikołaja i portret Płatka) albo None.
+    """
     from google.genai import types
 
+    references = [] if reference is None else ([reference] if isinstance(reference, Path) else list(reference))
     contents: list = []
-    if reference is not None:
-        mime = mimetypes.guess_type(reference.name)[0] or "image/png"
-        contents.append(types.Part.from_bytes(data=reference.read_bytes(), mime_type=mime))
+    for ref in references:
+        mime = mimetypes.guess_type(ref.name)[0] or "image/png"
+        contents.append(types.Part.from_bytes(data=ref.read_bytes(), mime_type=mime))
     contents.append(prompt)
 
     response = with_retry(

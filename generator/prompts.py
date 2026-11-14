@@ -139,24 +139,6 @@ SCENES = {
         "waving goodbye to the camera.",
         "motion": "Santa waves goodbye, reindeer shake their heads, the sleigh lifts off",
     },
-    # Scenariusz 4 („Od listu do sań”), scena 3: śnieżna kula daje znak, że przyszło dziecko.
-    # Na końcu filmu ta sama kula pokazuje dom dziecka (szablon_kula + zdjęcie w montażu).
-    "kula": {
-        "scene": "Medium shot of Santa sitting at his large wooden desk in his cozy study at night, framed from "
-        "the waist up, his whole face, glasses and beard clearly visible. He is writing with a quill pen in a "
-        "big leather notebook with blank pages. On the desk in front of him, slightly to the side, stands a "
-        "small glass snow globe on a carved dark wooden base, with a tiny snowy village of wooden houses inside. "
-        "Warm light from a desk lamp, a crackling fireplace softly blurred in the background, frost patterns "
-        "on the window. The notebook pages are blank, without any writing.",
-        "motion": "Santa calmly writes with the quill pen. Then the snow inside the small glass globe on the "
-        "desk starts to swirl and the tiny village inside glows with warm golden light. Santa notices it, "
-        "smiles with his eyes, puts the quill down and gently picks up the snow globe with both hands, "
-        "holding it at chest height below his beard, so his face stays fully visible. He looks warmly towards "
-        "the camera. Santa stays in the frame, in the same place and the same size for the whole shot; "
-        "he never fades, disappears or turns into something else. The glass globe stays small, whole and round",
-        # Bez najazdu: zbliżenie na kulę robi osobne ujęcie (szablon_kula) w montażu.
-        "camera": "Static camera, locked-off medium shot, no zoom, no push-in, no camera movement.",
-    },
 }
 
 # Puste szablony do personalizacji (napisy dodaje się w edytorze).
@@ -172,15 +154,6 @@ An old parchment scroll titled with an empty ornamental banner at the top,
 unrolled on Santa's wooden desk, many blank lines, a red wax seal and a
 quill pen next to it, warm candle light. 16:9, photorealistic.
 No text, no letters, no writing on the scroll.""",
-    # Scenariusz 4, koniec filmu: w pustą kulę montaż wkleja zdjęcie domu albo ogólny domek.
-    "szablon_kula": """\
-Close-up, straight front view of a glass snow globe standing on a carved dark
-wooden base on Santa's wooden desk at night. The inside of the glass sphere is
-empty and filled with soft, even, cream-white mist, with no objects inside,
-so a picture can be placed inside later. Gentle reflections only on the edges
-of the glass. Warm candle and desk lamp light, blurred golden fireplace glow in
-the background. The globe is centered and fills about half of the frame height.
-16:9, photorealistic. No text, no letters, no people.""",
 }
 
 # --- Wideo (Gemini Omni Flash) ----------------------------------------------------------
@@ -192,7 +165,7 @@ sleigh bells far away). No dialogue, nobody speaks, no lip movement, no music,
 no text, no logos. {seconds} seconds."""
 
 # Ruch kamery w klipie. Domyślnie powolny najazd; scena może podać własny w kluczu "camera".
-# Przy kuli najazd sprawiał, że model „gubił” Mikołaja, więc tam kamera stoi.
+# Przy kuli (scenariusz 4) najazd sprawiał, że model „gubił” Mikołaja, więc tam kamera stoi.
 DEFAULT_CAMERA = "Gentle slow camera push-in."
 
 

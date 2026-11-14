@@ -123,7 +123,7 @@ Plan darmowy nie daje praw komercyjnych, minimum to Starter. Generowanie muzyki 
 | `ELEVENLABS_API_URL` | nie | `https://api.elevenlabs.io` | adres API (np. serwer w UE, jeśli masz do niego dostęp) |
 | `MIKOLAJ_OUTPUT_DIR` | nie | `output` | gdzie zapisywać wyniki |
 | `MIKOLAJ_FONT` | nie | `font` z `layout.json` | ścieżka do fontu odręcznego |
-| `FAL_KEY` | nie | — | klucz fal.ai, tylko do testów innych modeli wideo ([6.7](#67-testy-innych-modeli-wideo-testy_fal)) |
+| `FAL_KEY` | nie | — | klucz fal.ai, tylko do testów innych modeli wideo ([6.7](#68-testy-innych-modeli-wideo-testy_fal)) |
 
 Nazwy modeli Google w wersji „preview” zmieniają się co kilka miesięcy. Jeśli skrypt zgłasza, że model nie istnieje, sprawdź aktualną nazwę w dokumentacji Gemini API i wpisz ją w `.env`, bez zmiany kodu.
 
@@ -413,7 +413,26 @@ Przy każdym zamówieniu:
 4. Jeśli jest pole opisu ruchu, wpisz: `gentle nodding, warm smile, calm small hand gestures, looking into the camera`.
 5. Pobrany plik zapisz jako `output/orders/<id>/heygen.mp4`.
 
-### 6.7 Testy innych modeli wideo (`testy_fal`)
+### 6.7 Długie scenariusze (`generator.scenariusze`)
+
+Prompty długich scenariuszy mieszkają w `generator/scenariusze/`, jeden moduł na scenariusz. Pierwszy to „Od listu do sań” (`od_listu_do_san.py`, scenariusz w `scenariusze/4_od_listu_do_san.md`): 22 ujęcia w 11 scenach, portret renifera Płatka i 4 szablony do montażu. Ujęcia oznaczone „z wersji krótkiej” biorą gotowe kadry i klipy z `output/selected/`. Wszystkie prompty w czytelnej postaci: `scenariusze/4_od_listu_do_san_prompty.md`.
+
+```bash
+python -m generator.scenariusze lista                      # ujęcia i ich stan
+python -m generator.scenariusze postacie -n 4              # 1. portret Płatka
+python -m generator.scenariusze wybierz platek 2
+python -m generator.scenariusze kadry -n 3                 # 2. kadry wszystkich nowych ujęć
+python -m generator.scenariusze wybierz kula 1             #    i wybór każdego z nich
+python -m generator.scenariusze wideo --resolution 360p    # 3. tani test ruchu
+python -m generator.scenariusze wideo -n 2                 #    wersja 1080p
+python -m generator.scenariusze wybierz-wideo kula 2
+python -m generator.scenariusze szablony -n 2              # kula, ramka, list, bilecik
+python -m generator.scenariusze opis                       # odśwież plik z promptami po zmianach
+```
+
+Wyniki: `output/od_listu_do_san/{postacie,kadry,szablony,wideo}/`, zatwierdzone w `output/od_listu_do_san/wybrane/`. Ujęcie `kula_heygen` to tylko kadr: obraz wejściowy dla mówiącego Mikołaja w HeyGen.
+
+### 6.8 Testy innych modeli wideo (`testy_fal`)
 
 Robocze skrypty w katalogu `testy_fal/` porównują Gemini Omni Flash z modelami na fal.ai: MiniMax H3, Kling, Seedance i Wan. Wszystkie modele dostają te same kadry i prompty, a wyniki trafiają do siatki porównawczej z kosztem i czasem generowania. Produkcja (`generator/`) z nich nie korzysta. Szczegóły: [testy_fal/README.md](testy_fal/README.md).
 
@@ -424,7 +443,7 @@ python -m testy_fal generuj                 # klipy w output/testy_fal/wideo/
 python -m testy_fal porownaj                # siatki w output/testy_fal/porownania/
 ```
 
-### 6.8 Strona sprzedażowa (`strona/`)
+### 6.9 Strona sprzedażowa (`strona/`)
 
 Kod HTML strony głównej, formularza zamówienia i potwierdzenia, przeniesiony z projektu graficznego. Strony są statyczne (HTML, CSS, JavaScript bez bibliotek). Bez podłączonego serwera formularz działa w trybie pokazowym. Pola formularza mają te same nazwy co pliki zamówień generatora. Wdrożenie, pola do uzupełnienia i format danych dla serwera: [strona/README.md](strona/README.md).
 
