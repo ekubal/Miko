@@ -15,10 +15,12 @@ Język projektu to **polski**: kod komentujemy, piszemy komunikaty CLI, dokument
 | Ścieżka | Zawartość |
 |---|---|
 | `app/` | aplikacja Rails 8 + Hotwire (witryna sprzedażowa, zamówienia, płatności, panel); instrukcje: `app/AGENTS.md` |
-| `generator/` | pakiet Pythona: `images` (Nano Banana Pro), `videos` (Gemini Omni Flash), `audio` + `elevenlabs` (głos, muzyka), `order` (głos dla zamówienia; `order text` zamrożone, tekst pisze Rails), `montage` (ffmpeg), `prompts` (wszystkie prompty i kwestie), `config`, `common` |
+| `generator/` | pakiet Pythona: `images` (Nano Banana Pro), `videos` (Gemini Omni Flash), `audio` + `elevenlabs` (głos, muzyka), `order` (głos dla zamówienia; `order text` zamrożone, tekst pisze Rails), `montage` (ffmpeg), `prompts` (prompty wersji krótkiej i kwestie), `config`, `common` |
+| `generator/scenariusze/` | prompty długich scenariuszy (moduł na scenariusz, np. `od_listu_do_san.py`: ujęcia, postacie, szablony) i polecenie `python -m generator.scenariusze`; czytelna kopia promptów w `scenariusze/*_prompty.md` |
 | `testy_fal/` | robocze skrypty porównujące modele wideo na fal.ai; nie są częścią produkcji |
-| `strona/` | **wzór / archiwum** (HTML/CSS/JS); produkcyjny front jest w Rails (`app/`), nie serwujemy `strona/` na produkcji |
-| `szablony/` | maile HTML (tabele, style inline), opis pól, przykładowa transkrypcja filmu |
+| `strona/` | **wzór / archiwum** (HTML/CSS/JS, w tym `zapisy.html` przed startem); produkcyjny front jest w Rails (`app/`), nie serwujemy `strona/` na produkcji |
+| `dokumenty/` | regulamin i polityka prywatności w Markdown (projekty dla prawnika) oraz `zbuduj.py`, który robi z nich strony w `strona/`, `.docx` i PDF-y w `strona/pliki/` |
+| `szablony/` | maile HTML (tabele, style inline): zamówienie (`email_1`–`email_3`) i lista zapisów (`email_zapis_1`–`3`), opis pól w `emaile.md`, przykładowa transkrypcja filmu |
 | `scenariusze/` | wybrany scenariusz długiej wersji (`4_od_listu_do_san`); odrzucone w `scenariusze/odrzucone/` |
 | `examples/` | przykładowe pliki zamówień JSON (format danych dziecka) |
 | `tests/` | pytest; działają bez sieci i bez kluczy |
@@ -33,6 +35,7 @@ python -m generator.images portrait -n 4  # przykłady; reszta w README.md
 python -m generator.videos generate --only zorza --resolution 360p
 python -m testy_fal generuj --na-sucho    # plan i koszt testu modeli bez wysyłania
 cd strona && python3 -m http.server 8000  # podgląd strony
+python dokumenty/zbuduj.py                # regulamin i polityka: html, docx, pdf (pandoc, LibreOffice)
 ```
 
 Polecenia uruchamiamy z katalogu głównego repozytorium (`python -m ...`). Przed commitem uruchom `python -m pytest -q`.
@@ -43,10 +46,12 @@ Polecenia uruchamiamy z katalogu głównego repozytorium (`python -m ...`). Prze
 - Konfiguracja i klucze tylko przez `generator/config.py` (`.env`, `require_env`). Modele są nazwami w `config` z nadpisaniem przez zmienne `MIKOLAJ_*_MODEL`.
 - Wywołania API owijamy w `common.with_retry`. Błędy, których nie da się ponowić (brak płatności, zły klucz, wyłączony model), kończą program z podpowiedzią (`permanent_error_hint`).
 - Każdy generator tworzy warianty `nazwa_NN.ext` (`common.variant_paths`, nigdy nie nadpisuje), a człowiek zatwierdza jeden poleceniem `select` do `output/selected/`. Kolejne kroki czytają tylko zatwierdzone pliki.
-- Prompty i kwestie Mikołaja trzymamy wyłącznie w `generator/prompts.py`, nie w kodzie modułów. Wyjątek: prompt i reguły tekstu Mikołaja dla dziecka (scena 3) są w Rails, w `app/app/services/orders/speech_prompt.rb` i `speech_checker.rb`. `SPEECH_*` w `prompts.py` to zamrożona kopia do czasu zapisu tekstu w Rails (karta 6.3 w PLAN_WDROZENIA.md); zmiany robimy tylko w Ruby.
-- Montaż opisuje lista `TIMELINE` w `generator/montage.py`; nowe sceny dodajemy tam i w `prompts.SCENES`.
-- Pola formularza mają te same nazwy co dane dziecka w `examples/*.json` / payload generatora (`imie`, `zwrot`, …). Produkcyjny formularz jest w Rails; `strona/` to wzór.
+- Prompty i kwestie: wersja krótka oraz wspólne zasady w `generator/prompts.py`; długie scenariusze w `generator/scenariusze/<scenariusz>.py` (po zmianie: `python -m generator.scenariusze opis`, odświeża `scenariusze/*_prompty.md`). Wyjątek: prompt i reguły tekstu Mikołaja dla dziecka (scena 3) są w Rails, w `app/app/services/orders/speech_prompt.rb` i `speech_checker.rb`. `SPEECH_*` w `prompts.py` to zamrożona kopia do czasu zapisu tekstu w Rails (karta 6.3 w PLAN_WDROZENIA.md); zmiany robimy tylko w Ruby. Kwestie z imieniem dziecka ([L] powitanie i [P] w scenariuszu 4) też są w Rails: szablony w `app/config/locales/personal_lines.pl.yml`, wybór wariantów w `Orders::PersonalLines`, nagrania przez API ElevenLabs w `Orders::RecordPersonalLines` (mp3 w Active Storage). Kod Pythona przenosimy stopniowo do Rails; kwestie wspólne `d_*`, muzyka i Voice Design zostają na razie w `generator.audio`.
+- Postacie powtarzające się w wielu ujęciach (np. renifer Płatek) mają portret wzorcowy, który idzie do kadrów jako dodatkowy obraz referencyjny, i stały opis doklejany do promptu.
+- Montaż opisuje lista `TIMELINE` w `generator/montage.py`; nowe sceny dodajemy tam i w `prompts.SCENES` (oraz w module scenariusza, gdy dotyczy wersji długiej).
+- Pola formularza mają te same nazwy co dane dziecka w `examples/*.json` / payload generatora (`imie`, `zwrot`, …). Produkcyjny formularz jest w Rails; `strona/` to wzór (pilnuje tego też `tests/test_strona.py`).
 - Witryna w Rails: Hotwire (Turbo + Stimulus), Haml, SCSS (Dart Sass, bez Tailwinda); kolory jako zmienne CSS, dostępność, mobile bez przewijania w poziomie. `strona/` nie serwujemy na produkcji.
+- Regulamin i politykę prywatności zmieniamy tylko w `dokumenty/*.md`, potem `python dokumenty/zbuduj.py`. Strony `strona/regulamin.html` i `strona/polityka-prywatnosci.html` są generowane.
 - Maile HTML: układ na tabelach, style inline, szerokość 600 px, bez SVG i skryptów.
 
 Konwencje Rails (modele, serwisy, RSpec, domena zamówienia): `app/AGENTS.md`.

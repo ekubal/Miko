@@ -1,4 +1,4 @@
-// Formularz zamówienia: kroki, rodzeństwo, walidacja, podsumowanie i wysyłka.
+// Formularz zamówienia: kroki, rodzeństwo, walidacja, podsumowanie, kod rabatowy i wysyłka.
 //
 // Kroki: dla każdego dziecka "podstawowe" i "wiadomosc", na końcu "dane" (e-mail, termin, zgody).
 // Dane dziecka mają te same nazwy co plik zamówienia generatora (examples/zamowienie_kasia.json):
@@ -14,6 +14,9 @@
   var MAX_CHILDREN = Number(form.dataset.maksDzieci) || 4;
   var MAX_MB = Number(form.dataset.maksMb) || 20;
   var DEMO_KEY = "mikolaj-zamowienie-demo";
+  var CODE_ENDPOINT = form.dataset.endpointKod;
+  var DEMO_PERCENT = Number(form.dataset.rabatPokazowy) || 25;
+  var DEMO_CODE = /^ZAPIS-[A-Z0-9]{4}$/;
 
   var list = document.getElementById("dzieci");
   var template = document.getElementById("szablon-dziecka");
@@ -22,10 +25,17 @@
   var summaryList = document.getElementById("lista-dzieci");
   var alertBox = document.getElementById("blad-wysylki");
   var submitButton = form.querySelector('button[type="submit"]');
+  var codeBox = form.querySelector("[data-kod]");
+  var codeInput = document.getElementById("kod-rabatowy");
+  var codeError = document.getElementById("kod-blad");
+  var codeApplyButton = codeBox.querySelector('[data-akcja="kod"]');
+  var codeApplied = form.querySelector("[data-kod-przyjety]");
+  var codeLive = form.querySelector("[data-kod-komunikat]");
 
   var pos = 0;
   var dirty = false;
   var submitting = false;
+  var discount = null; // przyjęty kod: {kod: "ZAPIS-7KQ2", procent: 25}
 
   var MESSAGES = {
     imie: "Wpisz imię dziecka.",
@@ -39,6 +49,14 @@
     email: "Wpisz adres e-mail.",
     termin: "Wybierz datę.",
     zgoda: "Zaznacz wszystkie zgody, żeby przejść do płatności.",
+  };
+
+  var CODE_MESSAGES = {
+    pusty: "Wpisz kod, zanim klikniesz „Użyj kodu”.",
+    nieznany: "Nie znamy tego kodu. Sprawdź, czy jest przepisany dokładnie tak jak w mailu.",
+    wygasl: "Ten kod wygasł. Możesz zamówić film w zwykłej cenie.",
+    wykorzystany: "Ten kod został już wykorzystany. Każdy kod działa przy jednym zamówieniu.",
+    siec: "Nie udało się sprawdzić kodu. Spróbuj ponownie za chwilę.",
   };
 
   // --- dzieci ----------------------------------------------------------------------
@@ -118,8 +136,23 @@
     return names.slice(0, -1).join(", ") + " i " + names[names.length - 1];
   }
 
-  function total() {
+  // Kwoty w złotych; ułamki tylko tam, gdzie są grosze („36,75 zł”, „48 zł”).
+  function zl(amount) {
+    var grosze = Math.round(amount * 100);
+    var text = grosze % 100 === 0 ? String(grosze / 100) : (grosze / 100).toFixed(2).replace(".", ",");
+    return text + " zł";
+  }
+
+  function baseTotal() {
     return BASE_PRICE + (groups().length - 1) * SIBLING_PRICE;
+  }
+
+  function discountAmount() {
+    return discount ? Math.round(baseTotal() * discount.procent) / 100 : 0;
+  }
+
+  function total() {
+    return Math.round((baseTotal() - discountAmount()) * 100) / 100;
   }
 
   // Podsumowanie, ceny, podpisy kroków i oferta rodzeństwa.
@@ -157,8 +190,88 @@
 
     form.querySelector("[data-rodzenstwo]").hidden = extra === 0;
     form.querySelector("[data-rodzenstwo-opis]").textContent = extra + " × " + SIBLING_PRICE + " zł";
-    form.querySelector("[data-rodzenstwo-cena]").textContent = extra * SIBLING_PRICE + " zł";
-    form.querySelectorAll("[data-suma]").forEach(function (el) { el.textContent = total() + " zł"; });
+    form.querySelector("[data-rodzenstwo-cena]").textContent = zl(extra * SIBLING_PRICE);
+    form.querySelector("[data-rabat]").hidden = !discount;
+    if (discount) {
+      form.querySelector("[data-rabat-procent]").textContent = String(discount.procent);
+      form.querySelector("[data-rabat-kwota]").textContent = "−" + zl(discountAmount());
+    }
+    form.querySelectorAll("[data-suma]").forEach(function (el) { el.textContent = zl(total()); });
+  }
+
+  // --- kod rabatowy --------------------------------------------------------------------
+
+  function setCodeMessage(message) {
+    codeError.textContent = message;
+    codeLive.textContent = message;
+    if (message) codeInput.setAttribute("aria-invalid", "true");
+    else codeInput.removeAttribute("aria-invalid");
+  }
+
+  // Tryb pokazowy (bez data-endpoint-kod): działa każdy kod w formie ZAPIS-XXXX.
+  function checkCode(code) {
+    if (!CODE_ENDPOINT) {
+      return Promise.resolve(DEMO_CODE.test(code)
+        ? { ok: true, rabat_procent: DEMO_PERCENT }
+        : { ok: false, powod: "nieznany" });
+    }
+    var url = CODE_ENDPOINT + (CODE_ENDPOINT.indexOf("?") === -1 ? "?" : "&") + "kod=" + encodeURIComponent(code);
+    return fetch(url, { headers: { Accept: "application/json" }, credentials: "same-origin" })
+      .then(function (response) {
+        return response.json().catch(function () { return {}; }).then(function (body) {
+          if (!response.ok && !body.powod) throw new Error("HTTP " + response.status);
+          return body;
+        });
+      });
+  }
+
+  // quiet = kod z linku w mailu: bez przenoszenia fokusu przy wczytaniu strony.
+  function applyCode(quiet) {
+    var code = codeInput.value.trim().toUpperCase().replace(/\s+/g, "");
+    codeInput.value = code;
+    if (!code) {
+      setCodeMessage(CODE_MESSAGES.pusty);
+      codeInput.focus();
+      return;
+    }
+    codeApplyButton.disabled = true;
+    checkCode(code)
+      .then(function (result) {
+        codeApplyButton.disabled = false;
+        var percent = Number(result.rabat_procent);
+        if (result.ok && percent > 0 && percent < 100) {
+          discount = { kod: code, procent: percent };
+          showApplied(quiet);
+          return;
+        }
+        setCodeMessage(result.komunikat || CODE_MESSAGES[result.powod] || CODE_MESSAGES.nieznany);
+        if (!quiet) codeInput.focus();
+      })
+      .catch(function () {
+        codeApplyButton.disabled = false;
+        setCodeMessage(CODE_MESSAGES.siec);
+      });
+  }
+
+  function showApplied(quiet) {
+    setCodeMessage("");
+    codeApplied.querySelector("[data-kod-nazwa]").textContent = discount.kod;
+    codeApplied.querySelector("[data-kod-procent]").textContent = String(discount.procent);
+    codeBox.hidden = true;
+    codeApplied.hidden = false;
+    refresh();
+    codeLive.textContent = "Kod przyjęty. Rabat " + discount.procent + "%, do zapłaty " + zl(total()) + ".";
+    if (!quiet) codeApplied.querySelector('[data-akcja="usun-kod"]').focus();
+  }
+
+  function removeCode() {
+    discount = null;
+    codeInput.value = "";
+    codeApplied.hidden = true;
+    codeBox.hidden = false;
+    refresh();
+    codeLive.textContent = "Kod usunięty. Do zapłaty " + zl(total()) + ".";
+    codeInput.focus();
   }
 
   // --- kroki -------------------------------------------------------------------------
@@ -332,12 +445,15 @@
     else if (action === "dodaj") addSibling();
     else if (action === "usun") removeChild(button.closest("[data-dziecko]"));
     else if (action === "popraw") go(Number(button.dataset.krok));
+    else if (action === "kod") applyCode(false);
+    else if (action === "usun-kod") removeCode();
   });
 
   form.addEventListener("input", function (event) {
     dirty = true;
     var el = event.target;
     if (el.dataset.pole === "imie") refresh();
+    if (el === codeInput && codeError.textContent) setCodeMessage("");
     if (el.getAttribute("aria-invalid") === "true" && el.type !== "file") {
       if (el.type === "radio" || el.type === "checkbox") return;
       if (el.checkValidity()) showError(el, "");
@@ -359,6 +475,12 @@
   // Enter w polu tekstowym przechodzi do następnego kroku zamiast wysyłać formularz.
   form.addEventListener("keydown", function (event) {
     if (event.key !== "Enter" || event.target.tagName !== "INPUT") return;
+    // Enter w polu kodu sprawdza kod, nie przechodzi dalej.
+    if (event.target === codeInput) {
+      event.preventDefault();
+      applyCode(false);
+      return;
+    }
     if (event.target.type === "submit" || event.target.type === "button") return;
     if (pos < steps().length - 1) {
       event.preventDefault();
@@ -393,6 +515,8 @@
       email: document.getElementById("email").value.trim(),
       termin: document.getElementById("termin").value,
       zgody: { regulamin: true, dane_dziecka: true, ai: true, realizacja: true },
+      // Kod i kwota do sprawdzenia: serwer liczy cenę od nowa i sam weryfikuje kod.
+      kod_rabatowy: discount ? discount.kod : "",
       kwota_zl: total(),
     };
   }
@@ -437,7 +561,7 @@
       nr: "POKAZ-" + Math.floor(1000 + Math.random() * 9000),
       imiona: joinNames(order.dzieci.map(function (c) { return c.imie; })),
       email: order.email,
-      kwota: order.kwota_zl + " zł",
+      kwota: zl(order.kwota_zl),
     };
     try { sessionStorage.setItem(DEMO_KEY, JSON.stringify(summary)); } catch (e) { /* prywatne okno: bez danych */ }
     window.location.assign("potwierdzenie.html");
@@ -477,4 +601,11 @@
 
   addChild();
   go(0, false);
+
+  // Link z maila: zamowienie.html?kod=ZAPIS-7KQ2 wpisuje i sprawdza kod od razu.
+  var presetCode = new URLSearchParams(window.location.search).get("kod");
+  if (presetCode) {
+    codeInput.value = presetCode;
+    applyCode(true);
+  }
 })();

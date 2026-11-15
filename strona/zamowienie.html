@@ -58,9 +58,14 @@
   data-endpoint: adres API, które przyjmuje zamówienie (POST multipart: pole "zamowienie" z JSON-em
   i pliki "zdjecie_0", "zdjecie_1"...) i odpowiada JSON-em {"platnosc_url": "..."}.
   Puste = tryb pokazowy: bez wysyłki, przejście od razu do potwierdzenie.html.
+  data-endpoint-kod: adres, który sprawdza kod rabatowy (GET ?kod=...) i odpowiada JSON-em
+  {"ok": true, "rabat_procent": 25} albo {"ok": false, "powod": "nieznany" | "wygasl" | "wykorzystany"}.
+  Puste = tryb pokazowy: działa każdy kod w formie ZAPIS-XXXX (rabat z data-rabat-pokazowy).
+  Kod z linku w mailu (zamowienie.html?kod=ZAPIS-7KQ2) wpisuje się sam. Cenę i rabat i tak liczy serwer.
 -->
 <form id="zamowienie" class="container order-layout" method="post" enctype="multipart/form-data" novalidate
-      data-endpoint="" data-cena-bazowa="49" data-cena-rodzenstwo="15" data-maks-dzieci="4" data-maks-mb="20">
+      data-endpoint="" data-endpoint-kod="" data-rabat-pokazowy="25"
+      data-cena-bazowa="49" data-cena-rodzenstwo="15" data-maks-dzieci="4" data-maks-mb="20">
   <div class="order-main">
     <noscript><p class="form-alert">Formularz zamówienia działa po włączeniu JavaScriptu w przeglądarce.</p></noscript>
 
@@ -117,9 +122,27 @@
     <svg class="summary__bow" width="100" height="58" aria-hidden="true"><use href="#i-bow"/></svg>
     <h2 id="podsumowanie" class="summary__title">Twoje zamówienie</h2>
     <ul id="lista-dzieci" class="summary__children"></ul>
+    <div class="code" data-kod>
+      <label class="code__label" for="kod-rabatowy">Kod rabatowy <span>(jeśli masz)</span></label>
+      <div class="code__row">
+        <input class="code__input" id="kod-rabatowy" name="kod_rabatowy" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="40" placeholder="np. ZAPIS-7KQ2" aria-describedby="kod-blad">
+        <button type="button" class="code__apply" data-akcja="kod">Użyj kodu</button>
+      </div>
+      <span class="code__error" id="kod-blad"></span>
+    </div>
+    <div class="code-applied" data-kod-przyjety hidden>
+      <svg class="icon icon--24 code-applied__icon" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+      <div class="code-applied__text">
+        <p class="code-applied__code" data-kod-nazwa></p>
+        <p class="code-applied__desc">Kod przyjęty: −<span data-kod-procent>25</span>% na całe zamówienie</p>
+      </div>
+      <button type="button" class="summary__edit" data-akcja="usun-kod" aria-label="Usuń kod rabatowy">Usuń</button>
+    </div>
+    <p class="visually-hidden" aria-live="polite" data-kod-komunikat></p>
     <dl class="summary__prices">
       <div><dt>Film od Mikołaja</dt><dd>49 zł</dd></div>
       <div data-rodzenstwo hidden><dt>Rodzeństwo (<span data-rodzenstwo-opis>1 × 15 zł</span>)</dt><dd data-rodzenstwo-cena>15 zł</dd></div>
+      <div class="summary__discount" data-rabat hidden><dt>Rabat z zapisu (<span data-rabat-procent>25</span>%)</dt><dd data-rabat-kwota></dd></div>
       <div class="summary__total"><dt>Razem</dt><dd data-suma>49 zł</dd></div>
     </dl>
     <p class="summary__note">Film 2–3 minuty, link mailem w ciągu 24 godzin. Płatność BLIK-iem lub kartą przez [OPERATOR PŁATNOŚCI].</p>

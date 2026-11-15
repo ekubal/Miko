@@ -275,9 +275,9 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 - **Ze zdjęciem domu [G]:** w kuli widać zdjęcie domu dziecka z zewnątrz, przyprószone padającym śniegiem.
 - **Bez zdjęcia:** w kuli widać zaśnieżony domek z jednym ciepło świecącym oknem.
 
-**MIKOŁAJ [P] (zza kadru):** {ZWROT}, moja śnieżna kula już pokazuje mi twój dom. Płatek leciał dziś pierwszy raz — a Twoje kciuki bardzo mu pomogły. Do zobaczenia w Wigilię! Zostaw marchewkę dla moich reniferów. Wesołych Świąt!
+**MIKOŁAJ [P] (zza kadru):** {ZWROT}, moja śnieżna kula już pokazuje mi twój dom. Płatek leciał dziś pierwszy raz — a twoje kciuki bardzo mu pomogły. Do zobaczenia w Wigilię! Zostaw marchewkę dla moich reniferów. Wesołych Świąt!
 
-↳ *Rodzeństwo:* {ZWROT}, moja śnieżna kula już pokazuje mi wasz dom. Płatek leciał dziś pierwszy raz — a Wasze kciuki bardzo mu pomogły. Do zobaczenia w Wigilię! Zostawcie marchewkę…
+↳ *Rodzeństwo:* {ZWROT}, moja śnieżna kula już pokazuje mi wasz dom. Płatek leciał dziś pierwszy raz — a wasze kciuki bardzo mu pomogły. Do zobaczenia w Wigilię! Zostawcie marchewkę…
 
 *Światło w kuli powoli gaśnie. Wyciszenie obrazu i muzyki.*
 
@@ -336,5 +336,6 @@ Ustalono 14 lis 2026:
 - **Najtrudniejsze ujęcia:** wpadka elfa ze wstążką oraz spójny Płatek w trzech scenach (portret wzorcowy). Wczesny test w `testy_fal`.
 - **Kwestie [W]** bez form zależnych od płci; formy płciowe tylko w tekstach pisanych dla konkretnego dziecka i w wariantach rodzeństwa oznaczonych osobno.
 - **Montaż:** kilka ujęć w jednej scenie (zwłaszcza pakowanie, stajnia, start).
+- **Kwestie [L] i [P]** (karta 1.4): w Rails, szablony w `app/config/locales/personal_lines.pl.yml` (klucze `l_powitanie`, `p_poczta`, `p_stajnia`, `p_prezent`, `p_bliscy`, `p_pozegnanie`), wybór wariantów w `Orders::PersonalLines`. Kwestia [P] [niekupiony] tylko wtedy, gdy żadne dziecko nie ma kupionego prezentu; przy mieszanych prezentach rodzeństwa prezenty nazywa tekst [T]. W scenie 9 odmiana według bliskich: „mama opowiedziała… jest dumna”, „tata opowiedział… dumny”, pozostałe w liczbie mnogiej (zwrot wpisany przez rodzica sprawdza człowiek).
 - **Kwestie [W]** (karta 1.3): w `generator/prompts.py`, `GENERAL_LINES` z kluczami `d_*` (lista `LONG_LINES`, kolejność filmu); nagrywa je `python -m generator.audio lines --dluga`. Kwestie bez ↳ *Rodzeństwo* (stajnia, wpadka elfa, „START!”) są takie same w obu wersjach.
 - **Prompty obrazów** (karta 1.2): w `generator/prompts.py` (`SCENES`, `TEMPLATES`, `PLATEK_PORTRAIT_PROMPT`). Sceny: `kula`, `sortownia`, `koperta`, `stajnia_skok`, `stajnia`, `pakowanie`, `wpadka`, `bliscy`, `worek`, `zaprzeg`, `start`; szablony: `szablon_kula`, `szablon_kula_domek`, `szablon_poczta`, `szablon_bilecik`, `szablon_bliscy`.
