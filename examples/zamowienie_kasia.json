@@ -14,5 +14,11 @@
       "prezent_kupiony": true
     }
   ],
+  "bliscy": "mama i tata",
+  "bliscy_wybor": "mama i tata",
+  "wiadomosc_od_bliskich": "Kasiu, jesteśmy z Ciebie bardzo dumni. Kochamy Cię najmocniej na świecie!",
+  "zdjecie_bliskich": "zdjecia/bliscy.jpg",
+  "zdjecie_listu": "zdjecia/list.jpg",
+  "zdjecie_domu": "zdjecia/dom.jpg",
   "wymowa": {}
 }

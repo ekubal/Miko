@@ -26,5 +26,11 @@
       "prezent_kupiony": true
     }
   ],
+  "bliscy": "babcia i dziadek",
+  "bliscy_wybor": "babcia i dziadek",
+  "wiadomosc_od_bliskich": "Jesteśmy dumni z Was obojga!",
+  "zdjecie_bliskich": null,
+  "zdjecie_listu": "zdjecia/rysunek.jpg",
+  "zdjecie_domu": "zdjecia/dom.jpg",
   "wymowa": {}
 }

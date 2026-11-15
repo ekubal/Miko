@@ -59,7 +59,7 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 | **[G]** | grafika personalizowana: imię albo zdjęcie wklejane w montażu |
 | **[kupiony] / [niekupiony]** | wariant zależny od tego, czy rodzic zaznaczył, że prezent jest kupiony |
 | `{ZWROT}` | forma w wołaczu, np. „Kasiu”; dla rodzeństwa „Zosiu i Antku” |
-| `{BLISCY}` | jak dziecko mówi do bliskich, np. „mama i tata”; domyślnie „Twoi bliscy” |
+| `{BLISCY}` | jak dziecko mówi do bliskich, np. „mama i tata” (pole wymagane w formularzu) |
 | **[PAUZA n s]** | czas na reakcję dziecka |
 | ↳ *Rodzeństwo:* | wersja kwestii dla rodzeństwa |
 
@@ -244,7 +244,7 @@ Wszystkie zdjęcia trafiają tylko do montażu, nie do narzędzi AI, i są usuwa
 
 *Bez „przytul ich”: `{BLISCY}` może oznaczać jedną osobę („mama”), a kwestia wspólna musi pasować do każdego wyboru.*
 
-**Uwaga:** `{BLISCY}` wybiera rodzic w formularzu. Domyślnie „Twoi bliscy”. Wariant „inne” wymaga sprawdzenia odmiany przez człowieka.
+**Uwaga:** `{BLISCY}` wybiera rodzic w formularzu (pole wymagane): „mama i tata”, „mama”, „tata”, „babcia i dziadek” albo „inne” z własnym zwrotem. Wariant „inne” wymaga sprawdzenia odmiany przez człowieka.
 
 ## 10. Załadunek sań (7:10–7:55)
 

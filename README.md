@@ -355,6 +355,10 @@ Wymaga pliku JSON z danymi z formularza. Przykłady są w [`examples/`](examples
 | `dzieci[].osiagniecie`, `zainteresowania` | tak | treść pochwały |
 | `dzieci[].do_poprawy`, `prezent` | nie | puste = pominięte |
 | `dzieci[].prezent_kupiony` | tak | `true` = elfy szykują prezent; `false` = Mikołaj zapisuje marzenie, bez obietnicy |
+| `bliscy` | tak | jak dziecko mówi do bliskich, z którymi ogląda film (`{BLISCY}` w scenie 9), np. `mama i tata`, albo zwrot wpisany przez rodzica |
+| `bliscy_wybor` | tak | opcja z formularza: `mama i tata`, `mama`, `tata`, `babcia i dziadek` albo `inne` (zwrot w `bliscy` sprawdza człowiek) |
+| `wiadomosc_od_bliskich` | nie | do 200 znaków, czyta ją Mikołaj w scenie 9; pusty tekst = bez wiadomości |
+| `zdjecie_bliskich`, `zdjecie_listu`, `zdjecie_domu` | nie | ramka na biurku (scena 9), list lub rysunek na poczcie (scena 4), dom w śnieżnej kuli (scena 11); `null` = wariant bez zdjęcia. Tylko do montażu, nigdy do narzędzi AI |
 | `wymowa` | nie | zapis fonetyczny tylko do nagrania, np. `{"Jessico": "Dzesiko"}` |
 
 Rodzeństwo: dodaj kolejne obiekty do `dzieci`. Tekst ma wtedy 110–130 słów zamiast 90–110.

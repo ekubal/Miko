@@ -14,5 +14,11 @@
       "prezent_kupiony": false
     }
   ],
+  "bliscy": "mama",
+  "bliscy_wybor": "mama",
+  "wiadomosc_od_bliskich": "",
+  "zdjecie_bliskich": null,
+  "zdjecie_listu": null,
+  "zdjecie_domu": null,
   "wymowa": {}
 }

@@ -317,6 +317,22 @@ def test_lines_records_single_and_plural(tmp_output, monkeypatch):
     assert any("Wasze imiona" in text for text, _ in calls)
 
 
+# Pola zamówienia ze scenariusza 4 (karta 1.7); te same klucze buduje Rails w Order#as_generator_payload.
+SCENARIO_ORDER_FIELDS = {"bliscy", "bliscy_wybor", "wiadomosc_od_bliskich", "zdjecie_bliskich", "zdjecie_listu", "zdjecie_domu"}
+BLISCY_WYBOR = {"mama i tata", "mama", "tata", "babcia i dziadek", "inne"}
+
+
+@pytest.mark.parametrize("name", ["zamowienie_kasia.json", "zamowienie_jas.json", "zamowienie_zosia_antek.json"])
+def test_examples_have_scenario_order_fields(name):
+    data = order.load_order(EXAMPLES / name)
+    assert SCENARIO_ORDER_FIELDS <= set(data), name
+    assert data["bliscy_wybor"] in BLISCY_WYBOR
+    assert data["bliscy"].strip()
+    assert len(data["wiadomosc_od_bliskich"]) <= 200
+    for key in ("zdjecie_bliskich", "zdjecie_listu", "zdjecie_domu"):
+        assert data[key] is None or data[key].startswith("zdjecia/"), (name, key)
+
+
 def test_order_voice_requires_approval(tmp_output):
     with pytest.raises(SystemExit):
         order.main(["voice", str(EXAMPLES / "zamowienie_kasia.json")])
