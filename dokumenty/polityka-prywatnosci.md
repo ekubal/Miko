@@ -25,11 +25,12 @@ opis: "Jak Wiadomość od Mikołaja przetwarza dane rodziców i dzieci: cele, ok
 ## 2. Jakie dane zbieramy {#pkt-2}
 
 1. **Twoje dane (rodzica lub opiekuna):** adres e-mail, termin, na kiedy potrzebujesz filmu, informacja o złożonych oświadczeniach i zgodach, dane płatności (numer transakcji, kwota, metoda płatności; pełnych danych karty nie otrzymujemy), a jeśli prosisz o fakturę, dane do faktury.
-2. **Dane dziecka, które podajesz w formularzu:** imię i forma zwracania się, wiek, płeć (żeby Mikołaj użył właściwej formy, np. „nauczyłaś” albo „nauczyłeś”), osiągnięcia, zainteresowania, to, nad czym dziecko może popracować, wymarzony prezent oraz to, czy jest już kupiony.
-3. **Zdjęcia:** zdjęcie dziecka, a jeśli je dodasz, także zdjęcie bliskich, zdjęcie listu lub rysunku dziecka oraz zdjęcie domu z zewnątrz.
-4. **Inne treści:** opcjonalna wiadomość od bliskich, sposób, w jaki dziecko mówi do bliskich (np. „mama i tata”), treść wiadomości z formularza kontaktowego, odpowiedzi w ankiecie po dostawie.
-5. **Dane techniczne:** adres IP, informacje o przeglądarce i urządzeniu, dane z plików cookies (zob. pkt 10).
-6. Prosimy, aby nie podawać w formularzu informacji o zdrowiu dziecka ani innych danych szczególnie wrażliwych. Jeśli takie informacje się pojawią, nie użyjemy ich w filmie i zaproponujemy inne sformułowanie.
+2. **Zapis przed startem sprzedaży:** adres e-mail, data zapisu i potwierdzenia adresu, treść wyrażonej zgody oraz informacja, czy kod rabatowy został wykorzystany.
+3. **Dane dziecka, które podajesz w formularzu:** imię i forma zwracania się, wiek, płeć (żeby Mikołaj użył właściwej formy, np. „nauczyłaś” albo „nauczyłeś”), osiągnięcia, zainteresowania, to, nad czym dziecko może popracować, wymarzony prezent oraz to, czy jest już kupiony.
+4. **Zdjęcia:** zdjęcie dziecka, a jeśli je dodasz, także zdjęcie bliskich, zdjęcie listu lub rysunku dziecka oraz zdjęcie domu z zewnątrz.
+5. **Inne treści:** opcjonalna wiadomość od bliskich, sposób, w jaki dziecko mówi do bliskich (np. „mama i tata”), treść wiadomości z formularza kontaktowego, odpowiedzi w ankiecie po dostawie.
+6. **Dane techniczne:** adres IP, informacje o przeglądarce i urządzeniu, dane z plików cookies (zob. pkt 10).
+7. Prosimy, aby nie podawać w formularzu informacji o zdrowiu dziecka ani innych danych szczególnie wrażliwych. Jeśli takie informacje się pojawią, nie użyjemy ich w filmie i zaproponujemy inne sformułowanie.
 
 ## 3. W jakich celach i na jakiej podstawie przetwarzamy dane {#pkt-3}
 
@@ -42,6 +43,7 @@ opis: "Jak Wiadomość od Mikołaja przetwarza dane rodziców i dzieci: cele, ok
 | Reklamacje, obrona przed roszczeniami | dane z zamówienia i korespondencji | art. 6 ust. 1 lit. f (prawnie uzasadniony interes) |
 | Odpowiedź na wiadomość z formularza kontaktowego | dane z formularza kontaktowego | art. 6 ust. 1 lit. f (prawnie uzasadniony interes) |
 | Ankieta po dostawie i poprawa jakości filmów | odpowiedzi w ankiecie | art. 6 ust. 1 lit. f (prawnie uzasadniony interes) |
+| Lista zapisów przed startem: wiadomość o starcie sprzedaży z kodem rabatowym i przypomnienie przed końcem ważności kodu | adres e-mail, data zapisu i potwierdzenia | art. 6 ust. 1 lit. a (zgoda wyrażona przy zapisie) |
 | Przypomnienia o niedokończonym zamówieniu | adres e-mail | art. 6 ust. 1 lit. a (zgoda); bez zgody nie wysyłamy przypomnień |
 | Statystyki odwiedzin i reklamy | dane z cookies | art. 6 ust. 1 lit. a (zgoda wyrażona w banerze cookies) |
 | Bezpieczeństwo strony | dane techniczne | art. 6 ust. 1 lit. f (prawnie uzasadniony interes) |
@@ -101,6 +103,7 @@ Zgodę możesz wycofać w każdej chwili, bez wpływu na zgodność z prawem prz
 | Dokumenty księgowe | 5 lat od końca roku, w którym powstał obowiązek podatkowy |
 | Korespondencja i reklamacje | do zakończenia sprawy, a potem do upływu terminu przedawnienia roszczeń |
 | Zgoda na przypomnienia | do wycofania zgody |
+| Adres z listy zapisów przed startem | do końca ważności kodu z zapisu ([DATA KOŃCA RABATU]) albo do wypisania się, jeśli nastąpi wcześniej; potem usuwamy go z listy. Jeśli złożysz zamówienie, dane zamówienia przechowujemy jak wyżej. [Do decyzji prawnika: jak długo przechowujemy dowód zgody.] |
 | Dane z cookies | zgodnie z czasem działania plików opisanym w banerze cookies, najdłużej [13 miesięcy] |
 
 ## 9. Twoje prawa {#pkt-9}

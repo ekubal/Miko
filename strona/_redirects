@@ -1,0 +1,14 @@
+# Tryb przed startem sprzedaży (Cloudflare Pages; Netlify czyta ten sam plik).
+# Strona główna i formularz zamówienia prowadzą do zapisów z kodem −25%.
+#
+# W dniu startu: usuń reguły poniżej (albo cały plik) i wdróż stronę ponownie.
+# Po starcie możesz dopisać odwrotną regułę, żeby stare linki do zapisów trafiały na stronę główną:
+#   /zapisy.html  /  301
+#   /zapisy       /  301
+
+/                    /zapisy  302
+/index.html          /zapisy  302
+/zamowienie.html     /zapisy  302
+/zamowienie          /zapisy  302
+/potwierdzenie.html  /zapisy  302
+/potwierdzenie       /zapisy  302

@@ -1,5 +1,6 @@
-// Strona główna: film przykładowy w ramce prezentu.
-// Plik filmu i kadr podajesz w atrybutach data-video i data-poster elementu .video.
+// Film przykładowy (strona główna) i zwiastun (strona zapisów) w ramce prezentu.
+// Plik filmu i kadr podajesz w atrybutach data-video i data-poster elementu .video,
+// a napis na wypadek braku pliku w data-brak.
 (function () {
   "use strict";
 
@@ -28,7 +29,7 @@
         button.hidden = false;
         if (caption) {
           caption.hidden = false;
-          caption.textContent = "Film przykładowy pojawi się tu wkrótce.";
+          caption.textContent = box.getAttribute("data-brak") || "Film przykładowy pojawi się tu wkrótce.";
         }
       });
       button.hidden = true;

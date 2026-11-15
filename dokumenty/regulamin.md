@@ -43,8 +43,9 @@ W regulaminie używamy następujących pojęć:
     a) udostępnianie treści Strony;
     b) Formularz, który pozwala złożyć Zamówienie;
     c) formularz kontaktowy;
-    d) strona z Filmem, na której możesz obejrzeć i pobrać zamówiony Film.
-2. Umowa o korzystanie z treści Strony i formularza kontaktowego zawierana jest na czas korzystania z nich. Umowa o korzystanie z Formularza kończy się z chwilą złożenia Zamówienia albo opuszczenia Formularza. Dostęp do strony z Filmem trwa przez okres opisany w § 6 ust. 6.
+    d) strona z Filmem, na której możesz obejrzeć i pobrać zamówiony Film;
+    e) lista zapisów przed startem sprzedaży: wiadomość o starcie sprzedaży z kodem rabatowym i przypomnienie przed końcem ważności kodu (zob. § 5 ust. 4).
+2. Umowa o korzystanie z treści Strony i formularza kontaktowego zawierana jest na czas korzystania z nich. Umowa o korzystanie z Formularza kończy się z chwilą złożenia Zamówienia albo opuszczenia Formularza. Dostęp do strony z Filmem trwa przez okres opisany w § 6 ust. 6. Umowa o korzystanie z listy zapisów zawierana jest z chwilą potwierdzenia adresu e-mail i trwa do końca ważności kodu z zapisu; możesz ją wypowiedzieć w każdej chwili, klikając link do wypisania się w wiadomości od nas albo pisząc na [ADRES E-MAIL].
 3. Do korzystania ze Strony i odtworzenia Filmu potrzebujesz:
     a) urządzenia z dostępem do internetu (komputer, tablet albo telefon);
     b) aktualnej wersji przeglądarki internetowej z włączoną obsługą JavaScriptu i plików cookies niezbędnych do działania Strony;
@@ -70,8 +71,14 @@ W regulaminie używamy następujących pojęć:
 1. Ceny podane na Stronie są cenami końcowymi w złotych polskich i [zawierają podatek VAT / Sprzedawca korzysta ze zwolnienia z VAT na podstawie … – do uzupełnienia]. Cena zależy od wybranego wariantu Filmu i liczby dzieci w Filmie; przed zapłatą widzisz ją w podsumowaniu Zamówienia.
 2. Za Zamówienie płacisz z góry, w całości, przez operatora płatności Stripe Payments Europe, Ltd. z siedzibą w Dublinie (Irlandia). Dostępne metody płatności to BLIK, karta płatnicza i szybki przelew (Przelewy24). Nie musisz zakładać konta.
 3. Kody rabatowe obniżają cenę na zasadach podanych przy danym kodzie. Kodów nie można łączyć ani wymieniać na gotówkę, chyba że zasady kodu stanowią inaczej.
-4. [Dokument sprzedaży: paragon / rachunek / faktura – do uzupełnienia.] Fakturę wystawiamy na życzenie zgłoszone mailowo, z danymi do faktury.
-5. Jeśli płatność się nie powiedzie, Zamówienie nie zostaje przyjęte. Możesz ponowić płatność z linku, który wyślemy na Twój adres e-mail.
+4. Kod z zapisu przed startem sprzedaży:
+    a) dostaje osoba, która przed [DATA STARTU] zapisała się na liście na Stronie i potwierdziła adres e-mail; kod wysyłamy mailem w dniu startu sprzedaży;
+    b) obniża o 25% cenę całego pierwszego Zamówienia złożonego z tym kodem, także Zamówienia z rodzeństwem;
+    c) jest ważny do [DATA KOŃCA RABATU] do końca dnia (czasu polskiego) i działa przy jednym Zamówieniu;
+    d) przypada jeden na adres e-mail;
+    e) obniżoną cenę widzisz w podsumowaniu Zamówienia przed zapłatą.
+5. [Dokument sprzedaży: paragon / rachunek / faktura – do uzupełnienia.] Fakturę wystawiamy na życzenie zgłoszone mailowo, z danymi do faktury.
+6. Jeśli płatność się nie powiedzie, Zamówienie nie zostaje przyjęte. Możesz ponowić płatność z linku, który wyślemy na Twój adres e-mail.
 
 ## § 6. Realizacja i dostawa filmu {#par-6}
 

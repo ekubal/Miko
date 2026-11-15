@@ -1,6 +1,6 @@
 # Szablony e-maili
 
-Trzy wiadomości z MVP.md: potwierdzenie zamówienia, prośba o brakujące dane i dostawa filmu. Każdy szablon ma pola w nawiasach klamrowych, a pod nim przykład wypełniony dla jednego z zamówień z `examples/`.
+Trzy wiadomości z MVP.md: potwierdzenie zamówienia, prośba o brakujące dane i dostawa filmu, oraz trzy wiadomości dla listy zapisów przed startem sprzedaży (kod −25%). Każdy szablon ma pola w nawiasach klamrowych, a pod nim przykład wypełniony dla jednego z zamówień z `examples/`.
 
 ## Pliki
 
@@ -9,6 +9,9 @@ Trzy wiadomości z MVP.md: potwierdzenie zamówienia, prośba o brakujące dane 
 | 1. Potwierdzenie zamówienia | [`email_1_potwierdzenie.html`](email_1_potwierdzenie.html) | [komputer](podglad/email_1_potwierdzenie.png) · [telefon](podglad/email_1_potwierdzenie_telefon.png) |
 | 2. Prośba o brakujące dane | [`email_2_brakujace_dane.html`](email_2_brakujace_dane.html) | [komputer](podglad/email_2_brakujace_dane.png) · [telefon](podglad/email_2_brakujace_dane_telefon.png) |
 | 3. Dostawa filmu | [`email_3_dostawa.html`](email_3_dostawa.html) | [komputer](podglad/email_3_dostawa.png) · [telefon](podglad/email_3_dostawa_telefon.png) |
+| Zapisy 1. Potwierdzenie zapisu | [`email_zapis_1_potwierdzenie.html`](email_zapis_1_potwierdzenie.html) | [komputer](podglad/email_zapis_1_potwierdzenie.png) · [telefon](podglad/email_zapis_1_potwierdzenie_telefon.png) |
+| Zapisy 2. Start sprzedaży i kod | [`email_zapis_2_start.html`](email_zapis_2_start.html) | [komputer](podglad/email_zapis_2_start.png) · [telefon](podglad/email_zapis_2_start_telefon.png) |
+| Zapisy 3. Ostatni dzień rabatu | [`email_zapis_3_ostatni_dzien.html`](email_zapis_3_ostatni_dzien.html) | [komputer](podglad/email_zapis_3_ostatni_dzien.png) · [telefon](podglad/email_zapis_3_ostatni_dzien_telefon.png) |
 
 Szablony HTML są przygotowane pod programy pocztowe: układ na tabelach, style wpisane w elementy, szerokość 600 px, bez SVG i bez skryptów. Na telefonie zwężają się do szerokości ekranu. Wklejasz je do narzędzia do wysyłki (np. jako własny szablon HTML) albo wysyłasz z Gmaila przez rozszerzenie obsługujące HTML. Podglądy pokazują maile wypełnione danymi z przykładów poniżej.
 
@@ -33,6 +36,15 @@ Przed pierwszą wysyłką wyślij każdy szablon do siebie i obejrzyj w Gmailu, 
 | `{INFO_O_DANYCH}` | Zdjęcie i dane dziecka usuniemy… | tylko mail 3, w liczbie pojedynczej lub mnogiej (zob. przykład) |
 | `{LINK_REGULAMIN}`, `{LINK_PRYWATNOSC}` | adresy stron | stopka |
 | `{EMAIL_KONTAKT}` | kontakt@… | stopka |
+| `{LINK_POTWIERDZENIA}` | link z narzędzia do maili | tylko zapisy 1; podwójne potwierdzenie adresu |
+| `{DATA_STARTU}` | 1 grudnia | zapisy 1 |
+| `{DATA_KONCA_RABATU}` | 7 grudnia | zapisy 1–3 |
+| `{KOD}` | ZAPIS-7KQ2 | zapisy 2–3; osobny kod dla każdego adresu |
+| `{LINK_ZAMOWIENIA}` | `https://[ADRES STRONY]/zamowienie.html?kod={KOD}` | zapisy 2–3; formularz wpisze kod sam |
+| `{OSTATNI_TERMIN}` | 20 grudnia | zapisy 2; ostatni dzień zamówień przed Wigilią |
+| `{LINK_WYPISANIA}` | link z narzędzia do maili | zapisy 2–3 |
+| `{ADRES_STRONY}` | adres strony | zapisy 1–2, stopka |
+| `{DANE_FIRMY}` | nazwa firmy i adres | stopka maili z listy zapisów (to wiadomości handlowe: nadawca musi być wskazany) |
 
 Dla rodzeństwa pisz w liczbie mnogiej, np. „czeka na Was”, „Zdjęcia i dane dzieci”.
 
@@ -225,4 +237,118 @@ Zespół Wiadomości od Mikołaja
 
 Zdjęcia i dane dzieci usuniemy 7 dni po wysłaniu tej wiadomości.
 Pobrany film zostaje u Ciebie.
+```
+
+---
+
+## Lista zapisów przed startem (kod −25%)
+
+Trzy wiadomości dla osób zapisanych na stronie `strona/zapisy.html`. Wysyła je narzędzie do maili, w którym jest lista zapisów (pola z nawiasów klamrowych zamień na znaczniki tego narzędzia). Kolejność:
+
+| Mail | Kiedy | Do kogo |
+|---|---|---|
+| Zapisy 1. Potwierdzenie zapisu | od razu po zapisie | każdy nowy adres; bez kliknięcia w link adres nie trafia na listę |
+| Zapisy 2. Start sprzedaży i kod | w dniu startu, rano | potwierdzone adresy |
+| Zapisy 3. Ostatni dzień rabatu | dzień przed końcem rabatu | tylko adresy, które jeszcze nie użyły kodu |
+
+Ceny z kodem są wpisane na stałe (36,75 zł i 48 zł przy cenie 49 zł i 15 zł za rodzeństwo). Jeśli zmienisz ceny, popraw je w mailach 2 i 3. Po końcu rabatu usuń z listy adresy osób, które nie złożyły zamówienia (tak obiecuje strona zapisów i polityka prywatności).
+
+### Zapisy 1. Potwierdzenie zapisu
+
+**Temat:** Potwierdź zapis i odbierz kod −25%
+**Podgląd:** Jedno kliknięcie, a w dniu startu dostaniesz kod rabatowy.
+
+```text
+Potwierdź swój adres
+
+Dzień dobry,
+
+dziękujemy za zapis! Kliknij przycisk poniżej, żebyśmy wiedzieli, że to Twój
+adres. Bez potwierdzenia nie możemy wysłać kodu rabatowego.
+
+[Potwierdzam zapis] {LINK_POTWIERDZENIA}
+
+Co dalej?
+{DATA_STARTU} wyślemy Ci osobisty kod −25% na pierwszy film od Mikołaja.
+Kod będzie ważny do {DATA_KONCA_RABATU}.
+
+Nikt z tego adresu się nie zapisywał? Zignoruj tę wiadomość. Bez kliknięcia
+nie wyślemy nic więcej.
+
+Ciepło pozdrawiamy,
+{PODPIS}
+
+Dostajesz tę wiadomość, bo ktoś wpisał ten adres w formularzu zapisu na stronie
+{ADRES_STRONY}. Film powstaje z pomocą narzędzi sztucznej inteligencji.
+```
+
+### Zapisy 2. Start sprzedaży i kod
+
+**Temat:** Startujemy! Twój kod −25% na film od Mikołaja
+**Podgląd:** Kod jest ważny do {DATA_KONCA_RABATU}. Link otworzy formularz z kodem.
+
+```text
+Mikołaj przyjmuje już zamówienia
+
+Dzień dobry,
+
+dziś ruszamy, a zapisane osoby dostają kod jako pierwsze. Mikołaj nagra film,
+w którym zwróci się do Twojego dziecka po imieniu, pochwali to, czego nauczyło
+się w tym roku, i pokaże jego zdjęcie w magicznej księdze.
+
+Twój kod: {KOD}
+−25% na całe pierwsze zamówienie · ważny do {DATA_KONCA_RABATU}
+
+Ile zapłacisz z kodem
+- Film dla jednego dziecka: 36,75 zł zamiast 49 zł
+- Wspólny film dla dwojga dzieci: 48 zł zamiast 64 zł
+
+[Zamów film z kodem] {LINK_ZAMOWIENIA}
+Kod wpisze się sam w podsumowaniu zamówienia.
+
+Jak to działa
+1. Opowiedz nam o dziecku: imię, wiek, zdjęcie i to, czym może się pochwalić.
+   Zajmie to około 5 minut.
+2. Zapłać BLIK-iem, kartą albo przez Przelewy24.
+3. Link do filmu dostaniesz mailem w ciągu 24 godzin.
+
+Zamów do {OSTATNI_TERMIN}, a film dotrze przed Wigilią.
+
+Ciepło pozdrawiamy,
+{PODPIS}
+
+Dostajesz tę wiadomość, bo ten adres został zapisany po kod rabatowy na stronie
+{ADRES_STRONY}. Nie chcesz więcej wiadomości? Wypisz się: {LINK_WYPISANIA}
+Film powstaje z pomocą narzędzi sztucznej inteligencji. Zdjęcie dziecka nie
+trafia do żadnego narzędzia AI.
+```
+
+### Zapisy 3. Ostatni dzień rabatu
+
+**Temat:** Twój kod −25% jest ważny jeszcze do jutra
+**Podgląd:** Zostały 24 godziny, żeby zamówić film od Mikołaja taniej.
+
+```text
+Kod jest ważny jeszcze do jutra
+
+Dzień dobry,
+
+przypominamy, że Twój kod −25% wygasa {DATA_KONCA_RABATU} o północy. Jeśli
+chcesz, żeby Mikołaj w tym roku powiedział coś osobiście do Twojego dziecka,
+to dobry moment.
+
+Twój kod: {KOD}
+36,75 zł za film dla jednego dziecka, 48 zł za wspólny film dla dwojga
+
+[Zamów film z kodem] {LINK_ZAMOWIENIA}
+Formularz zajmie około 5 minut. Link do filmu wyślemy w ciągu 24 godzin.
+
+Masz pytanie przed zamówieniem? Odpowiedz na tego maila, chętnie pomożemy.
+
+Ciepło pozdrawiamy,
+{PODPIS}
+
+To ostatnia wiadomość o rabacie. Po {DATA_KONCA_RABATU} usuniemy ten adres
+z listy zapisów. Nie chcesz czekać? Wypisz się teraz: {LINK_WYPISANIA}
+Film powstaje z pomocą narzędzi sztucznej inteligencji.
 ```

@@ -1,17 +1,19 @@
 # Strona sprzedażowa
 
-Kod HTML trzech stron z projektu na kanwie:
+Kod HTML stron z projektu na kanwie:
 
 | Plik | Strona |
 |---|---|
 | `index.html` | strona główna |
 | `zamowienie.html` | formularz zamówienia: dziecko, co powie Mikołaj, dane i zgody |
 | `potwierdzenie.html` | potwierdzenie po płatności |
+| `zapisy.html` | strona przed startem sprzedaży: zapis po kod −25% (`js/zapisy.js`), zwiastun, pytania o rabat |
 | `faq.html` | pytania rodziców z wyszukiwarką (`js/faq.js`) |
-| `regulamin.html` | układ regulaminu: spis treści, skrót, 10 paragrafów; treść od prawnika |
+| `regulamin.html`, `polityka-prywatnosci.html` | generowane z `../dokumenty/*.md` (zob. niżej) |
 | `404.html` | błędny adres i wygasły link do filmu |
 | `kontakt.html` | formularz kontaktowy (`js/kontakt.js`), adres e-mail z kopiowaniem, godziny, dane firmy |
 | `js/cookies.js` | baner zgody na cookies i okno ustawień, dołączony do wszystkich stron |
+| `_redirects` | przełącznik trybu przed startem (zob. niżej) |
 
 Strony są statyczne: czysty HTML, jeden arkusz `css/style.css` i trochę JavaScriptu bez bibliotek (`js/`). Działają na każdym hostingu plików, np. Netlify, Cloudflare Pages albo zwykłym serwerze.
 
@@ -23,6 +25,31 @@ python3 -m http.server 8000
 ```
 
 Potem otwórz http://localhost:8000. Formularz działa w **trybie pokazowym**: nic nie wysyła, tylko przechodzi do potwierdzenia z wpisanymi danymi.
+
+## Tryb przed startem sprzedaży
+
+Dopóki sprzedaż nie ruszy, domena pokazuje `zapisy.html`: rodzic zostawia e-mail i w dniu startu dostaje kod −25%. Przełącznikiem jest plik `_redirects` (Cloudflare Pages i Netlify go czytają): strona główna, formularz zamówienia i potwierdzenie przekierowują na `/zapisy` (kod 302, czyli tymczasowo).
+
+**W dniu startu:**
+1. usuń reguły z `_redirects` (albo cały plik) i wdróż stronę ponownie;
+2. sprawdź `https://[ADRES STRONY]/`: ma się otworzyć strona główna;
+3. wyślij zapisanym mail „Start sprzedaży i kod” (`../szablony/email_zapis_2_start.html`).
+
+**Po wdrożeniu sprawdź przekierowanie:** `curl -sI https://[ADRES STRONY]/` powinno zwrócić `302` i `location: /zapisy`. Reguły są zgodne ze składnią Cloudflare Pages, ale nie były jeszcze sprawdzone na prawdziwym hostingu. Na Netlify przekierowanie strony głównej działa dopiero z wymuszeniem (`302!`), bo istnieje plik `index.html`.
+
+**Formularz zapisu** ma atrybut `data-endpoint`. Pusty oznacza tryb pokazowy: po kliknięciu pokazuje się „Sprawdź skrzynkę”, ale adres nigdzie nie trafia. Podaj adres, który przyjmuje `POST` z JSON-em i odpowiada kodem 2xx:
+
+```json
+{"email": "anna@example.com", "zgoda": true, "zgoda_tresc": "Chcę dostać e-mail o starcie…", "zrodlo": "zapisy"}
+```
+
+Zwykle to mała funkcja serwera (np. Cloudflare Pages Functions), która dopisuje adres do listy w narzędziu do maili (MailerLite, Brevo) z **podwójnym potwierdzeniem**. Klucza API narzędzia nie wolno umieszczać w kodzie strony. Zapisz treść zgody i datę jako dowód zgody. Ukryte pole `strona_www` to pułapka na automaty: jeśli przyjdzie wypełnione, odrzuć zapis.
+
+**Kody rabatowe:** każda potwierdzona osoba dostaje osobny kod w formie `ZAPIS-XXXX`, ważny do `[DATA KOŃCA RABATU]`, działający raz (regulamin § 5 ust. 4). Link w mailu `zamowienie.html?kod=ZAPIS-XXXX` wpisuje kod w formularzu. Formularz ma atrybut `data-endpoint-kod`. Pusty oznacza tryb pokazowy: działa każdy kod w formie `ZAPIS-XXXX`. Podaj adres, który na `GET ?kod=…` odpowiada:
+- `{"ok": true, "rabat_procent": 25}`, gdy kod jest dobry;
+- `{"ok": false, "powod": "nieznany" | "wygasl" | "wykorzystany"}` w pozostałych przypadkach. Można też dodać własny `"komunikat"`.
+
+Zamówienie wysyła kod w polu `kod_rabatowy`. Serwer sprawdza go jeszcze raz i sam liczy kwotę (25% z 49 zł to 36,75 zł, z 64 zł to 48 zł). Kod oznacza jako wykorzystany dopiero po zaksięgowaniu płatności.
 
 ## Do uzupełnienia przed startem
 
@@ -37,6 +64,8 @@ Potem otwórz http://localhost:8000. Formularz działa w **trybie pokazowym**: n
 | Odpowiedzi do potwierdzenia | `faq.html`: `[DŁUGOŚĆ FILMU]`, faktura, czas odpowiedzi na maile, link ważny 60 dni |
 | Treść zgód | `zamowienie.html`: do sprawdzenia przez prawnika |
 | Kadr listy z imieniem | `index.html`, sekcja „Mikołaj zna szczegóły”: zamień makietę na kadr z filmu |
+| `[DATA STARTU]`, `[DATA KOŃCA RABATU]`, `[DŁUGOŚĆ FILMU]`, `[OSTATNI TERMIN ZAMÓWIEŃ]` | `zapisy.html`; te same daty w regulaminie (§ 5 ust. 4) i polityce prywatności (pkt 8) |
+| Zwiastun | `zapisy.html`: pliki `media/zwiastun.mp4` i `media/zwiastun.jpg` (kadr), `[DŁUGOŚĆ ZWIASTUNU]` |
 
 Ceny (49 zł i 15 zł za rodzeństwo) są w tekstach stron i w atrybutach formularza `data-cena-bazowa` i `data-cena-rodzenstwo`. Zmieniaj je w obu miejscach. Cenę, którą płaci klient, i tak musi wyliczyć serwer.
 
@@ -135,6 +164,8 @@ Teksty pochodzą z projektu, który powstał dla filmu z 6 scenami (2–3 minuty
 - czy nie zostały pozostałości z kanwy;
 - czy lokalne linki prowadzą do istniejących plików;
 - czy identyfikatory się nie powtarzają;
-- czy pola formularza zgadzają się z formatem zamówienia generatora.
+- czy pola formularza zgadzają się z formatem zamówienia generatora;
+- czy przekierowania w `_redirects` prowadzą do istniejących stron;
+- czy maile w `../szablony/` nie mają skryptów ani SVG i mają szerokość 600 px.
 
 **Regulamin i polityka prywatności** są generowane z plików `../dokumenty/regulamin.md` i `../dokumenty/polityka-prywatnosci.md`. Nie poprawiaj `regulamin.html`, `polityka-prywatnosci.html` ani PDF-ów w `pliki/` ręcznie. Zmień plik `.md` i uruchom z katalogu głównego `python dokumenty/zbuduj.py` (potrzebny pandoc, a do PDF LibreOffice). Skrypt robi też wersje `.docx` dla prawnika.
