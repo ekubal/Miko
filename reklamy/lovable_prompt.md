@@ -9,7 +9,7 @@ Prompty są po angielsku, tak jak inne prompty do narzędzi AI w tym projekcie. 
 1. W Lovable utwórz nowy projekt. W **Project Knowledge** wklej sekcję „Wiedza o projekcie” (na końcu tego pliku): Lovable będzie pamiętać zasady przy każdej kolejnej zmianie.
 2. Wklej **prompt 1**. Powstanie szkielet: marka, dwie pierwsze reklamy w trzech formatach Meta, wgrywanie kadrów i pobieranie PNG.
 3. Wgraj kadry z filmu do odpowiednich miejsc (lista niżej) i sprawdź wygląd.
-4. Po kolei wklej **prompt 2** (wszystkie koncepcje i formaty) i **prompt 3** (pakiet ZIP i arkusz tekstów). **Prompt 4** (klasyczne banery Google) jest opcjonalny.
+4. Po kolei wklej **prompt 2** (wszystkie koncepcje i formaty) i **prompt 3** (pakiet ZIP i arkusz tekstów). **Prompt 4** (klasyczne banery Google) jest opcjonalny. **Prompt 5** dodaje dwie reklamy na etap zapisów z planu kampanii.
 5. Uzupełnij zmienne ([DATA STARTU], [DATA KOŃCA RABATU], [OSTATNI TERMIN], [ADRES STRONY]) i pobierz pakiet.
 
 **Kadry do wgrania** (z `output/selected/` i `output/od_listu_do_san/wybrane/`; same kadry, bez napisów):
@@ -174,6 +174,17 @@ Google (responsive ads, campaign B):
 
 ```text
 Add classic Google Display banners for B1 and B5 in "noc" only: 300×250, 336×280, 728×90, 300×600 and 320×100. In banners up to 100 px high, show only the logo icon, the headline and the button, without the subline. Keep the 28 px minimum only for 1080-wide formats; in banners use at least 14 px. Add them to the ZIP under B_sprzedaz/google-banery/.
+```
+
+## Prompt 5: dodatkowe reklamy na etap zapisów
+
+Dwie koncepcje z planu kampanii (`reklamy/plan_kampanii_zapisy.md`): Mikołajki i odliczanie do startu.
+
+```text
+Add two concepts to campaign A "Przed startem" in src/data/pakiet.ts and the gallery. Use the Polish copy verbatim. Formats: meta-1x1, meta-4x5 and meta-9x16, each in "noc" and "papier". Button on image: „Zapisz się po kod −25%”.
+- A4 "Mikołajki" (slot sanie). Headline: „Film od Mikołaja zdąży na Mikołajki”. Subline: „Start [DATA STARTU], film w 24 godziny. Zapisani dostają kod −25%.” Add a small gold calendar-page element drawn in SVG/CSS with the number "6" and the word „grudnia” under it.
+- A5 "Odliczanie" (slot dom). Headline: „Start we wtorek”. Subline: „Ostatnie dni zapisów. Zostaw e-mail i odbierz kod −25%.” Make the headline extra large and add the round gold −25% badge.
+Include A4 and A5 in the ZIP under A_przed-startem/meta/ and in the Meta copy sheet with the same texts as A1–A3.
 ```
 
 ---

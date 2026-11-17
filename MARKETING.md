@@ -2,6 +2,8 @@
 
 19 paź 2026 · uzupełnienie do [MVP.md](MVP.md)
 
+Etap zapisów przed startem sprzedaży (kod −25%) ma osobny plan: [reklamy/plan_kampanii_zapisy.md](reklamy/plan_kampanii_zapisy.md).
+
 ## W skrócie
 
 - **Główny kanał: Meta (Facebook + Instagram), ok. 70% budżetu.** Tam są rodzice małych dzieci, a nasz produkt najlepiej sprzedaje się filmem, czyli formatem natywnym dla Reels.
