@@ -1,8 +1,10 @@
-"""Cienki klient REST ElevenLabs: Voice Design, zapis głosu, TTS i muzyka."""
+"""Cienki klient REST ElevenLabs: Voice Design, zapis głosu, TTS, zamiana głosu (STS) i muzyka."""
 
 import json
+import mimetypes
 import os
 import sys
+from pathlib import Path
 
 import requests
 
@@ -24,6 +26,17 @@ def _post(path: str, payload: dict, params: dict | None = None) -> requests.Resp
     return response
 
 
+def _post_form(path: str, data: dict, files: dict, params: dict | None = None) -> requests.Response:
+    # Wysyłka pliku (multipart): bez nagłówka JSON, requests sam ustawia granice formularza.
+    headers = {"xi-api-key": config.require_env("ELEVENLABS_API_KEY")}
+    response = requests.post(
+        f"{config.ELEVEN_API_URL}{path}", headers=headers, data=data, files=files, params=params, timeout=TIMEOUT
+    )
+    if not response.ok:
+        raise RuntimeError(f"ElevenLabs {path}: HTTP {response.status_code}: {response.text[:500]}")
+    return response
+
+
 def design_voice(description: str, sample_text: str) -> list[dict]:
     """Zwraca listę podglądów: {generated_voice_id, audio_base_64, ...}."""
     payload = {"voice_description": description, "model_id": config.ELEVEN_VOICE_DESIGN_MODEL, "text": sample_text}
@@ -35,10 +48,29 @@ def create_voice(name: str, description: str, generated_voice_id: str) -> str:
     return _post("/v1/text-to-voice", payload).json()["voice_id"]
 
 
-def text_to_speech(text: str, voice_id: str, settings: dict) -> bytes:
-    payload = {"text": text, "model_id": config.ELEVEN_TTS_MODEL, "voice_settings": settings}
+def text_to_speech(text: str, voice_id: str, settings: dict, model: str | None = None,
+                   language_code: str | None = None) -> bytes:
+    """Tekst na mowę. language_code (np. "pl") wymusza język; obsługują go tylko niektóre modele."""
+    payload = {"text": text, "model_id": model or config.ELEVEN_TTS_MODEL, "voice_settings": settings}
+    if language_code:
+        payload["language_code"] = language_code
     return _post(
         f"/v1/text-to-speech/{voice_id}", payload, params={"output_format": config.ELEVEN_OUTPUT_FORMAT}
+    ).content
+
+
+def speech_to_speech(audio: Path, voice_id: str, settings: dict, model: str,
+                     remove_background_noise: bool = False) -> bytes:
+    """Zamiana głosu: nagranie człowieka -> ten sam tekst i intonacja, głosem `voice_id`."""
+    mime = mimetypes.guess_type(audio.name)[0] or "audio/mpeg"
+    data = {
+        "model_id": model,
+        "voice_settings": json.dumps(settings),
+        "remove_background_noise": "true" if remove_background_noise else "false",
+    }
+    files = {"audio": (audio.name, audio.read_bytes(), mime)}
+    return _post_form(
+        f"/v1/speech-to-speech/{voice_id}", data, files, params={"output_format": config.ELEVEN_OUTPUT_FORMAT}
     ).content
 
 

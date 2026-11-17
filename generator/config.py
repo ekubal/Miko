@@ -51,6 +51,10 @@ ELEVEN_API_URL = os.environ.get("ELEVENLABS_API_URL", "https://api.elevenlabs.io
 ELEVEN_TTS_MODEL = os.environ.get("ELEVENLABS_TTS_MODEL", "eleven_multilingual_v2")
 ELEVEN_VOICE_DESIGN_MODEL = os.environ.get("ELEVENLABS_VOICE_DESIGN_MODEL", "eleven_multilingual_ttv_v2")
 ELEVEN_OUTPUT_FORMAT = os.environ.get("ELEVENLABS_OUTPUT_FORMAT", "mp3_44100_128")
+# Zestaw ustawień głosu (model, stabilność, tempo…) z generator/audio.py PRESETS; porównanie: `audio probki`.
+ELEVEN_PRESET = os.environ.get("ELEVENLABS_PRESET", "obecny")
+# Model zamiany głosu (speech-to-speech): nagranie człowieka czytane głosem Mikołaja.
+ELEVEN_STS_MODEL = os.environ.get("ELEVENLABS_STS_MODEL", "eleven_multilingual_sts_v2")
 
 
 def require_env(*names: str) -> str:

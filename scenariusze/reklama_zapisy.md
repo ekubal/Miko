@@ -100,6 +100,11 @@ Polecenia uruchamiamy z katalogu głównego repozytorium. Wyniki trafiają do `o
    python -m generator.scenariusze -s reklama_zapisy_poziomo kwestie --only w2_1 w2_2 w2_3 w2_4 w2_5
    ```
    `w2_1` („Halo? Czy to już nagrywa?”) ma brzmieć niepewnie, jak pytanie do elfa: jeśli wyjdzie zbyt uroczyście, nagraj je ponownie (`--only w2_1 --force`).
+
+   **Jeśli głos brzmi sztucznie,** najpierw porównaj zestawy ustawień i głosy (`python -m generator.audio probki`, opis w README, rozdział 6.3). W reklamie liczy się wyczucie żartu, więc najpewniejsza jest przemiana nagrania człowieka:
+   - ktoś z dobrą dykcją nagrywa telefonem 5 kwestii wariantu 2, z pauzami i humorem;
+   - `python -m generator.audio przemiana w2_1.m4a -o output/reklama_zapisy_poziomo/glos/w2_1.mp3` (i tak dalej dla każdej kwestii);
+   - intonację i polski akcent model bierze z nagrania, a barwę z głosu Mikołaja.
 5. **HeyGen** (Avatar IV, format 16:9): dwa klipy z kadru `w2_mowi`, jeden z nagraniem `w2_2`, drugi z `w2_4`. Opis ruchu jest w pliku z promptami. (W innych wariantach: W1 `w1_1`, `w1_3`, `w1_5`; W3 `w3_2`, `w3_4`.)
 6. **Montaż** (np. CapCut albo DaVinci Resolve, 1920×1080, 30 kl./s):
    - ujęcia według tabel, głos zza kadru pod klipy;

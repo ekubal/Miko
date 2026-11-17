@@ -254,7 +254,7 @@ def cmd_kwestie(sc, args):
         if out.exists() and not args.force:
             print(f"  = {rel(out)} (istnieje, użyj --force)")
             continue
-        speak(lines[key]["tekst"], out)
+        speak(lines[key]["tekst"], out, preset=args.preset)
 
 
 def cmd_wybierz_wideo(sc, args):
@@ -321,6 +321,7 @@ def main(argv=None):
     p = sub.add_parser("kwestie", help="nagraj kwestie Mikołaja scenariusza (ElevenLabs), np. dla reklama_zapisy_poziomo")
     p.add_argument("--only", nargs="+", choices=list(getattr(sc, "KWESTIE", {})) or None)
     p.add_argument("--force", action="store_true", help="nadpisz istniejące nagrania")
+    p.add_argument("--preset", help="zestaw ustawień głosu z generator/audio.py (domyślnie ELEVENLABS_PRESET)")
     p.set_defaults(func=cmd_kwestie)
 
     args = parser.parse_args(argv)

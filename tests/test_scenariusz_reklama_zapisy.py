@@ -100,6 +100,6 @@ def test_generate_passes_reference_list_and_aspect(monkeypatch, tmp_path):
 def test_voice_lines_go_to_own_folder(monkeypatch, tmp_path):
     recorded = []
     monkeypatch.setattr(config, "OUTPUT_DIR", tmp_path)
-    monkeypatch.setattr("generator.audio.speak", lambda text, out: recorded.append(out))
-    cli.cmd_kwestie(sc, SimpleNamespace(only=["w1_2"], force=False))
+    monkeypatch.setattr("generator.audio.speak", lambda text, out, **kw: recorded.append(out))
+    cli.cmd_kwestie(sc, SimpleNamespace(only=["w1_2"], force=False, preset=None))
     assert recorded == [tmp_path / sc.NAME / "glos" / "w1_2.mp3"]

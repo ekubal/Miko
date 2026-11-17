@@ -420,6 +420,14 @@ VOICE_SAMPLE_TEXT = (
     "doczekać Wigilii. Usiądź wygodnie, bo mam dla ciebie wiadomość."
 )
 
+# Tekst do porównania ustawień głosu (`audio probki`): pytanie, śmiech, powitanie i ciepłe zdanie,
+# żeby było słychać intonację, a nie tylko barwę.
+VOICE_TEST_TEXT = (
+    "Halo? Czy to już nagrywa? Ho, ho, ho! Dzień dobry, drodzy rodzice! W tym roku nagram dla Waszego "
+    "dziecka osobistą wiadomość. Powiem do niego po imieniu i pochwalę za to, czego się nauczyło. "
+    "A teraz… jak to się wyłącza?"
+)
+
 MUSIC_PROMPT = (
     "Gentle, warm instrumental Christmas underscore for a children's video. "
     "Soft orchestral strings, celesta, sleigh bells and light piano, magical and cozy, "
