@@ -76,6 +76,28 @@ Dwa ujęcia pokazują, co dostaje dziecko, i są w każdym wariancie:
 
 ---
 
+## Wersja pozioma (16:9)
+
+Ten sam film w poziomie (1920×1080): na YouTube i do reklam Google, na stronę zapisów (miejsce na film 16:9 w sekcji „Zwiastun”) i do reklam w filmach na Facebooku. Na telefonach w Reels i Stories lepiej działa pion, więc wersja pozioma go uzupełnia, a nie zastępuje.
+
+- **Bez zmian:** warianty, ujęcia, kolejność i czasy z tabel powyżej. Kwestie i nagrania głosu też są te same, więc nie nagrywamy ich drugi raz. Ujęcia mają te same nazwy, także `ksiega_pion` i `lista_pion`.
+- **Kadry:** generujemy od nowa w 16:9 z tych samych opisów scen. **Zatwierdzony kadr pionowy idzie jako dodatkowy obraz wzorcowy**, więc wersja pozioma zachowuje światło, rekwizyty i pozę Mikołaja z pionu, a model tylko rozszerza scenę na boki. Dlatego najpierw zatwierdzamy kadry pionowe, potem robimy poziome.
+- **Kompozycja:** postać trochę z boku kadru, spokojne tło po drugiej stronie i na dole kadru na napisy.
+- **HeyGen:** nowe klipy z poziomych kadrów `w*_mowi` (format 16:9), z tymi samymi nagraniami głosu co w pionie.
+- **Napisy:** w dolnej części kadru, wyśrodkowane, najwyżej 2 linie, ok. 48 px, co najmniej 60 px od krawędzi.
+- **Plansza końcowa:** logo po lewej, po prawej „Zapisz się po kod −25%”, „Start zamówień: 25 listopada” i „[ADRES STRONY]/zapisy”.
+
+```bash
+python -m generator.scenariusze -s reklama_zapisy_poziomo lista
+python -m generator.scenariusze -s reklama_zapisy_poziomo kadry --only w1_mowi -n 3   # najpierw wariant 1
+python -m generator.scenariusze -s reklama_zapisy_poziomo wybierz w1_mowi 2
+python -m generator.scenariusze -s reklama_zapisy_poziomo wideo --only w1_elf w1_ciii ksiega_pion lista_pion -n 2
+```
+
+Wariant 1 w poziomie potrzebuje 5 kadrów: `w1_mowi` (HeyGen), `w1_elf`, `w1_ciii`, `ksiega_pion` i `lista_pion`. Wyniki są w `output/reklama_zapisy_poziomo/`. Prompty: [`reklama_zapisy_poziomo_prompty.md`](reklama_zapisy_poziomo_prompty.md).
+
+---
+
 ## Produkcja
 
 Polecenia uruchamiamy z katalogu głównego repozytorium. Wyniki trafiają do `output/reklama_zapisy/`.

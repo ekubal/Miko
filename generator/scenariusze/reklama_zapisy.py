@@ -270,23 +270,20 @@ KWESTIE: dict[str, dict] = {
 
 BASE_NO_SANTA = """\
 Scene: {scene}
-Warm cinematic lighting, photorealistic, {vertical}.
+Warm cinematic lighting, photorealistic, {frame}.
 No children appear in the image; every person in it is an adult.
 No brand logos, no text, no letters anywhere in the image."""
 
 
-def _vertical(prompt: str) -> str:
-    # Wspólne zasady kadru (prompts.SCENE_RULES) mówią o 16:9; tu kadr jest pionowy.
-    return prompt.replace("photorealistic, 16:9.", f"photorealistic, {VERTICAL}.")
-
-
-def frame_prompt(key: str, with_platek_reference: bool = True) -> str:
-    """Prompt kadru startowego ujęcia (Nano Banana Pro), pionowy 9:16."""
+def build_frame_prompt(key: str, frame: str, with_platek_reference: bool = True) -> str:
+    """Prompt kadru ujęcia z opisem formatu `frame` (pion tutaj, poziom w reklama_zapisy_poziomo)."""
     shot = SHOTS[key]
     if shot.get("santa", True):
-        prompt = _vertical(prompts.SCENE_PROMPT.format(scene=shot["scene"]))
+        # Wspólne zasady kadru (prompts.SCENE_RULES) mówią o 16:9; podmieniamy na opis formatu reklamy.
+        prompt = prompts.SCENE_PROMPT.format(scene=shot["scene"]).replace(
+            "photorealistic, 16:9.", f"photorealistic, {frame}.")
     else:
-        prompt = BASE_NO_SANTA.format(scene=shot["scene"], vertical=VERTICAL)
+        prompt = BASE_NO_SANTA.format(scene=shot["scene"], frame=frame)
     if shot.get("elves"):
         prompt += "\n" + prompts.ELVES_DESCRIPTION
     if shot.get("platek"):
@@ -294,6 +291,11 @@ def frame_prompt(key: str, with_platek_reference: bool = True) -> str:
             prompt += "\n" + od_listu_do_san.PLATEK_REFERENCE_NOTE
         prompt += "\n" + od_listu_do_san.PLATEK_DESCRIPTION
     return prompt
+
+
+def frame_prompt(key: str, with_platek_reference: bool = True) -> str:
+    """Prompt kadru startowego ujęcia (Nano Banana Pro), pionowy 9:16."""
+    return build_frame_prompt(key, VERTICAL, with_platek_reference)
 
 
 def motion_prompt(key: str, seconds) -> str:

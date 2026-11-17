@@ -2,7 +2,7 @@
 
 Wygenerowane z `generator/scenariusze/od_listu_do_san.py` poleceniem `python -m generator.scenariusze opis`. Nie edytuj ręcznie: zmieniaj moduł i wygeneruj plik ponownie.
 
-Scenariusz: [`scenariusze/4_od_listu_do_san.md`](../4_od_listu_do_san.md). Kadry: Nano Banana Pro z portretem Mikołaja (i portretem Płatka) jako obrazami wzorcowymi. Klipy: Gemini Omni Flash, kadr jako pierwsza klatka.
+Scenariusz: [`scenariusze/4_od_listu_do_san.md`](4_od_listu_do_san.md). Kadry: Nano Banana Pro z portretem Mikołaja (i portretem Płatka) jako obrazami wzorcowymi. Klipy: Gemini Omni Flash, kadr jako pierwsza klatka.
 
 ## Postacie
 

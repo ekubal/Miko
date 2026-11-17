@@ -2,7 +2,7 @@
 
 Wygenerowane z `generator/scenariusze/reklama_zapisy.py` poleceniem `python -m generator.scenariusze -s reklama_zapisy opis`. Nie edytuj ręcznie: zmieniaj moduł i wygeneruj plik ponownie.
 
-Scenariusz: [`scenariusze/reklama_zapisy.md`](../reklama_zapisy.md). Kadry: Nano Banana Pro z portretem Mikołaja (i portretem Płatka) jako obrazami wzorcowymi. Klipy: Gemini Omni Flash, kadr jako pierwsza klatka.
+Scenariusz: [`scenariusze/reklama_zapisy.md`](reklama_zapisy.md). Kadry: Nano Banana Pro z portretem Mikołaja (i portretem Płatka) jako obrazami wzorcowymi. Klipy: Gemini Omni Flash, kadr jako pierwsza klatka.
 
 Format kadrów i klipów: 9:16.
 

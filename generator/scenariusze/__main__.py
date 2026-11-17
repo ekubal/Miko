@@ -67,7 +67,7 @@ def render_markdown(sc, seconds: int = 8) -> str:
         f"`python -m generator.scenariusze {option(sc)}opis`. Nie edytuj ręcznie: zmieniaj moduł i wygeneruj "
         "plik ponownie.",
         "",
-        f"Scenariusz: [`{sc.DOC}`](../{sc.DOC.split('/', 1)[1]}). Kadry: Nano Banana Pro z portretem Mikołaja "
+        f"Scenariusz: [`{sc.DOC}`]({Path(sc.DOC).name}). Kadry: Nano Banana Pro z portretem Mikołaja "
         "(i portretem Płatka) jako obrazami wzorcowymi. Klipy: Gemini Omni Flash, kadr jako pierwsza klatka.",
         "",
     ]
@@ -90,6 +90,8 @@ def render_markdown(sc, seconds: int = 8) -> str:
         refs = ["portret Mikołaja"] if shot.get("santa", True) else []
         if shot.get("platek"):
             refs.append("portret Płatka")
+        if hasattr(sc, "extra_references"):
+            refs.append("zatwierdzony kadr pionowy, jeśli jest")
         lines += [f"Obrazy wzorcowe: {', '.join(refs) or 'brak'}.", "", "**Kadr:**", "", "```",
                   sc.frame_prompt(key), "```", ""]
         if shot.get("wideo", True):
@@ -118,6 +120,8 @@ def render_markdown(sc, seconds: int = 8) -> str:
 
 
 def prompts_doc_path(sc) -> Path:
+    if hasattr(sc, "PROMPTY"):
+        return config.ROOT / sc.PROMPTY
     stem = Path(sc.DOC).stem
     return config.ROOT / "scenariusze" / f"{stem}_prompty.md"
 
@@ -193,7 +197,16 @@ def cmd_kadry(sc, args):
             else:
                 print(f"! [{key}] brak wybranego portretu Płatka: jego wygląd może się różnić między ujęciami.\n"
                       "  Najpierw: postacie, potem: wybierz platek N")
-        generate(sc, key, sc.frame_prompt(key, platek in refs), "kadry", refs, args)
+        if hasattr(sc, "extra_references"):
+            # Np. wersja pozioma reklamy: zatwierdzony kadr pionowy jako ostatni obraz wzorcowy.
+            extra = sc.extra_references(key)
+            if not extra:
+                print(f"! [{key}] brak zatwierdzonego kadru pionowego: kadr poziomy może wyglądać inaczej.")
+            refs += extra
+            prompt = sc.frame_prompt(key, platek in refs, bool(extra))
+        else:
+            prompt = sc.frame_prompt(key, platek in refs)
+        generate(sc, key, prompt, "kadry", refs, args)
 
 
 def cmd_szablony(sc, args):
@@ -249,8 +262,10 @@ def cmd_kwestie(sc, args):
     lines = getattr(sc, "KWESTIE", {})
     if not lines:
         sys.exit(f"Scenariusz {sc.NAME} nie ma kwestii do nagrania (kwestie wspólne: python -m generator.audio lines).")
+    # Scenariusz może dzielić nagrania z innym (GLOS_FROM), np. wersja pozioma z pionową.
+    target = get(getattr(sc, "GLOS_FROM", sc.NAME))
     for key in args.only or list(lines):
-        out = out_dir(sc) / "glos" / f"{key}.mp3"
+        out = out_dir(target) / "glos" / f"{key}.mp3"
         if out.exists() and not args.force:
             print(f"  = {rel(out)} (istnieje, użyj --force)")
             continue

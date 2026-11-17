@@ -2,14 +2,17 @@
 
 Wersja krótka korzysta z generator/prompts.py (SCENES, TEMPLATES). Długie scenariusze mają
 własne ujęcia, postacie i szablony w tym katalogu. Tu jest też film reklamowy zapisów
-(reklama_zapisy: pionowy, trzy warianty). Wszystkie obsługuje polecenie:
+(reklama_zapisy: pionowy, trzy warianty; reklama_zapisy_poziomo: to samo w 16:9).
+Wszystkie obsługuje polecenie:
 
     python -m generator.scenariusze --help
 """
 
-from . import od_listu_do_san, reklama_zapisy
+from . import od_listu_do_san, reklama_zapisy, reklama_zapisy_poziomo
 
-SCENARIUSZE = {od_listu_do_san.NAME: od_listu_do_san, reklama_zapisy.NAME: reklama_zapisy}
+SCENARIUSZE = {
+    module.NAME: module for module in (od_listu_do_san, reklama_zapisy, reklama_zapisy_poziomo)
+}
 
 
 def get(name: str):
