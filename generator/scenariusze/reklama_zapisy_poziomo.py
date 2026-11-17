@@ -69,7 +69,8 @@ SHOTS: dict[str, dict] = {
         "eyes, then glances up warmly towards the camera. Santa stays in the frame the whole time and the "
         "golden frame on the page stays empty",
         "camera": STATIC,
-        "sekundy": 6,
+        # Księga i lista razem 14 s: tyle trwa kwestia w2_3; w innych wariantach montaż je skraca.
+        "sekundy": 8,
     },
     "lista": {
         "scena": "wspolne",
@@ -82,7 +83,7 @@ SHOTS: dict[str, dict] = {
         "leaves a neat round red wax seal with a star; a few golden sparkles twinkle above the list. The "
         "parchment stays blank",
         "camera": STATIC,
-        "sekundy": 5,
+        "sekundy": 6,
     },
     # --- wariant 1: „Tajna narada” ---------------------------------------------------------
     "w1_mowi": {

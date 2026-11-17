@@ -465,8 +465,8 @@ Wyniki: `output/od_listu_do_san/{postacie,kadry,szablony,wideo}/`, zatwierdzone 
 **Film reklamowy zapisów** (`reklama_zapisy_poziomo.py`, scenariusz w `scenariusze/reklama_zapisy.md`) to trzy warianty w poziomie (16:9), w których Mikołaj mówi do rodziców o starcie zamówień i kodzie −25%. Działa tak samo, z przełącznikiem `-s reklama_zapisy_poziomo`. Polecenie `kwestie` nagrywa jego kwestie głosem Mikołaja do `output/reklama_zapisy_poziomo/glos/`:
 
 ```bash
-python -m generator.scenariusze -s reklama_zapisy_poziomo kadry --only w1_mowi -n 3
-python -m generator.scenariusze -s reklama_zapisy_poziomo kwestie
+python -m generator.scenariusze -s reklama_zapisy_poziomo kadry --only w2_za_blisko w2_elf w2_mowi w2_wylacz ksiega lista -n 3
+python -m generator.scenariusze -s reklama_zapisy_poziomo kwestie --only w2_1 w2_2 w2_3 w2_4 w2_5
 ```
 
 ### 6.8 Testy innych modeli wideo (`testy_fal`)

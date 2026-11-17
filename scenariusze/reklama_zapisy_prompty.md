@@ -23,13 +23,13 @@ No children appear in the image; every person in it is an adult.
 No brand logos, no text, no letters anywhere in the image.
 ```
 
-**Ruch (6 s):**
+**Ruch (8 s):**
 
 ```
 In a single continuous shot, no scene cuts. Static camera, no zoom, no push-in, no camera movement; only the characters move. Santa turns a page of the golden book with one hand; the empty golden frame on the new page starts to glow brighter and golden sparkles rise from it. Santa looks at the page and smiles with his eyes, then glances up warmly towards the camera. Santa stays in the frame the whole time and the golden frame on the page stays empty.
 Calm, magical Christmas atmosphere, soft ambient sounds only (crackling fire,
 sleigh bells far away). No dialogue, nobody speaks, no lip movement, no music,
-no text, no logos. 6 seconds.
+no text, no logos. 8 seconds.
 ```
 
 ### `lista`: Mikołaj przybija czerwoną pieczęć na liście grzecznych dzieci (puste linie: imię dodaje montaż)
@@ -49,13 +49,13 @@ No children appear in the image; every person in it is an adult.
 No brand logos, no text, no letters anywhere in the image.
 ```
 
-**Ruch (5 s):**
+**Ruch (6 s):**
 
 ```
 In a single continuous shot, no scene cuts. Static camera, no zoom, no push-in, no camera movement; only the characters move. Santa's hand presses the brass seal onto a blob of red wax on the parchment, lifts it and leaves a neat round red wax seal with a star; a few golden sparkles twinkle above the list. The parchment stays blank.
 Calm, magical Christmas atmosphere, soft ambient sounds only (crackling fire,
 sleigh bells far away). No dialogue, nobody speaks, no lip movement, no music,
-no text, no logos. 5 seconds.
+no text, no logos. 6 seconds.
 ```
 
 ## Wariant 1 „Tajna narada”

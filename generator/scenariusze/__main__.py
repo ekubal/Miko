@@ -13,8 +13,8 @@ Przykłady (scenariusz domyślny: od_listu_do_san):
 
 Reklama zapisów (16:9, trzy warianty, głos Mikołaja do rodziców):
     python -m generator.scenariusze -s reklama_zapisy_poziomo lista
-    python -m generator.scenariusze -s reklama_zapisy_poziomo kadry --only w1_mowi -n 3
-    python -m generator.scenariusze -s reklama_zapisy_poziomo kwestie --only w1_1 w1_2
+    python -m generator.scenariusze -s reklama_zapisy_poziomo kadry --only w2_mowi -n 3
+    python -m generator.scenariusze -s reklama_zapisy_poziomo kwestie --only w2_1 w2_2
 
 Wyniki: output/<scenariusz>/{postacie,kadry,szablony,wideo,glos}/, zatwierdzone w output/<scenariusz>/wybrane/.
 Ujęcia z wersji krótkiej („reuse”) biorą pliki z output/selected/.
