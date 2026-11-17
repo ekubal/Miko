@@ -1,10 +1,10 @@
-"""Reklama zapisów (scenariusze/reklama_zapisy.md): zasady produkcji, kwestie i zgodność plików."""
+"""Reklama zapisów 16:9 (scenariusze/reklama_zapisy.md): zasady produkcji, kwestie i zgodność plików."""
 
 import re
 from types import SimpleNamespace
 
 from generator import config
-from generator.scenariusze import reklama_zapisy as sc
+from generator.scenariusze import reklama_zapisy_poziomo as sc
 from generator.scenariusze import __main__ as cli
 from generator.scenariusze.__main__ import prompts_doc_path, render_markdown
 
@@ -22,10 +22,10 @@ def test_every_shot_has_a_titled_scene_and_each_variant_exists():
         assert variant_lines(variant), variant
 
 
-def test_frames_are_vertical_and_follow_production_rules():
+def test_frames_are_horizontal_and_follow_production_rules():
     for key, shot in sc.SHOTS.items():
         frame = sc.frame_prompt(key)
-        assert "16:9" not in frame and "vertical 9:16" in frame, key
+        assert "horizontal 16:9" in frame and "vertical" not in frame, key
         assert "{" not in frame and "}" not in frame, key
         assert "No children" in frame and "no text" in frame.lower(), key
         if shot.get("wideo", True):
@@ -77,7 +77,7 @@ def test_scenario_document_contains_every_line():
 
 
 def test_prompts_document_is_up_to_date():
-    # Po zmianie promptów: python -m generator.scenariusze -s reklama_zapisy opis
+    # Po zmianie promptów: python -m generator.scenariusze -s reklama_zapisy_poziomo opis
     assert prompts_doc_path(sc).read_text(encoding="utf-8") == render_markdown(sc)
 
 
@@ -93,5 +93,13 @@ def test_generate_passes_reference_list_and_aspect(monkeypatch, tmp_path):
     monkeypatch.setattr("generator.common.google_client", lambda: object())
     monkeypatch.setattr("generator.images.generate_image", fake_generate_image)
     cli.generate(sc, "w1_elf", sc.frame_prompt("w1_elf"), "kadry", [], SimpleNamespace(count=1, size="1K"))
-    assert calls == [([], "9:16")]
+    assert calls == [([], "16:9")]
     assert (tmp_path / sc.NAME / "kadry" / "w1_elf_01.png").read_bytes() == b"png"
+
+
+def test_voice_lines_go_to_own_folder(monkeypatch, tmp_path):
+    recorded = []
+    monkeypatch.setattr(config, "OUTPUT_DIR", tmp_path)
+    monkeypatch.setattr("generator.audio.speak", lambda text, out: recorded.append(out))
+    cli.cmd_kwestie(sc, SimpleNamespace(only=["w1_2"], force=False))
+    assert recorded == [tmp_path / sc.NAME / "glos" / "w1_2.mp3"]

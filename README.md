@@ -462,11 +462,11 @@ python -m generator.scenariusze opis                       # odśwież plik z pr
 
 Wyniki: `output/od_listu_do_san/{postacie,kadry,szablony,wideo}/`, zatwierdzone w `output/od_listu_do_san/wybrane/`. Ujęcie `kula_heygen` to tylko kadr: obraz wejściowy dla mówiącego Mikołaja w HeyGen.
 
-**Film reklamowy zapisów** (`reklama_zapisy.py`, scenariusz w `scenariusze/reklama_zapisy.md`) to trzy pionowe warianty (9:16), w których Mikołaj mówi do rodziców o starcie zamówień i kodzie −25%. Działa tak samo, z przełącznikiem `-s reklama_zapisy`. Polecenie `kwestie` nagrywa jego kwestie głosem Mikołaja do `output/reklama_zapisy/glos/`. Wersja pozioma 16:9 to `-s reklama_zapisy_poziomo`: te same ujęcia i nagrania, a zatwierdzony kadr pionowy idzie jako wzór do kadru poziomego.
+**Film reklamowy zapisów** (`reklama_zapisy_poziomo.py`, scenariusz w `scenariusze/reklama_zapisy.md`) to trzy warianty w poziomie (16:9), w których Mikołaj mówi do rodziców o starcie zamówień i kodzie −25%. Działa tak samo, z przełącznikiem `-s reklama_zapisy_poziomo`. Polecenie `kwestie` nagrywa jego kwestie głosem Mikołaja do `output/reklama_zapisy_poziomo/glos/`:
 
 ```bash
-python -m generator.scenariusze -s reklama_zapisy kadry -n 3
-python -m generator.scenariusze -s reklama_zapisy kwestie
+python -m generator.scenariusze -s reklama_zapisy_poziomo kadry --only w1_mowi -n 3
+python -m generator.scenariusze -s reklama_zapisy_poziomo kwestie
 ```
 
 ### 6.8 Testy innych modeli wideo (`testy_fal`)

@@ -41,7 +41,7 @@ def generate_clip(client, prompt: str, frame_file, resolution: str, duration: in
                   aspect_ratio: str = "16:9") -> None:
     """Jedno wywołanie Interactions API: kadr jako pierwsza klatka + prompt ruchu -> plik MP4.
 
-    aspect_ratio: "16:9" dla filmu, "9:16" dla pionowych reklam (scenariusz reklama_zapisy).
+    aspect_ratio: format klipu; scenariusz może podać własny (ASPECT w module scenariusza).
     """
     started = time.time()
     interaction = with_retry(

@@ -2,18 +2,18 @@
 
 Film reklamowy na etap zapisów przed startem sprzedaży, w trzech wariantach do testu. Mikołaj mówi do rodziców, wyjaśnia, co zamawiają, podaje datę startu zamówień (**środa, 25 listopada**) i zachęca do zapisu po kod −25%. Każdy wariant ma inny żart.
 
-Wszystkie prompty (kadry, ruch, HeyGen) i kwestie są w `generator/scenariusze/reklama_zapisy.py`. Czytelna kopia, generowana z modułu: [`reklama_zapisy_prompty.md`](reklama_zapisy_prompty.md).
+Wszystkie prompty (kadry, ruch, HeyGen) i kwestie są w `generator/scenariusze/reklama_zapisy_poziomo.py`. Czytelna kopia, generowana z modułu: [`reklama_zapisy_prompty.md`](reklama_zapisy_prompty.md).
 
 ## Wspólne zasady
 
-- **Format:** pion 9:16 (1080×1920) do Reels, Stories i TikToka; wersja 4:5 (1080×1350) do aktualności powstaje w montażu przez przycięcie. Długość 40–50 s, do tego skrót ok. 20 s.
+- **Format:** poziom 16:9 (1920×1080): YouTube i reklamy Google, strona zapisów (miejsce na film 16:9 w sekcji „Zwiastun”), aktualności i reklamy w filmach na Facebooku. Długość 40–50 s, do tego skrót ok. 20 s. Kompozycja: postać trochę z boku kadru, spokojne tło po drugiej stronie i na dole kadru na napisy.
 - **Mikołaj jest prawdziwy.** Mówi do rodziców jak do wspólników w świątecznej tajemnicy. Dziecko, które zerknie na telefon, zobaczy Mikołaja, który szykuje dla niego niespodziankę. Bez słów „film AI”, „generowany”, „aktor”.
 - **Bez dzieci w kadrach.** Elfy są dorosłe. Księga pokazuje pustą, świecącą złotą ramkę, a na liście montaż dopisuje odręcznie „Imię Twojego dziecka”, bez prawdziwego imienia i zdjęcia.
 - **Mikołaj mówi w liczbie mnogiej („Wy”, „Wasze dziecko”)**, bez form zależnych od płci rodzica i dziecka.
 - **Bez napisów w generowanych kadrach.** Napisy, planszę końcową i imię na liście dodaje montaż.
 - **Rabat zawsze jako kod dla zapisanych**, bez przekreślonych cen.
-- **Napisy na ekranie przez cały film** (większość ogląda bez dźwięku): pełny tekst kwestii plus 2–3 wyróżnione hasła. Font Nunito Sans pogrubiony, ok. 60 px, kremowy na półprzezroczystym granatowym tle. Napisy trzymamy poza górnymi 270 px i dolnymi 380 px kadru, bo tam są przyciski aplikacji.
-- **Plansza końcowa (3 s, w każdym wariancie):** logo (płatek śniegu i „Wiadomość od Mikołaja”), „Zapisz się po kod −25%”, „Start zamówień: 25 listopada”, „[ADRES STRONY]/zapisy”. Granatowe tło, złote akcenty, padający śnieg.
+- **Napisy na ekranie przez cały film** (wiele osób ogląda bez dźwięku): pełny tekst kwestii plus 2–3 wyróżnione hasła. Font Nunito Sans pogrubiony, ok. 48 px, kremowy na półprzezroczystym granatowym tle, w dolnej części kadru, wyśrodkowane, najwyżej 2 linie, co najmniej 60 px od krawędzi.
+- **Plansza końcowa (3 s, w każdym wariancie):** po lewej logo (płatek śniegu i „Wiadomość od Mikołaja”), po prawej „Zapisz się po kod −25%”, „Start zamówień: 25 listopada” i „[ADRES STRONY]/zapisy”. Granatowe tło, złote akcenty, padający śnieg.
 - **Dźwięk:** głos Mikołaja z ElevenLabs. Pod spodem cicho podkład muzyczny z `generator.audio music`, a do tego proste efekty: kliknięcie kamery, szelest pergaminu, dzwoneczek Płatka.
 
 ## Ujęcia wspólne
@@ -22,8 +22,8 @@ Dwa ujęcia pokazują, co dostaje dziecko, i są w każdym wariancie:
 
 | Ujęcie | Co widać | Montaż dodaje |
 |---|---|---|
-| `ksiega_pion` | Mikołaj przewraca stronę złotej księgi, pusta złota ramka zaczyna świecić | napis „Tu będzie zdjęcie Waszego dziecka” obok ramki |
-| `lista_pion` | ręka Mikołaja przybija czerwoną pieczęć na liście grzecznych dzieci | odręczne „Imię Twojego dziecka” (font Caveat) na pustej linii nad pieczęcią |
+| `ksiega` | Mikołaj przewraca stronę złotej księgi, pusta złota ramka zaczyna świecić | napis „Tu będzie zdjęcie Waszego dziecka” obok ramki |
+| `lista` | ręka Mikołaja przybija czerwoną pieczęć na liście grzecznych dzieci | odręczne „Imię Twojego dziecka” (font Caveat) na pustej linii nad pieczęcią |
 
 ---
 
@@ -36,7 +36,7 @@ Dwa ujęcia pokazują, co dostaje dziecko, i są w każdym wariancie:
 | 0:00–0:09 | `w1_mowi` (HeyGen): Mikołaj w fotelu przy kominku, pochylony do kamery | Ciii… Drodzy rodzice, czy dzieci już śpią? To dobrze. Mam do Was sprawę, ale musi zostać między nami, dorosłymi. | Ciii… czy dzieci już śpią? |
 | 0:09–0:12 | `w1_elf`: elf wychyla się zza fotela, przyłapany chowa się z powrotem | Elfy też nie podsłuchują! | — |
 | 0:12–0:22 | `w1_mowi` (HeyGen) | W tym roku nagram dla Waszego dziecka osobistą wiadomość. Powiem do niego po imieniu i pochwalę za to, czego się nauczyło. | Osobista wiadomość od Mikołaja |
-| 0:22–0:32 | `ksiega_pion`, potem `lista_pion` | Pokażę jego zdjęcie w mojej magicznej księdze i wpiszę imię na listę grzecznych dzieci. Szczegóły podpowiecie mi w krótkim formularzu. | Imię · osiągnięcie · zdjęcie w księdze |
+| 0:22–0:32 | `ksiega`, potem `lista` | Pokażę jego zdjęcie w mojej magicznej księdze i wpiszę imię na listę grzecznych dzieci. Szczegóły podpowiecie mi w krótkim formularzu. | Imię · osiągnięcie · zdjęcie w księdze |
 | 0:32–0:42 | `w1_mowi` (HeyGen) | Zamówienia przyjmuję od dwudziestego piątego listopada. A kto zapisze się wcześniej, dostanie ode mnie kod rabatowy: minus dwadzieścia pięć procent. | Start zamówień: 25 listopada · Zapisani: kod −25% |
 | 0:42–0:48 | `w1_ciii`: Mikołaj śmieje się, nagle robi „ciii” i rozgląda się, potem puszcza oko | Zapiszcie się już dziś. I ani słowa dzieciom! Ho, ho, ho! …Ciii. | Zapisz się już dziś |
 | 0:48–0:51 | plansza końcowa | — | — |
@@ -52,7 +52,7 @@ Dwa ujęcia pokazują, co dostaje dziecko, i są w każdym wariancie:
 | 0:00–0:05 | `w2_za_blisko`: twarz Mikołaja tuż przy obiektywie, potem odsuwa się i poprawia okulary | Halo? Czy to już nagrywa? Elfie, czerwona lampka się świeci? | Halo? Czy to już nagrywa? |
 | 0:05–0:08 | `w2_elf`: elf za starą kamerą pokazuje kciuk w górę | — (dźwięk: kliknięcie) | — |
 | 0:08–0:19 | `w2_mowi` (HeyGen): Mikołaj przy biurku, trochę uroczyście | Ho, ho, ho! Dzień dobry, drodzy rodzice! Elfy namówiły mnie na to nagranie, bo w tym roku mam dla Was coś nowego. | — |
-| 0:19–0:33 | `ksiega_pion`, potem `lista_pion` | Nagram dla Waszego dziecka osobistą wiadomość. Powiem do niego po imieniu, pochwalę za to, czego się nauczyło, pokażę jego zdjęcie w magicznej księdze i wpiszę imię na listę grzecznych dzieci. | Po imieniu · z pochwałą · ze zdjęciem w księdze |
+| 0:19–0:33 | `ksiega`, potem `lista` | Nagram dla Waszego dziecka osobistą wiadomość. Powiem do niego po imieniu, pochwalę za to, czego się nauczyło, pokażę jego zdjęcie w magicznej księdze i wpiszę imię na listę grzecznych dzieci. | Po imieniu · z pochwałą · ze zdjęciem w księdze |
 | 0:33–0:45 | `w2_mowi` (HeyGen) | Zamówienia ruszają dwudziestego piątego listopada. Kto zapisze się wcześniej, dostanie kod rabatowy. Elfy mówią, że to minus dwadzieścia pięć procent. Ja mówię: prezent dla rodziców! | Start zamówień: 25 listopada · Zapisani: kod −25% |
 | 0:45–0:50 | `w2_wylacz`: Mikołaj szuka przycisku i zasłania obiektyw dłonią | Zapiszcie się już dziś. A teraz… jak to się wyłącza? Elfie? | — |
 | 0:50–0:53 | plansza końcowa (wyłania się z ciemności po zasłonięciu obiektywu) | — | — |
@@ -67,7 +67,7 @@ Dwa ujęcia pokazują, co dostaje dziecko, i są w każdym wariancie:
 |---|---|---|---|
 | 0:00–0:08 | `w3_rolka`: lista toczy się przez gabinet i wylatuje drzwiami na śnieg, Mikołaj się śmieje | Ho, ho, ho! W tym roku dzieci są tak grzeczne, że lista nie mieści się w gabinecie! | Lista się nie mieści… |
 | 0:08–0:14 | `w3_mowi` (HeyGen): Mikołaj z rulonem pod pachą | Dlatego, drodzy rodzice, potrzebuję Waszej pomocy. Nagram dla Waszego dziecka osobistą wiadomość. | Osobista wiadomość od Mikołaja |
-| 0:14–0:26 | `ksiega_pion` | Powiem do niego po imieniu, pochwalę za to, czego się nauczyło, i pokażę jego zdjęcie w magicznej księdze. Szczegóły podpowiecie mi w krótkim formularzu. | Imię · osiągnięcie · zdjęcie w księdze |
+| 0:14–0:26 | `ksiega` | Powiem do niego po imieniu, pochwalę za to, czego się nauczyło, i pokażę jego zdjęcie w magicznej księdze. Szczegóły podpowiecie mi w krótkim formularzu. | Imię · osiągnięcie · zdjęcie w księdze |
 | 0:26–0:37 | `w3_mowi` (HeyGen) | Zamówienia ruszają dwudziestego piątego listopada. Zapiszcie się wcześniej, a dostaniecie kod rabatowy, minus dwadzieścia pięć procent, i wiadomość o starcie jako pierwsi. | Start zamówień: 25 listopada · Zapisani: kod −25% |
 | 0:37–0:42 | `w3_platek`: Płatek ciągnie koniec listy jak szalik, Mikołaj ciągnie za drugi | Płatku! Oddaj listę, to nie jest szalik! | — |
 | 0:42–0:45 | plansza końcowa | — | — |
@@ -76,58 +76,36 @@ Dwa ujęcia pokazują, co dostaje dziecko, i są w każdym wariancie:
 
 ---
 
-## Wersja pozioma (16:9)
-
-Ten sam film w poziomie (1920×1080): na YouTube i do reklam Google, na stronę zapisów (miejsce na film 16:9 w sekcji „Zwiastun”) i do reklam w filmach na Facebooku. Na telefonach w Reels i Stories lepiej działa pion, więc wersja pozioma go uzupełnia, a nie zastępuje.
-
-- **Bez zmian:** warianty, ujęcia, kolejność i czasy z tabel powyżej. Kwestie i nagrania głosu też są te same, więc nie nagrywamy ich drugi raz. Ujęcia mają te same nazwy, także `ksiega_pion` i `lista_pion`.
-- **Kadry:** generujemy od nowa w 16:9 z tych samych opisów scen. **Zatwierdzony kadr pionowy idzie jako dodatkowy obraz wzorcowy**, więc wersja pozioma zachowuje światło, rekwizyty i pozę Mikołaja z pionu, a model tylko rozszerza scenę na boki. Dlatego najpierw zatwierdzamy kadry pionowe, potem robimy poziome.
-- **Kompozycja:** postać trochę z boku kadru, spokojne tło po drugiej stronie i na dole kadru na napisy.
-- **HeyGen:** nowe klipy z poziomych kadrów `w*_mowi` (format 16:9), z tymi samymi nagraniami głosu co w pionie.
-- **Napisy:** w dolnej części kadru, wyśrodkowane, najwyżej 2 linie, ok. 48 px, co najmniej 60 px od krawędzi.
-- **Plansza końcowa:** logo po lewej, po prawej „Zapisz się po kod −25%”, „Start zamówień: 25 listopada” i „[ADRES STRONY]/zapisy”.
-
-```bash
-python -m generator.scenariusze -s reklama_zapisy_poziomo lista
-python -m generator.scenariusze -s reklama_zapisy_poziomo kadry --only w1_mowi -n 3   # najpierw wariant 1
-python -m generator.scenariusze -s reklama_zapisy_poziomo wybierz w1_mowi 2
-python -m generator.scenariusze -s reklama_zapisy_poziomo wideo --only w1_elf w1_ciii ksiega_pion lista_pion -n 2
-```
-
-Wariant 1 w poziomie potrzebuje 5 kadrów: `w1_mowi` (HeyGen), `w1_elf`, `w1_ciii`, `ksiega_pion` i `lista_pion`. Wyniki są w `output/reklama_zapisy_poziomo/`. Prompty: [`reklama_zapisy_poziomo_prompty.md`](reklama_zapisy_poziomo_prompty.md).
-
----
-
 ## Produkcja
 
-Polecenia uruchamiamy z katalogu głównego repozytorium. Wyniki trafiają do `output/reklama_zapisy/`.
+Polecenia uruchamiamy z katalogu głównego repozytorium. Wyniki trafiają do `output/reklama_zapisy_poziomo/`.
 
 1. **Obrazy wzorcowe:** portret Mikołaja (`output/selected/portrait.png`) i portret Płatka ze scenariusza 4 (`output/od_listu_do_san/wybrane/platek.png`; bez niego Płatek może wyglądać inaczej niż w filmie).
-2. **Kadry pionowe** (12 ujęć) i wybór najlepszych:
+2. **Kadry** (12 ujęć, wszystkie warianty) i wybór najlepszych. Wariant 1 potrzebuje 5 kadrów: `w1_mowi`, `w1_elf`, `w1_ciii`, `ksiega` i `lista`.
    ```bash
-   python -m generator.scenariusze -s reklama_zapisy kadry -n 3
-   python -m generator.scenariusze -s reklama_zapisy wybierz w1_mowi 2
+   python -m generator.scenariusze -s reklama_zapisy_poziomo kadry --only w1_mowi w1_elf w1_ciii ksiega lista -n 3
+   python -m generator.scenariusze -s reklama_zapisy_poziomo wybierz w1_mowi 2
    ```
-3. **Klipy** (9 ujęć bez mówienia do kamery). Najpierw tani test w 360p: sprawdza, czy model przyjmuje format 9:16. Jeśli nie, wygeneruj kadry i klipy w 16:9 i przytnij je w montażu.
+3. **Klipy** (ujęcia bez mówienia do kamery; w wariancie 1: `w1_elf`, `w1_ciii`, `ksiega`, `lista`). Najpierw tani test w 360p:
    ```bash
-   python -m generator.scenariusze -s reklama_zapisy wideo --only w1_elf --resolution 360p -n 1
-   python -m generator.scenariusze -s reklama_zapisy wideo -n 2
-   python -m generator.scenariusze -s reklama_zapisy wybierz-wideo w1_elf 1
+   python -m generator.scenariusze -s reklama_zapisy_poziomo wideo --only w1_elf --resolution 360p -n 1
+   python -m generator.scenariusze -s reklama_zapisy_poziomo wideo --only w1_elf w1_ciii ksiega lista -n 2
+   python -m generator.scenariusze -s reklama_zapisy_poziomo wybierz-wideo w1_elf 1
    ```
-4. **Głos Mikołaja** (16 kwestii, zapisany głos z `generator.audio`):
+4. **Głos Mikołaja** (zapisany głos z `generator.audio`; wariant 1 ma 6 kwestii, wszystkie warianty razem 16):
    ```bash
-   python -m generator.scenariusze -s reklama_zapisy kwestie
+   python -m generator.scenariusze -s reklama_zapisy_poziomo kwestie --only w1_1 w1_2 w1_3 w1_4 w1_5 w1_6
    ```
    W1 zaczyna się szeptem: jeśli nagranie `w1_1` jest za głośne, nagraj je ponownie spokojniej (`--only w1_1 --force`).
-5. **HeyGen** (Avatar IV, format 9:16): dla każdego kadru `w*_mowi` osobny klip na każdą kwestię mówioną do kamery. W W1 są to `w1_1`, `w1_3` i `w1_5`; w W2 `w2_2` i `w2_4`; w W3 `w3_2` i `w3_4`. Opis ruchu jest w pliku z promptami.
-6. **Montaż** (np. CapCut albo DaVinci Resolve, 1080×1920, 30 kl./s):
+5. **HeyGen** (Avatar IV, format 16:9): dla każdego kadru `w*_mowi` osobny klip na każdą kwestię mówioną do kamery. W W1 są to `w1_1`, `w1_3` i `w1_5`; w W2 `w2_2` i `w2_4`; w W3 `w3_2` i `w3_4`. Opis ruchu jest w pliku z promptami.
+6. **Montaż** (np. CapCut albo DaVinci Resolve, 1920×1080, 30 kl./s):
    - ujęcia według tabel, głos zza kadru pod klipy;
    - napisy, imię na liście, napis przy księdze i plansza końcowa;
    - podkład muzyczny ok. 18 dB ciszej niż głos.
-   Eksport: 9:16, 4:5 i skróty ok. 20 s.
-7. **Publikacja:** postacie i sceny są wygenerowane z pomocą AI. Jeśli Meta tego wymaga, zaznacz informację o AI przy publikacji reklamy.
+   Eksport: 16:9 w pełnej wersji i skrót ok. 20 s (np. reklama przed filmem na YouTube).
+7. **Publikacja:** postacie i sceny są wygenerowane z pomocą AI. Jeśli YouTube, Google albo Meta tego wymagają, zaznacz informację o AI przy publikacji reklamy.
 
-**Test:** wszystkie trzy warianty w jednej grupie reklam na Meta, z tym samym tekstem. Po 3 dniach zostają te z najniższym kosztem zapisu (zasady w `reklamy/plan_kampanii_zapisy.md`). Moje typy:
+**Kolejność:** zaczynamy od wariantu 1. Pozostałe warto zrobić, gdy będzie czas na test: wszystkie trzy w jednej kampanii, z tym samym tekstem, a po 3 dniach zostają te z najniższym kosztem zapisu (zasady w `reklamy/plan_kampanii_zapisy.md`). Moje typy:
 - **W1:** najmocniejszy haczyk na pierwsze sekundy;
 - **W2:** najbardziej zabawny;
 - **W3:** buduje znajomość z Płatkiem przed filmem.

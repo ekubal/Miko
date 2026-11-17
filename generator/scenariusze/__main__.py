@@ -11,10 +11,10 @@ Przykłady (scenariusz domyślny: od_listu_do_san):
     python -m generator.scenariusze wybierz-wideo kula 2
     python -m generator.scenariusze szablony -n 2
 
-Reklama zapisów (pionowa, trzy warianty, głos Mikołaja do rodziców):
-    python -m generator.scenariusze -s reklama_zapisy lista
-    python -m generator.scenariusze -s reklama_zapisy kadry --only w1_mowi -n 3
-    python -m generator.scenariusze -s reklama_zapisy kwestie --only w1_1 w1_2
+Reklama zapisów (16:9, trzy warianty, głos Mikołaja do rodziców):
+    python -m generator.scenariusze -s reklama_zapisy_poziomo lista
+    python -m generator.scenariusze -s reklama_zapisy_poziomo kadry --only w1_mowi -n 3
+    python -m generator.scenariusze -s reklama_zapisy_poziomo kwestie --only w1_1 w1_2
 
 Wyniki: output/<scenariusz>/{postacie,kadry,szablony,wideo,glos}/, zatwierdzone w output/<scenariusz>/wybrane/.
 Ujęcia z wersji krótkiej („reuse”) biorą pliki z output/selected/.
@@ -90,8 +90,6 @@ def render_markdown(sc, seconds: int = 8) -> str:
         refs = ["portret Mikołaja"] if shot.get("santa", True) else []
         if shot.get("platek"):
             refs.append("portret Płatka")
-        if hasattr(sc, "extra_references"):
-            refs.append("zatwierdzony kadr pionowy, jeśli jest")
         lines += [f"Obrazy wzorcowe: {', '.join(refs) or 'brak'}.", "", "**Kadr:**", "", "```",
                   sc.frame_prompt(key), "```", ""]
         if shot.get("wideo", True):
@@ -120,8 +118,6 @@ def render_markdown(sc, seconds: int = 8) -> str:
 
 
 def prompts_doc_path(sc) -> Path:
-    if hasattr(sc, "PROMPTY"):
-        return config.ROOT / sc.PROMPTY
     stem = Path(sc.DOC).stem
     return config.ROOT / "scenariusze" / f"{stem}_prompty.md"
 
@@ -197,16 +193,7 @@ def cmd_kadry(sc, args):
             else:
                 print(f"! [{key}] brak wybranego portretu Płatka: jego wygląd może się różnić między ujęciami.\n"
                       "  Najpierw: postacie, potem: wybierz platek N")
-        if hasattr(sc, "extra_references"):
-            # Np. wersja pozioma reklamy: zatwierdzony kadr pionowy jako ostatni obraz wzorcowy.
-            extra = sc.extra_references(key)
-            if not extra:
-                print(f"! [{key}] brak zatwierdzonego kadru pionowego: kadr poziomy może wyglądać inaczej.")
-            refs += extra
-            prompt = sc.frame_prompt(key, platek in refs, bool(extra))
-        else:
-            prompt = sc.frame_prompt(key, platek in refs)
-        generate(sc, key, prompt, "kadry", refs, args)
+        generate(sc, key, sc.frame_prompt(key, platek in refs), "kadry", refs, args)
 
 
 def cmd_szablony(sc, args):
@@ -262,10 +249,8 @@ def cmd_kwestie(sc, args):
     lines = getattr(sc, "KWESTIE", {})
     if not lines:
         sys.exit(f"Scenariusz {sc.NAME} nie ma kwestii do nagrania (kwestie wspólne: python -m generator.audio lines).")
-    # Scenariusz może dzielić nagrania z innym (GLOS_FROM), np. wersja pozioma z pionową.
-    target = get(getattr(sc, "GLOS_FROM", sc.NAME))
     for key in args.only or list(lines):
-        out = out_dir(target) / "glos" / f"{key}.mp3"
+        out = out_dir(sc) / "glos" / f"{key}.mp3"
         if out.exists() and not args.force:
             print(f"  = {rel(out)} (istnieje, użyj --force)")
             continue
@@ -333,7 +318,7 @@ def main(argv=None):
     p.add_argument("numer", type=int)
     p.set_defaults(func=cmd_wybierz_wideo)
 
-    p = sub.add_parser("kwestie", help="nagraj kwestie Mikołaja scenariusza (ElevenLabs), np. dla reklama_zapisy")
+    p = sub.add_parser("kwestie", help="nagraj kwestie Mikołaja scenariusza (ElevenLabs), np. dla reklama_zapisy_poziomo")
     p.add_argument("--only", nargs="+", choices=list(getattr(sc, "KWESTIE", {})) or None)
     p.add_argument("--force", action="store_true", help="nadpisz istniejące nagrania")
     p.set_defaults(func=cmd_kwestie)
