@@ -11,7 +11,12 @@ Przykłady (scenariusz domyślny: od_listu_do_san):
     python -m generator.scenariusze wybierz-wideo kula 2
     python -m generator.scenariusze szablony -n 2
 
-Wyniki: output/<scenariusz>/{postacie,kadry,szablony,wideo}/, zatwierdzone w output/<scenariusz>/wybrane/.
+Reklama zapisów (pionowa, trzy warianty, głos Mikołaja do rodziców):
+    python -m generator.scenariusze -s reklama_zapisy lista
+    python -m generator.scenariusze -s reklama_zapisy kadry --only w1_mowi -n 3
+    python -m generator.scenariusze -s reklama_zapisy kwestie --only w1_1 w1_2
+
+Wyniki: output/<scenariusz>/{postacie,kadry,szablony,wideo,glos}/, zatwierdzone w output/<scenariusz>/wybrane/.
 Ujęcia z wersji krótkiej („reuse”) biorą pliki z output/selected/.
 """
 
@@ -24,9 +29,20 @@ from .. import config
 from ..common import selected_path, variant_paths
 from . import SCENARIUSZE, get
 
+DEFAULT = "od_listu_do_san"
+
 
 def out_dir(sc) -> Path:
     return config.OUTPUT_DIR / sc.NAME
+
+
+def aspect(sc) -> str:
+    return getattr(sc, "ASPECT", "16:9")
+
+
+def option(sc) -> str:
+    # Przełącznik -s w podpowiedziach poleceń; scenariusz domyślny go nie potrzebuje.
+    return "" if sc.NAME == DEFAULT else f"-s {sc.NAME} "
 
 
 def chosen(sc, key: str, suffix: str = ".png") -> Path:
@@ -48,21 +64,25 @@ def render_markdown(sc, seconds: int = 8) -> str:
         f"# Prompty: {sc.TITLE}",
         "",
         f"Wygenerowane z `generator/scenariusze/{sc.NAME}.py` poleceniem "
-        "`python -m generator.scenariusze opis`. Nie edytuj ręcznie: zmieniaj moduł i wygeneruj plik ponownie.",
+        f"`python -m generator.scenariusze {option(sc)}opis`. Nie edytuj ręcznie: zmieniaj moduł i wygeneruj "
+        "plik ponownie.",
         "",
         f"Scenariusz: [`{sc.DOC}`](../{sc.DOC.split('/', 1)[1]}). Kadry: Nano Banana Pro z portretem Mikołaja "
         "(i portretem Płatka) jako obrazami wzorcowymi. Klipy: Gemini Omni Flash, kadr jako pierwsza klatka.",
         "",
-        "## Postacie",
-        "",
     ]
+    if aspect(sc) != "16:9":
+        lines += [f"Format kadrów i klipów: {aspect(sc)}.", ""]
+    if sc.CHARACTERS:
+        lines += ["## Postacie", ""]
     for key, ch in sc.CHARACTERS.items():
         lines += [f"### `{key}`: {ch['opis']}", "", "```", ch["prompt"], "```", ""]
+    titles = getattr(sc, "SCENE_TITLES", {})
     current = None
     for key, shot in sc.SHOTS.items():
         if shot["scena"] != current:
             current = shot["scena"]
-            lines += [f"## Scena {current}", ""]
+            lines += [f"## {titles.get(current, f'Scena {current}')}", ""]
         lines += [f"### `{key}`: {shot['opis']}", ""]
         if "reuse" in shot:
             lines += [f"Gotowe ujęcie z wersji krótkiej: `{shot['reuse']}` (prompt w `generator/prompts.py`).", ""]
@@ -75,8 +95,19 @@ def render_markdown(sc, seconds: int = 8) -> str:
         if shot.get("wideo", True):
             secs = shot.get("sekundy", seconds)
             lines += [f"**Ruch ({secs} s):**", "", "```", sc.motion_prompt(key, secs), "```", ""]
+        elif shot.get("heygen"):
+            lines += ["Bez klipu z AI: kadr jest obrazem wejściowym dla HeyGen.", "",
+                      "**HeyGen (Avatar IV, opis ruchu):**", "", "```", shot["heygen"], "```", ""]
         else:
             lines += ["Bez klipu z AI: kadr jest obrazem wejściowym dla HeyGen.", ""]
+    if getattr(sc, "KWESTIE", None):
+        lines += ["## Kwestie Mikołaja (ElevenLabs)", "",
+                  f"Nagrania: `python -m generator.scenariusze {option(sc)}kwestie`.", ""]
+        for key, line in sc.KWESTIE.items():
+            lines += [f"- `{key}` ({line['ujecie']}): {line['tekst']}"]
+        lines += [""]
+    if not sc.TEMPLATES and not getattr(sc, "REUSED_TEMPLATES", {}):
+        return "\n".join(lines).rstrip() + "\n"
     lines += ["## Szablony", ""]
     for key, tpl in sc.TEMPLATES.items():
         lines += [f"### `{key}` (scena {tpl['scena']}): {tpl['opis']}", "", "```", tpl["prompt"], "```", ""]
@@ -127,7 +158,7 @@ def generate(sc, name: str, prompt: str, folder: str, refs: list[Path], args) ->
     client = google_client()
     for path in variant_paths(directory, name, ".png", args.count):
         try:
-            data, mime = generate_image(client, prompt, refs or None, "16:9", args.size)
+            data, mime, _cost = generate_image(client, prompt, refs, aspect(sc), args.size)
         except Exception as exc:
             print(f"  x {path.name}: {exc}")
             continue
@@ -144,7 +175,8 @@ def cmd_postacie(sc, args):
 def cmd_kadry(sc, args):
     keys = args.only or sc.new_frame_shots()
     portrait = selected_path("portrait")
-    platek = chosen(sc, "platek")
+    # Scenariusz może korzystać z portretu Płatka zatwierdzonego w innym (PLATEK_FROM).
+    platek = chosen(get(getattr(sc, "PLATEK_FROM", sc.NAME)), "platek")
     for key in keys:
         shot = sc.SHOTS[key]
         if "reuse" in shot:
@@ -205,10 +237,24 @@ def cmd_wideo(sc, args):
         frame = videos.upload_frame(client, chosen(sc, key))
         for out in variant_paths(out_dir(sc) / "wideo", key, ".mp4", args.count):
             try:
-                videos.generate_clip(client, prompt, frame, args.resolution, seconds, out)
+                videos.generate_clip(client, prompt, frame, args.resolution, seconds, out, aspect(sc))
                 print(f"  + {rel(out)}")
             except Exception as exc:
                 print(f"  x {out.name}: {exc}")
+
+
+def cmd_kwestie(sc, args):
+    from ..audio import speak
+
+    lines = getattr(sc, "KWESTIE", {})
+    if not lines:
+        sys.exit(f"Scenariusz {sc.NAME} nie ma kwestii do nagrania (kwestie wspólne: python -m generator.audio lines).")
+    for key in args.only or list(lines):
+        out = out_dir(sc) / "glos" / f"{key}.mp3"
+        if out.exists() and not args.force:
+            print(f"  = {rel(out)} (istnieje, użyj --force)")
+            continue
+        speak(lines[key]["tekst"], out)
 
 
 def cmd_wybierz_wideo(sc, args):
@@ -223,7 +269,7 @@ def cmd_wybierz_wideo(sc, args):
 
 def main(argv=None):
     pre = argparse.ArgumentParser(add_help=False)
-    pre.add_argument("-s", "--scenariusz", default="od_listu_do_san", choices=list(SCENARIUSZE))
+    pre.add_argument("-s", "--scenariusz", default=DEFAULT, choices=list(SCENARIUSZE))
     sc = get(pre.parse_known_args(argv)[0].scenariusz)
 
     parser = argparse.ArgumentParser(prog="python -m generator.scenariusze", description="Długie scenariusze filmu",
@@ -271,6 +317,11 @@ def main(argv=None):
     p.add_argument("klucz", choices=sc.video_shots())
     p.add_argument("numer", type=int)
     p.set_defaults(func=cmd_wybierz_wideo)
+
+    p = sub.add_parser("kwestie", help="nagraj kwestie Mikołaja scenariusza (ElevenLabs), np. dla reklama_zapisy")
+    p.add_argument("--only", nargs="+", choices=list(getattr(sc, "KWESTIE", {})) or None)
+    p.add_argument("--force", action="store_true", help="nadpisz istniejące nagrania")
+    p.set_defaults(func=cmd_kwestie)
 
     args = parser.parse_args(argv)
     args.func(sc, args)

@@ -37,8 +37,12 @@ def upload_frame(client, frame: Path):
     return uploaded
 
 
-def generate_clip(client, prompt: str, frame_file, resolution: str, duration: int, out: Path) -> None:
-    """Jedno wywołanie Interactions API: kadr jako pierwsza klatka + prompt ruchu -> plik MP4."""
+def generate_clip(client, prompt: str, frame_file, resolution: str, duration: int, out: Path,
+                  aspect_ratio: str = "16:9") -> None:
+    """Jedno wywołanie Interactions API: kadr jako pierwsza klatka + prompt ruchu -> plik MP4.
+
+    aspect_ratio: "16:9" dla filmu, "9:16" dla pionowych reklam (scenariusz reklama_zapisy).
+    """
     started = time.time()
     interaction = with_retry(
         lambda: client.interactions.create(
@@ -50,7 +54,7 @@ def generate_clip(client, prompt: str, frame_file, resolution: str, duration: in
             response_format={
                 "type": "video",
                 "delivery": "uri",
-                "aspect_ratio": "16:9",
+                "aspect_ratio": aspect_ratio,
                 "duration": f"{duration}s",
                 "resolution": resolution,
             },

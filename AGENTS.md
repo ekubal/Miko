@@ -16,12 +16,12 @@ Język projektu to **polski**: kod komentujemy, piszemy komunikaty CLI, dokument
 |---|---|
 | `app/` | aplikacja Rails 8 + Hotwire (witryna sprzedażowa, zamówienia, płatności, panel); instrukcje: `app/AGENTS.md` |
 | `generator/` | pakiet Pythona: `images` (Nano Banana Pro), `videos` (Gemini Omni Flash), `audio` + `elevenlabs` (głos, muzyka), `order` (głos dla zamówienia; `order text` zamrożone, tekst pisze Rails), `montage` (ffmpeg), `prompts` (prompty wersji krótkiej i kwestie), `config`, `common` |
-| `generator/scenariusze/` | prompty długich scenariuszy (moduł na scenariusz, np. `od_listu_do_san.py`: ujęcia, postacie, szablony) i polecenie `python -m generator.scenariusze`; czytelna kopia promptów w `scenariusze/*_prompty.md` |
+| `generator/scenariusze/` | prompty długich scenariuszy (moduł na scenariusz, np. `od_listu_do_san.py`: ujęcia, postacie, szablony) i filmu reklamowego zapisów (`reklama_zapisy.py`: pion 9:16, trzy warianty, kwestie Mikołaja do rodziców); polecenie `python -m generator.scenariusze [-s nazwa]`; czytelna kopia promptów w `scenariusze/*_prompty.md` |
 | `testy_fal/` | robocze skrypty porównujące modele wideo na fal.ai; nie są częścią produkcji |
 | `strona/` | **wzór / archiwum** (HTML/CSS/JS, w tym `zapisy.html` przed startem); produkcyjny front jest w Rails (`app/`), nie serwujemy `strona/` na produkcji |
 | `dokumenty/` | regulamin i polityka prywatności w Markdown (projekty dla prawnika) oraz `zbuduj.py`, który robi z nich strony w `strona/`, `.docx` i PDF-y w `strona/pliki/` |
 | `szablony/` | maile HTML (tabele, style inline): zamówienie (`email_1`–`email_3`) i lista zapisów (`email_zapis_1`–`3`), opis pól w `emaile.md`, przykładowa transkrypcja filmu |
-| `scenariusze/` | wybrany scenariusz długiej wersji (`4_od_listu_do_san`); odrzucone w `scenariusze/odrzucone/` |
+| `scenariusze/` | wybrany scenariusz długiej wersji (`4_od_listu_do_san`) i scenariusz reklamy zapisów (`reklama_zapisy`); odrzucone w `scenariusze/odrzucone/` |
 | `examples/` | przykładowe pliki zamówień JSON (format danych dziecka) |
 | `tests/` | pytest; działają bez sieci i bez kluczy |
 | `output/` | wyniki generowania; w `.gitignore`, zawiera dane dzieci, nigdy nie commitować |

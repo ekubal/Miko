@@ -462,6 +462,13 @@ python -m generator.scenariusze opis                       # odśwież plik z pr
 
 Wyniki: `output/od_listu_do_san/{postacie,kadry,szablony,wideo}/`, zatwierdzone w `output/od_listu_do_san/wybrane/`. Ujęcie `kula_heygen` to tylko kadr: obraz wejściowy dla mówiącego Mikołaja w HeyGen.
 
+**Film reklamowy zapisów** (`reklama_zapisy.py`, scenariusz w `scenariusze/reklama_zapisy.md`) to trzy pionowe warianty (9:16), w których Mikołaj mówi do rodziców o starcie zamówień i kodzie −25%. Działa tak samo, z przełącznikiem `-s reklama_zapisy`. Polecenie `kwestie` nagrywa jego kwestie głosem Mikołaja do `output/reklama_zapisy/glos/`:
+
+```bash
+python -m generator.scenariusze -s reklama_zapisy kadry -n 3
+python -m generator.scenariusze -s reklama_zapisy kwestie
+```
+
 ### 6.8 Testy innych modeli wideo (`testy_fal`)
 
 Robocze skrypty w katalogu `testy_fal/` porównują Gemini Omni Flash z modelami na fal.ai: MiniMax H3, Kling, Seedance i Wan. Wszystkie modele dostają te same kadry i prompty, a wyniki trafiają do siatki porównawczej z kosztem i czasem generowania. Produkcja (`generator/`) z nich nie korzysta. Szczegóły: [testy_fal/README.md](testy_fal/README.md).
