@@ -345,11 +345,11 @@ Nagrania: `python -m generator.scenariusze -s reklama_zapisy_poziomo kwestie`.
 - `w1_4` (ksiega, lista): Pokażę jego zdjęcie w mojej magicznej księdze i wpiszę imię na listę grzecznych dzieci. Szczegóły podpowiecie mi w krótkim formularzu.
 - `w1_5` (w1_mowi): Zamówienia przyjmuję od dwudziestego piątego listopada. A kto zapisze się wcześniej, dostanie ode mnie kod rabatowy: minus dwadzieścia pięć procent.
 - `w1_6` (w1_ciii): Zapiszcie się już dziś. I ani słowa dzieciom! Ho, ho, ho! …Ciii.
-- `w2_1` (w2_za_blisko): Halo? Czy to już nagrywa? Elfie, czerwona lampka się świeci?
-- `w2_2` (w2_mowi): Ho, ho, ho! Dzień dobry, drodzy rodzice! Elfy namówiły mnie na to nagranie, bo w tym roku mam dla Was coś nowego.
+- `w2_1` (w2_za_blisko): [curious] Halo? Czy to już nagrywa? [pause] Elfie, czerwona lampka się świeci?
+- `w2_2` (w2_mowi): [laughs] Ho, ho, ho! [warmly] Dzień dobry, drodzy rodzice! Elfy namówiły mnie na to nagranie, bo w tym roku mam dla Was coś nowego.
 - `w2_3` (ksiega, lista): Nagram dla Waszego dziecka osobistą wiadomość. Powiem do niego po imieniu, pochwalę za to, czego się nauczyło, pokażę jego zdjęcie w magicznej księdze i wpiszę imię na listę grzecznych dzieci.
-- `w2_4` (w2_mowi): Zamówienia ruszają dwudziestego piątego listopada. Kto zapisze się wcześniej, dostanie kod rabatowy. Elfy mówią, że to minus dwadzieścia pięć procent. Ja mówię: prezent dla rodziców!
-- `w2_5` (w2_wylacz): Zapiszcie się już dziś. A teraz… jak to się wyłącza? Elfie?
+- `w2_4` (w2_mowi): Zamówienia ruszają dwudziestego piątego listopada. Kto zapisze się wcześniej, dostanie kod rabatowy. Elfy mówią, że to minus dwadzieścia pięć procent. [chuckles] Ja mówię: prezent dla rodziców!
+- `w2_5` (w2_wylacz): Zapiszcie się już dziś. [pause] A teraz… [confused] jak to się wyłącza? Elfie?
 - `w3_1` (w3_rolka): Ho, ho, ho! W tym roku dzieci są tak grzeczne, że lista nie mieści się w gabinecie!
 - `w3_2` (w3_mowi): Dlatego, drodzy rodzice, potrzebuję Waszej pomocy. Nagram dla Waszego dziecka osobistą wiadomość.
 - `w3_3` (ksiega): Powiem do niego po imieniu, pochwalę za to, czego się nauczyło, i pokażę jego zdjęcie w magicznej księdze. Szczegóły podpowiecie mi w krótkim formularzu.

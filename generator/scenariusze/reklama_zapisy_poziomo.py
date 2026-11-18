@@ -228,7 +228,9 @@ SHOTS: dict[str, dict] = {
 # --- kwestie Mikołaja (ElevenLabs, zapisany głos Mikołaja) ----------------------------------
 #
 # Liczby słownie, żeby głos przeczytał je poprawnie. Mikołaj mówi do rodziców w liczbie
-# mnogiej („Wy”), bez form zależnych od płci rodzica i dziecka. Nagrania: polecenie
+# mnogiej („Wy”), bez form zależnych od płci rodzica i dziecka. Wskazówki w nawiasach
+# ([pause], [laughs]…) prowadzą intonację w Eleven v4; starsze modele dostają tekst bez nich
+# (audio.strip_tags). W scenariuszu (tabele) pokazujemy kwestie bez wskazówek. Nagrania: polecenie
 # `kwestie`, pliki output/reklama_zapisy_poziomo/glos/<klucz>.mp3.
 #   ujecie   gdzie słychać kwestię: kadr HeyGen (ruch warg) albo klip, pod który idzie głos zza kadru
 
@@ -245,16 +247,18 @@ KWESTIE: dict[str, dict] = {
              "A kto zapisze się wcześniej, dostanie ode mnie kod rabatowy: minus dwadzieścia pięć procent."},
     "w1_6": {"ujecie": "w1_ciii", "tekst": "Zapiszcie się już dziś. I ani słowa dzieciom! Ho, ho, ho! …Ciii."},
     # Wariant 2 „Czy to już nagrywa?”
-    "w2_1": {"ujecie": "w2_za_blisko", "tekst": "Halo? Czy to już nagrywa? Elfie, czerwona lampka się świeci?"},
-    "w2_2": {"ujecie": "w2_mowi", "tekst": "Ho, ho, ho! Dzień dobry, drodzy rodzice! Elfy namówiły mnie "
-             "na to nagranie, bo w tym roku mam dla Was coś nowego."},
+    "w2_1": {"ujecie": "w2_za_blisko", "tekst": "[curious] Halo? Czy to już nagrywa? [pause] Elfie, czerwona "
+             "lampka się świeci?"},
+    "w2_2": {"ujecie": "w2_mowi", "tekst": "[laughs] Ho, ho, ho! [warmly] Dzień dobry, drodzy rodzice! Elfy "
+             "namówiły mnie na to nagranie, bo w tym roku mam dla Was coś nowego."},
     "w2_3": {"ujecie": "ksiega, lista", "tekst": "Nagram dla Waszego dziecka osobistą wiadomość. "
              "Powiem do niego po imieniu, pochwalę za to, czego się nauczyło, pokażę jego zdjęcie w magicznej "
              "księdze i wpiszę imię na listę grzecznych dzieci."},
     "w2_4": {"ujecie": "w2_mowi", "tekst": "Zamówienia ruszają dwudziestego piątego listopada. Kto zapisze się "
              "wcześniej, dostanie kod rabatowy. Elfy mówią, że to minus dwadzieścia pięć procent. "
-             "Ja mówię: prezent dla rodziców!"},
-    "w2_5": {"ujecie": "w2_wylacz", "tekst": "Zapiszcie się już dziś. A teraz… jak to się wyłącza? Elfie?"},
+             "[chuckles] Ja mówię: prezent dla rodziców!"},
+    "w2_5": {"ujecie": "w2_wylacz", "tekst": "Zapiszcie się już dziś. [pause] A teraz… [confused] jak to się "
+             "wyłącza? Elfie?"},
     # Wariant 3 „Za długa lista”
     "w3_1": {"ujecie": "w3_rolka", "tekst": "Ho, ho, ho! W tym roku dzieci są tak grzeczne, że lista "
              "nie mieści się w gabinecie!"},

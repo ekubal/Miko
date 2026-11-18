@@ -16,6 +16,7 @@ Przykłady:
 import argparse
 import base64
 import json
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -32,15 +33,21 @@ VOICE_SETTINGS = {
     "speed": 0.92,
 }
 
-# Zestawy ustawień głosu: wybór w .env (ELEVENLABS_PRESET) albo opcją --preset.
+# Zestawy ustawień głosu: wybór w .env (ELEVENLABS_PRESET, domyślnie v4) albo opcją --preset.
 # Porównanie na jednej kwestii: `python -m generator.audio probki`. Model None = config.ELEVEN_TTS_MODEL.
-# Wysoka stabilność i zwolnione tempo (speed < 1) spłaszczają intonację, więc zestawy poza
-# „obecnym” mają tempo 1.0 i mniej stabilności. language_code wymusza polski tam, gdzie model to obsługuje.
+# Eleven v4 przyjmuje tylko stabilność i podobieństwo (bez stylu i tempa); ekspresję dają wskazówki
+# w nawiasach, np. [pause], [laughs]. Wysoka stabilność i zwolnione tempo (speed < 1) spłaszczają
+# intonację starszych modeli. language_code wymusza polski tam, gdzie model to obsługuje.
 PRESETS = {
-    "obecny": {
-        "opis": "dotychczasowe ustawienia (punkt odniesienia)",
+    "v4": {
+        "opis": "Eleven v4 (najnowszy, domyślny): naturalna polska wymowa, słucha wskazówek w nawiasach",
         "model": None,
-        "settings": VOICE_SETTINGS,
+        "settings": {"stability": 0.5, "similarity_boost": 0.75},
+    },
+    "v4_ekspresja": {
+        "opis": "Eleven v4 z mniejszą stabilnością: więcej emocji i humoru, mniej przewidywalnie",
+        "model": "eleven_v4",
+        "settings": {"stability": 0.3, "similarity_boost": 0.75},
     },
     "naturalny": {
         "opis": "ten sam model, mniej stabilności, więcej ekspresji, normalne tempo",
@@ -49,14 +56,9 @@ PRESETS = {
                      "speed": 1.0},
     },
     "v3": {
-        "opis": "model Eleven v3, tryb Natural: zwykle najbardziej naturalna intonacja",
+        "opis": "poprzedni model Eleven v3, tryb Natural",
         "model": "eleven_v3",
         "settings": {"stability": 0.5, "similarity_boost": 0.75},
-    },
-    "v3_ekspresja": {
-        "opis": "model Eleven v3, tryb Creative: więcej emocji i humoru, czasem mniej przewidywalnie",
-        "model": "eleven_v3",
-        "settings": {"stability": 0.0, "similarity_boost": 0.75},
     },
     "flash_pl": {
         "opis": "szybki model Flash v2.5 z wymuszonym językiem polskim",
@@ -64,7 +66,20 @@ PRESETS = {
         "settings": {"stability": 0.45, "similarity_boost": 0.8, "speed": 1.0},
         "language_code": "pl",
     },
+    "dotychczasowy": {
+        "opis": "dawne ustawienia: Multilingual v2, stabilnie i wolniej (punkt odniesienia)",
+        "model": "eleven_multilingual_v2",
+        "settings": VOICE_SETTINGS,
+    },
 }
+
+# Modele, które rozumieją wskazówki w nawiasach kwadratowych; pozostałe przeczytałyby je na głos.
+TAG_MODELS = {"eleven_v3", "eleven_v4", "eleven_v4_turbo"}
+
+
+def strip_tags(text: str) -> str:
+    """Usuwa wskazówki w nawiasach ([pause], [laughs]…) dla modeli, które ich nie obsługują."""
+    return re.sub(r" {2,}", " ", re.sub(r"\[[^\]]*\]", "", text)).strip()
 
 # Zamiana głosu (speech-to-speech): intonację i akcent bierze z nagrania człowieka.
 STS_SETTINGS = {"stability": 0.5, "similarity_boost": 0.85, "style": 0.0, "use_speaker_boost": True}
@@ -79,7 +94,9 @@ def get_preset(name: str | None = None) -> dict:
 
 
 def synthesize(text: str, voice_id: str, preset: dict, settings: dict | None = None) -> bytes:
-    # Model i język przekazujemy tylko, gdy zestaw je ustala; „obecny” wysyła to co dotąd.
+    # Model i język przekazujemy tylko, gdy zestaw je ustala; inaczej obowiązuje config.ELEVEN_TTS_MODEL.
+    if (preset["model"] or config.ELEVEN_TTS_MODEL) not in TAG_MODELS:
+        text = strip_tags(text)
     extra = {}
     if preset["model"]:
         extra["model"] = preset["model"]

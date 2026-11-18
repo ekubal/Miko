@@ -301,7 +301,7 @@ python -m generator.videos select zorza 2
 | `lines` | `--dluga` | wyłączone | tylko kwestie wersji długiej (`d_*`, kolejność w `prompts.LONG_LINES`) |
 | `lines` | `--force` | wyłączone | nadpisz istniejące nagrania |
 | `tts` | `--text` / `--file`, `-o` | — | tekst lub plik z tekstem, plik wynikowy |
-| `lines`, `tts` | `--preset` | `ELEVENLABS_PRESET` albo `obecny` | zestaw ustawień głosu (`PRESETS` w `generator/audio.py`) |
+| `lines`, `tts` | `--preset` | `ELEVENLABS_PRESET` albo `v4` | zestaw ustawień głosu (`PRESETS` w `generator/audio.py`) |
 | `probki` | `--presety`, `--glos`, `-n`, `--text` | wszystkie zestawy, zapisany głos, 1, kwestia próbna | co porównać |
 | `przemiana` | `-o`, `--bez-szumu` | — | plik wynikowy, usunięcie szumu tła z nagrania |
 | `music` | `--seconds`, `--prompt`, `-n` | 150, z `prompts.py`, 1 | długość, opis, liczba wariantów |
@@ -324,12 +324,12 @@ python -m generator.audio select-music 2
 
 Sprawdzaj w tej kolejności:
 
-1. **Ustawienia i model.** `python -m generator.audio probki` nagrywa tę samą kwestię próbną w pięciu zestawach: `obecny` (dotychczasowe ustawienia), `naturalny`, `v3`, `v3_ekspresja` i `flash_pl`. Odsłuchaj pliki z `output/audio/probki/` i wpisz najlepszy zestaw w `.env`: `ELEVENLABS_PRESET=v3`. Zestaw z modelem niedostępnym w Twoim planie zgłasza błąd i jest pomijany. Każde nagranie wychodzi trochę inaczej, więc `-n 2` daje po dwie wersje. Wysoka stabilność i zwolnione tempo (`speed` poniżej 1) spłaszczają intonację, dlatego nowe zestawy mają tempo 1.0.
+1. **Ustawienia i model.** Domyślny jest najnowszy model **Eleven v4** (`eleven_v4`, zestaw `v4`): mówi po polsku z naturalnym akcentem i słucha wskazówek w nawiasach. `python -m generator.audio probki` nagrywa tę samą kwestię próbną w zestawach `v4`, `v4_ekspresja`, `naturalny` (Multilingual v2), `v3`, `flash_pl` i `dotychczasowy` (dawne ustawienia, do porównania). Odsłuchaj pliki z `output/audio/probki/`, a jeśli inny zestaw brzmi lepiej, wpisz go w `.env`, np. `ELEVENLABS_PRESET=v4_ekspresja`. Zestaw z modelem niedostępnym w Twoim planie zgłasza błąd i jest pomijany. Każde nagranie wychodzi trochę inaczej, więc `-n 2` daje po dwie wersje.
 2. **Głos.** Głos z Voice Design powstał z opisu po angielsku i może mówić po polsku z obcym akcentem. W bibliotece głosów ElevenLabs (Voice Library) ustaw filtry: język polski, mężczyzna, starszy wiek, narracja albo postacie. Kilka głosów dodaj do „My Voices” i porównaj: `probki --glos ID1 ID2 ID3 --presety naturalny v3`. Zwycięski wpisz w `.env` jako `ELEVENLABS_VOICE_ID`. Najlepszą jakość daje profesjonalny klon głosu polskiego lektora (Professional Voice Clone), za jego pisemną zgodą i z licencją na użycie.
 3. **Nagranie człowieka głosem Mikołaja.** `python -m generator.audio przemiana nagranie.m4a -o kwestia.mp3`: intonację, tempo i polski akcent model bierze z nagrania, a barwę z głosu Mikołaja. Najlepsze do reklam i kwestii wspólnych, które nagrywa się raz. Nagrywaj w cichym pomieszczeniu, z telefonem ok. 20 cm od ust; `--bez-szumu` usuwa szum tła.
 4. **Po zmianie** głosu albo zestawu nagraj kwestie ponownie z `--force`. Ten sam głos i zestaw ustaw w aplikacji Rails (`Orders::RecordPersonalLines`), inaczej kwestie z imieniem dziecka będą brzmiały inaczej niż reszta filmu.
 
-Model Eleven v3 rozumie wskazówki w nawiasach kwadratowych, np. `[whispers]` albo `[laughs]`. Dopisujemy je do kwestii dopiero po wyborze v3, bo inne modele przeczytałyby je na głos.
+**Wskazówki w nawiasach.** Eleven v4 (i v3) rozumie wskazówki w nawiasach kwadratowych, np. `[pause]`, `[laughs]`, `[whispers]`, `[curious]`. Ustawiają intonację i pauzy (v4 nie ma ustawień stylu ani tempa, a SSML nie działa). Starszym modelom `audio.synthesize` usuwa je przed wysłaniem, bo przeczytałyby je na głos. Mają je już kwestie wariantu 2 reklamy zapisów. Projektowanie głosu (`design`) używa modelu `eleven_ttv_v3`, a zamiana głosu (`przemiana`) `eleven_multilingual_sts_v2`.
 
 ### 6.4 Tekst i głos dla zamówienia (`generator.order`)
 

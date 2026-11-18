@@ -51,12 +51,21 @@ def test_speech_to_speech_uploads_recording_as_form(posts, tmp_path):
     assert "Content-Type" not in call["headers"]
 
 
-def test_presets_are_complete_and_default_keeps_current_settings():
-    assert audio.PRESETS["obecny"]["settings"] is audio.VOICE_SETTINGS
-    assert audio.PRESETS["obecny"]["model"] is None
+def test_default_is_eleven_v4_with_supported_settings():
+    assert config.ELEVEN_TTS_MODEL == "eleven_v4" and config.ELEVEN_PRESET == "v4"
+    default = audio.PRESETS["v4"]
+    assert default["model"] is None  # = config.ELEVEN_TTS_MODEL
+    # Eleven v4 przyjmuje tylko stabilność i podobieństwo.
+    assert set(default["settings"]) == {"stability", "similarity_boost"}
+    assert set(audio.PRESETS["v4_ekspresja"]["settings"]) == {"stability", "similarity_boost"}
+    assert audio.PRESETS["dotychczasowy"]["settings"] is audio.VOICE_SETTINGS
+    assert audio.PRESETS["dotychczasowy"]["model"] == "eleven_multilingual_v2"
+
+
+def test_presets_are_complete():
     for name, preset in audio.PRESETS.items():
         assert preset["opis"] and preset["settings"].get("stability") is not None, name
-        if name != "obecny":
+        if name != "dotychczasowy":
             # Zwolnione tempo spłaszcza intonację: zestawy do poprawy brzmienia mówią w normalnym tempie.
             assert preset["settings"].get("speed", 1.0) == 1.0, name
     with pytest.raises(SystemExit):
@@ -64,10 +73,11 @@ def test_presets_are_complete_and_default_keeps_current_settings():
 
 
 def test_probki_records_each_preset_and_skips_failing_ones(monkeypatch, tmp_path):
-    calls = []
+    calls, texts = [], []
 
     def fake_tts(text, voice_id, settings, **extra):
         calls.append((voice_id, extra))
+        texts.append(text)
         if extra.get("model") == "eleven_v3":
             raise RuntimeError("ElevenLabs: HTTP 400: model not available")
         return b"MP3"
@@ -75,11 +85,13 @@ def test_probki_records_each_preset_and_skips_failing_ones(monkeypatch, tmp_path
     monkeypatch.setattr(config, "AUDIO_DIR", tmp_path)
     monkeypatch.setenv("ELEVENLABS_VOICE_ID", "voice123")
     monkeypatch.setattr(audio.elevenlabs, "text_to_speech", fake_tts)
-    audio.main(["probki", "--presety", "obecny", "v3", "flash_pl"])
+    audio.main(["probki", "--presety", "v4", "v3", "flash_pl"])
     files = sorted(p.name for p in (tmp_path / "probki").iterdir())
-    assert files == ["voice123_flash_pl_01.mp3", "voice123_obecny_01.mp3"]
+    assert files == ["voice123_flash_pl_01.mp3", "voice123_v4_01.mp3"]
     assert calls[0] == ("voice123", {})
     assert calls[2] == ("voice123", {"model": "eleven_flash_v2_5", "language_code": "pl"})
+    # Wskazówki w nawiasach dostaje tylko model, który je rozumie (v4), a Flash już nie.
+    assert "[" in texts[0] and "[" not in texts[2]
 
 
 def test_preset_from_env_is_used_by_speak(monkeypatch, tmp_path):
@@ -90,3 +102,7 @@ def test_preset_from_env_is_used_by_speak(monkeypatch, tmp_path):
                         lambda text, vid, settings, **extra: calls.append((settings, extra)) or b"MP3")
     audio.speak("Ho, ho, ho!", tmp_path / "test.mp3")
     assert calls == [(audio.PRESETS["naturalny"]["settings"], {"model": "eleven_multilingual_v2"})]
+
+
+def test_strip_tags():
+    assert audio.strip_tags("[curious] Halo? [pause] A teraz… [confused] jak?") == "Halo? A teraz… jak?"

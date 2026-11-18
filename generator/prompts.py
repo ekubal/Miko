@@ -411,7 +411,8 @@ def scene_motion_prompt(key: str, seconds) -> str:
 VOICE_DESCRIPTION = """\
 A warm, deep, gentle voice of a kind elderly man around 70, like a loving
 grandfather telling a bedtime story. Slow, calm pace, soft friendly
-laugh, slightly husky, very clear diction. Native Polish speaker."""
+laugh, slightly husky, very clear diction. Native Polish speaker with a
+natural Polish accent and lively, warm intonation."""
 
 # Voice Design wymaga 100–1000 znaków tekstu próbnego.
 VOICE_SAMPLE_TEXT = (
@@ -422,10 +423,11 @@ VOICE_SAMPLE_TEXT = (
 
 # Tekst do porównania ustawień głosu (`audio probki`): pytanie, śmiech, powitanie i ciepłe zdanie,
 # żeby było słychać intonację, a nie tylko barwę.
+# Wskazówki w nawiasach czytają tylko modele v3 i v4; dla starszych audio.synthesize je usuwa.
 VOICE_TEST_TEXT = (
-    "Halo? Czy to już nagrywa? Ho, ho, ho! Dzień dobry, drodzy rodzice! W tym roku nagram dla Waszego "
-    "dziecka osobistą wiadomość. Powiem do niego po imieniu i pochwalę za to, czego się nauczyło. "
-    "A teraz… jak to się wyłącza?"
+    "[curious] Halo? Czy to już nagrywa? [laughs] Ho, ho, ho! Dzień dobry, drodzy rodzice! W tym roku nagram "
+    "dla Waszego dziecka osobistą wiadomość. Powiem do niego po imieniu i pochwalę za to, czego się nauczyło. "
+    "[pause] A teraz… [confused] jak to się wyłącza?"
 )
 
 MUSIC_PROMPT = (

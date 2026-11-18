@@ -101,6 +101,8 @@ Polecenia uruchamiamy z katalogu głównego repozytorium. Wyniki trafiają do `o
    ```
    `w2_1` („Halo? Czy to już nagrywa?”) ma brzmieć niepewnie, jak pytanie do elfa: jeśli wyjdzie zbyt uroczyście, nagraj je ponownie (`--only w2_1 --force`).
 
+   Kwestie mają wskazówki dla modelu Eleven v4 w nawiasach, np. `[curious]`, `[pause]`, `[laughs]`: prowadzą intonację i pauzy. Są w module scenariusza, a w tabelach powyżej ich nie pokazujemy.
+
    **Jeśli głos brzmi sztucznie,** najpierw porównaj zestawy ustawień i głosy (`python -m generator.audio probki`, opis w README, rozdział 6.3). W reklamie liczy się wyczucie żartu, więc najpewniejsza jest przemiana nagrania człowieka:
    - ktoś z dobrą dykcją nagrywa telefonem 5 kwestii wariantu 2, z pauzami i humorem;
    - `python -m generator.audio przemiana w2_1.m4a -o output/reklama_zapisy_poziomo/glos/w2_1.mp3` (i tak dalej dla każdej kwestii);

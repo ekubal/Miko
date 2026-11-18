@@ -3,7 +3,7 @@
 import re
 from types import SimpleNamespace
 
-from generator import config
+from generator import audio, config
 from generator.scenariusze import reklama_zapisy_poziomo as sc
 from generator.scenariusze import __main__ as cli
 from generator.scenariusze.__main__ import prompts_doc_path, render_markdown
@@ -71,9 +71,10 @@ def test_lines_keep_santa_real_and_have_no_digits():
 
 
 def test_scenario_document_contains_every_line():
+    # Tabele scenariusza pokazują kwestie bez wskazówek dla głosu ([pause]…).
     document = (config.ROOT / sc.DOC).read_text(encoding="utf-8")
     for key, line in sc.KWESTIE.items():
-        assert line["tekst"] in document, key
+        assert audio.strip_tags(line["tekst"]) in document, key
 
 
 def test_prompts_document_is_up_to_date():
@@ -103,3 +104,10 @@ def test_voice_lines_go_to_own_folder(monkeypatch, tmp_path):
     monkeypatch.setattr("generator.audio.speak", lambda text, out, **kw: recorded.append(out))
     cli.cmd_kwestie(sc, SimpleNamespace(only=["w1_2"], force=False, preset=None))
     assert recorded == [tmp_path / sc.NAME / "glos" / "w1_2.mp3"]
+
+
+def test_voice_tags_are_known_and_only_in_square_brackets():
+    tags = {tag for line in sc.KWESTIE.values() for tag in re.findall(r"\[([^\]]*)\]", line["tekst"])}
+    assert tags <= {"curious", "pause", "laughs", "warmly", "chuckles", "confused"}
+    for key, line in sc.KWESTIE.items():
+        assert "[" not in audio.strip_tags(line["tekst"]), key
