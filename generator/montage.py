@@ -157,6 +157,7 @@ class AudioPart:
     delay: float = 0.0
     volume: float = 1.0
     duration: float | None = None  # przytnij do tylu sekund
+    tempo: float = 1.0  # < 1 zwalnia dźwięk razem ze spowolnionym obrazem (atempo, 0,5–2)
 
 
 def render_segment(
@@ -184,6 +185,8 @@ def render_segment(
     labels = []
     for i, part in enumerate(parts):
         chain = f"[{part.input_index}:a]aresample=48000,aformat=channel_layouts=stereo"
+        if part.tempo != 1.0:
+            chain += f",atempo={part.tempo:.4f}"
         if part.duration is not None:
             chain += f",atrim=0:{part.duration:.3f}"
         chain += f",volume={part.volume}"
@@ -212,8 +215,11 @@ def scene_duration(scene: str, voice: Path) -> float:
     return max(timing["min"], timing["voice_at"] + probe_duration(voice) + VOICE_TAIL)
 
 
-def clip_ambient(clip: Path, index: int, duration: float | None = None) -> list[AudioPart]:
-    return [AudioPart(index, volume=AMBIENT_VOLUME, duration=duration)] if has_audio(clip) else []
+def clip_ambient(clip: Path, index: int, duration: float | None = None, slowdown: float = 1.0) -> list[AudioPart]:
+    # Dźwięk tła klipu (młotki, kopyta, ogień) zwalniamy tak samo jak obraz, inaczej się rozjeżdżają.
+    if not has_audio(clip):
+        return []
+    return [AudioPart(index, volume=AMBIENT_VOLUME, duration=duration, tempo=1.0 / slowdown)]
 
 
 # --- sceny --------------------------------------------------------------------
@@ -227,7 +233,7 @@ def segment_clip(scene: str, clip: Path, voice: Path, out: Path, fmt: Format) ->
         f"[0:v]setpts={slowdown:.4f}*PTS,{normalize(fmt)},"
         f"tpad=stop_mode=clone:stop_duration={duration:.3f}[v]"
     )
-    audio = clip_ambient(clip, 0) + [AudioPart(1, delay=SCENE_TIMING[scene]["voice_at"])]
+    audio = clip_ambient(clip, 0, slowdown=slowdown) + [AudioPart(1, delay=SCENE_TIMING[scene]["voice_at"])]
     render_segment(out, [["-i", str(clip)], ["-i", str(voice)]], video, audio, duration, fmt)
 
 

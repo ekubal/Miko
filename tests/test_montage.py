@@ -134,3 +134,20 @@ def test_render_names_stays_inside_box():
     x0, y0, x1, y1 = montage.frac_box(LAYOUT["lista_imiona"], layer.size)
     assert bbox is not None
     assert x0 <= bbox[0] and bbox[2] <= x1 and y0 <= bbox[1] and bbox[3] <= y1
+
+
+def test_slowed_clip_slows_its_ambient_sound_too(monkeypatch, tmp_path):
+    # Regresja: obraz spowolniony do 1,8×, a dźwięk tła klipu grał w normalnym tempie i się rozjeżdżał.
+    commands = []
+    monkeypatch.setattr(montage, "run", lambda cmd: commands.append(cmd))
+    monkeypatch.setattr(montage, "has_audio", lambda path: True)
+    durations = {"klip.mp4": 8.0, "glos.mp3": 13.0}
+    monkeypatch.setattr(montage, "probe_duration", lambda path: durations[Path(path).name])
+    montage.segment_clip("pracownia", tmp_path / "klip.mp4", tmp_path / "glos.mp3", tmp_path / "out.mp4",
+                         montage.Format())
+    graph = commands[0][commands[0].index("-filter_complex") + 1]
+    duration = montage.scene_duration("pracownia", tmp_path / "glos.mp3")
+    slowdown = min(duration / 8.0, montage.MAX_SLOWDOWN)
+    assert f"setpts={slowdown:.4f}*PTS" in graph
+    assert f"[0:a]aresample=48000,aformat=channel_layouts=stereo,atempo={1 / slowdown:.4f}" in graph
+    assert "[1:a]aresample=48000,aformat=channel_layouts=stereo,volume" in graph  # głos bez zmiany tempa
